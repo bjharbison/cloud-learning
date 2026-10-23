@@ -1,0 +1,44 @@
+# --- Credentials: never commit ---
+*.pem
+*.key
+*.p12
+*.pfx
+*service-account*.json
+*credentials*.json
+*-key.json
+.aws/
+.azure/
+.config/gcloud/
+.env
+.env.*
+
+# --- Terraform ---
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*.tfplan
+
+# --- Kubernetes ---
+kubeconfig
+*.kubeconfig
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
