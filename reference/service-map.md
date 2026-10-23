@@ -20,5 +20,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Budgets and alerts | Cloud Billing budgets | AWS Budgets | Microsoft Cost Management budgets | All alert-only; none stop spend by default. Module 00 |
 | Browser shell | Cloud Shell | AWS CloudShell | Azure Cloud Shell | Azure offers an ephemeral, no-storage mode. Module 00 |
 | CLI | `gcloud` (named configurations) | `aws` (named profiles) | `az` | Module 00 |
+| Hypervisor | KVM-based (custom VMM) | Nitro Hypervisor | Hyper-V-based | Module 01 |
+| Hardware root of trust / offload | Titan, Caliptra / Titanium Offload Processors | Nitro Controller, Nitro Security Chip / Nitro Cards | Cerberus / Azure Boost | Same architectural pattern under different names. Module 01 |
 
 *Seed rows reflect long-standing service names. Verified: pending first weekly review.*
