@@ -23,7 +23,7 @@ Modules are built in numbered order, in batches of four or five by scheduled run
 
 | # | Module | Folder | Build |
 |---|---|---|---|
-| 00 | Lab environment: free-tier accounts, MFA, budget alerts, CLIs, cloud shells | `modules/00-lab-setup` | ⬜ |
+| 00 | Lab environment: free-tier accounts, MFA, budget alerts, CLIs, cloud shells | `modules/00-lab-setup` | 🟦 |
 
 **00** — Create personal accounts on all three clouds; lock down the root/owner identity with MFA; create a non-root admin; set budget alerts; install `gcloud`, `aws`, and `az`; use each cloud shell. Outcome: three safe sandboxes I can't accidentally run up a bill in.
 
