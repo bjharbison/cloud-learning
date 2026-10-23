@@ -32,7 +32,7 @@ Modules are built in numbered order, in batches of four or five by scheduled run
 | # | Module | Folder | Build |
 |---|---|---|---|
 | 01 | What the cloud is: NIST 800-145, virtualization, IaaS/PaaS/SaaS, shared responsibility | `modules/01-cloud-fundamentals` | 🟦 |
-| 02 | Global infrastructure: regions, zones, availability, SLAs, resilience patterns | `modules/02-global-infrastructure` | ⬜ |
+| 02 | Global infrastructure: regions, zones, availability, SLAs, resilience patterns | `modules/02-global-infrastructure` | 🟦 |
 | 03 | Organizing resources: GCP org/folders/projects, AWS Organizations/accounts, Azure tenants/management groups/subscriptions | `modules/03-resource-hierarchy` | ⬜ |
 | 04 | Billing, quotas, and cost governance (FinOps basics) | `modules/04-billing-and-cost` | ⬜ |
 

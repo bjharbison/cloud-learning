@@ -22,5 +22,9 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | CLI | `gcloud` (named configurations) | `aws` (named profiles) | `az` | Module 00 |
 | Hypervisor | KVM-based (custom VMM) | Nitro Hypervisor | Hyper-V-based | Module 01 |
 | Hardware root of trust / offload | Titan, Caliptra / Titanium Offload Processors | Nitro Controller, Nitro Security Chip / Nitro Cards | Cerberus / Azure Boost | Same architectural pattern under different names. Module 01 |
+| Metro / 5G edge compute | — (edge PoPs for CDN and load balancing) | Local Zones, Wavelength Zones | — (edge PoPs for Front Door/CDN) | Module 02 |
+| U.S. government environment | Assured Workloads (controls on commercial regions); Google Distributed Cloud for disconnected | AWS GovCloud (US) Regions | Azure Government (isolated instance) | Different models: policy boundary vs separate environment. Modules 02, 27 |
+| Provider health status | Google Cloud Service Health | AWS Health Dashboard | Azure Service Health | Module 02 |
+| Restrict allowed regions | Org policy resource-location constraint | SCP with requested-region condition | Azure Policy "Allowed locations" | Module 02; detail in 20 |
 
 *Seed rows reflect long-standing service names. Verified: pending first weekly review.*
