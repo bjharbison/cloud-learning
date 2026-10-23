@@ -56,5 +56,5 @@ Draw the three hierarchies side by side (GCP, AWS, Azure) with two programs and 
 ## What you can honestly claim
 
 - **After reading + quiz:** "I've studied resource hierarchies and policy inheritance on Google Cloud, AWS, and Azure, including how IAM differs from organization-level guardrails."
-- **After completing the lab:** "In personal lab environments I built resource hierarchies on all three clouds and enforced location guardrails with Azure Policy [and Google Cloud Organization Policy, if you completed Path 1], and wrote and attached an AWS SCP." State which Google path you did — if you had no organization, say so.
+- **After completing the lab:** "In personal lab environments I built resource hierarchies on all three clouds and enforced location guardrails with Azure Policy [and Google Cloud Organization Policy, if you completed Path 1], and [if you ran AWS Part B] wrote and attached an AWS SCP." State which Google path you did — if you had no organization, say so.
 - **Still requires (cert / production experience / clearance):** designing a landing zone for a real organization, migrating projects into an org, or operating Assured Workloads / GovCloud / Azure Government hierarchies. Don't claim "designed enterprise cloud governance." The Associate Cloud Engineer and Professional Cloud Architect exams test this at a claimable level.

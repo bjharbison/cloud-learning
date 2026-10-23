@@ -86,8 +86,15 @@ systemd-detect-virt                      # expect: kvm
 cat /sys/class/dmi/id/product_name       # expect: Google Compute Engine
 lscpu | grep -i -E 'hypervisor|model name'
 uname -r                                 # a DIFFERENT kernel from Cloud Shell's
-mokutil --sb-state 2>/dev/null || dmesg | grep -i 'secure boot'   # Shielded VM secure boot
+sudo dmesg | grep -i 'secure boot'      # expect a line saying Secure Boot is enabled
 exit
+```
+
+Back in Cloud Shell, confirm Shielded VM settings from the API:
+
+```bash
+gcloud compute instances describe lab01-vm --zone=us-central1-a \
+  --format="yaml(shieldedInstanceConfig)"
 ```
 
 **What you should see:** `kvm` — Google's KVM-based hypervisor — and a kernel that belongs to this VM alone. Compare with A1: a container borrows its host's kernel; a VM boots its own.

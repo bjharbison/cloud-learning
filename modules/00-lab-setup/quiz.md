@@ -33,7 +33,7 @@ Passkeys / FIDO2 security keys. The credential is bound to the real site's origi
 6. On AWS, why does the recommended admin setup (IAM Identity Center) lead you to enable AWS Organizations?
 <details><summary>Answer</summary>
 
-Only the organization instance of Identity Center supports permission sets, which are how you grant users access to AWS accounts. An account instance can't grant access to the account itself, and organization instances live in an AWS Organizations management account.
+Only the organization instance of Identity Center supports permission sets, which are how you grant users access to AWS accounts. An account instance can't grant access to the account itself, and organization instances live in an AWS Organizations management account. Catch: joining AWS Organizations automatically moves a free-plan account to the paid plan — so on the free plan, an MFA-protected IAM user is the practical stopgap.
 </details>
 
 7. Spot the problem: "I gave `labadmin` the Global Administrator role in Entra ID so it can create VMs in my subscription."

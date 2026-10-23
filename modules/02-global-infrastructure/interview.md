@@ -59,5 +59,5 @@ Draw two regions with three zones each. Place a stateless web tier, a database, 
 ## What you can honestly claim
 
 - **After reading + quiz:** "I've studied cloud global infrastructure — regions, zones, resource scope, RTO/RPO, and SLAs — across Google Cloud, AWS, and Azure, and can discuss resilience trade-offs."
-- **After completing the lab:** "In a personal Google Cloud lab, I deployed resources at zonal, regional, and global scope, simulated a zone failure, and mapped AZ IDs and region pairs on AWS and Azure."
+- **After completing the lab:** "In a personal Google Cloud lab, I deployed resources at zonal, regional, and global scope, stopped one of two VMs in different zones to observe zone-scoped failure, and mapped AZ IDs and region pairs on AWS and Azure."
 - **Still requires (cert / production experience / clearance):** designing and testing production DR, signing up to an RTO/RPO for a real system, and architecting in GovCloud, Azure Government, or Assured Workloads environments. Don't claim "designed highly available architectures" from this lab; the Professional Cloud Architect exam tests this at a claimable level.

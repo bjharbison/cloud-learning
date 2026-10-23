@@ -180,4 +180,4 @@ No `lab02` resources should appear. Parts B–D created nothing. Check **Billing
 
 ## Write-up prompt
 
-> On [date] I mapped regions and zones on Google Cloud, AWS, and Azure from the CLI, including AWS AZ name-to-ID mappings and Azure region pairs. On Google Cloud I created zonal (VMs in two zones), regional (Cloud Storage bucket), and global (VPC network) resources, identified each one's scope from its API path, and simulated a zone failure by stopping one VM while the other kept running. I calculated allowed downtime for common SLAs and the effect of chaining versus redundancy, then deleted all resources.
+> On [date] I mapped regions and zones on Google Cloud, AWS, and Azure from the CLI, including AWS AZ name-to-ID mappings and Azure region pairs. On Google Cloud I created zonal (VMs in two zones), regional (Cloud Storage bucket), and global (VPC network) resources, identified each one's scope from its API path, and stopped one of two VMs in different zones to observe zone-scoped failure (the other kept running). I calculated allowed downtime for common SLAs and the effect of chaining versus redundancy, then deleted all resources.

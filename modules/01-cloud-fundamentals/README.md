@@ -75,7 +75,7 @@ What each cloud runs:
 | Cloud | Hypervisor basis | What's notable |
 |---|---|---|
 | Google Cloud | **KVM**-based | Google wrote its own virtual machine monitor instead of using QEMU, cutting attack surface. Google's public description of this dates to 2017; details may have evolved. |
-| AWS | **Nitro Hypervisor** | Deliberately minimal: no networking stack, no general-purpose file system, no shell, no interactive access mode. I/O is pushed onto Nitro Cards. |
+| AWS | **Nitro Hypervisor** | Stripped down on purpose: AWS describes it as lacking the things an intruder would normally use — a network stack, a general file system, an interactive shell. I/O is handled by Nitro Cards instead. |
 | Azure | **Hyper-V**-based | A root partition runs the host OS with device access; guest VMs get virtual devices. Microsoft runs a Hyper-V bug bounty. |
 
 **Practitioner vocabulary:**
@@ -127,7 +127,7 @@ A cloud region is buildings full of standardized servers, top-of-rack switches, 
 | Umbrella name | **Titanium** (hardware security architecture) | **Nitro System** | **Azure Boost** (offload) |
 | Root of trust | **Titan** chip (holds the CPU in reset, verifies boot firmware, then releases it); **Caliptra** root of trust for measurement in CPUs/GPUs/TPUs | **Nitro Controller** card (hardware root of trust) + **Nitro Security Chip** on the main board (mediates firmware access) | **Cerberus** chip (independent hardware root of trust) |
 | Offload | **Titanium Offload Processors (TOPs)** — encryption in transit/at rest, deprivileging host components | **Nitro Cards** — VPC networking, EBS storage, instance storage, management | **Azure Boost** — MANA network adapter; storage on an FPGA exposed to VMs as NVMe |
-| Extra | Open-source pieces (OpenTitan) | Encryption keys for EBS/instance storage/VPC described as inaccessible to AWS operators | **Azure Integrated HSM** — FIPS 140-3 Level 3 key cache on new servers (select VM sizes, opt-in) |
+| Extra | Open-source pieces (OpenTitan) | Encryption keys for EBS/instance storage/VPC described as inaccessible to AWS operators | **Azure Integrated HSM** — FIPS 140-3 Level 3 key cache on new servers (select AMD v7 VM sizes with Trusted Launch, opt-in; Windows guests at GA per Microsoft's July 2026 page) |
 
 **What to take from this:** all three made the same architectural bet — **shrink the hypervisor, move control and I/O onto separate hardware, verify boot from silicon up.** The names differ; the pattern doesn't.
 

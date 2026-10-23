@@ -63,5 +63,5 @@ Draw, from memory, the three-column diagram from this module's README: top-level
 ## What you can honestly claim
 
 - **After reading + quiz:** "I've studied account setup, identity hardening, and cost guardrails across Google Cloud, AWS, and Azure, and can discuss how they differ."
-- **After completing the lab:** "In personal lab environments on all three clouds, I've configured phishing-resistant MFA, separate admin identities (AWS IAM Identity Center, Microsoft Entra ID with Azure RBAC), and budget alerts."
+- **After completing the lab:** "In personal lab environments on all three clouds, I've configured phishing-resistant MFA, separate admin identities (an MFA-protected AWS IAM user — or IAM Identity Center if you've moved to it — and Microsoft Entra ID with Azure RBAC), and budget alerts."
 - **Still requires (cert / production experience / clearance):** setting up landing zones, identity federation, or billing governance for a real organization is production work you haven't done. Don't describe a personal sandbox as "administering cloud environments." A cert (e.g., Associate Cloud Engineer) is the credible next step.

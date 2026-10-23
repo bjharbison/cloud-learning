@@ -54,7 +54,18 @@ Two different ideas, often confused:
 Two things to notice:
 
 1. **AWS restructured its free tier in July 2025.** Older articles describing "12 months free" for new AWS accounts are out of date. Accounts created before 2025-07-15 stay on the legacy program.
-2. **Two of three trials protect you by default.** Google's trial doesn't auto-bill, AWS's free plan won't charge until you upgrade, and Azure's free account has a spending limit. Once you upgrade any of them, that safety net is gone — which is why budget alerts matter.
+2. **All three trials protect you by default.** Google's trial doesn't auto-bill, AWS's free plan won't charge until you upgrade, and Azure's free account has a spending limit. Once you upgrade any of them, that safety net is gone — which is why budget alerts matter.
+3. **Some actions upgrade you automatically.** AWS's billing docs say a free-plan account is **automatically upgraded to the paid plan if it joins AWS Organizations** (also Control Tower and a few other programs). AWS's FAQ adds that joining an organization ends eligibility to earn more credits; remaining credits still apply to future bills. ⚠️ The docs don't say explicitly whether *creating* an organization counts as joining; assume it does.
+
+> **The trial cliff — plan for it now.** This curriculum runs longer than any of the trials.
+>
+> | Cloud | When the safety net ends | What changes |
+> |---|---|---|
+> | Azure | Day 30 (or when $200 is used) | Services are **disabled** until you upgrade to pay-as-you-go. After upgrading you keep the 12-month free services, but there's no spending limit — budgets and cleanup are your protection. |
+> | Google Cloud | Day 90 (or when $300 is used) | Resources stop; ~30 days to upgrade and recover. Always-free limits continue on a paid billing account. |
+> | AWS | Month 6 (or when credits are used), or earlier if you join AWS Organizations | The free-plan account closes unless upgraded (90 days to reopen). Paid plan bills on-demand beyond credits and always-free limits. |
+>
+> Practical advice: batch the Azure parts of modules 00–05 into your first month; upgrade each cloud deliberately (on a day you set, with budgets already in place), not by accident.
 
 ### The top-level identity and MFA
 
@@ -75,9 +86,9 @@ Every cloud has an identity that can do *anything*, including close the account 
 
 The rule: **create a separate admin identity and use that.** How it looks on each cloud:
 
-- **AWS:** AWS recommends **IAM Identity Center** for human users. Its **organization instance** supports **permission sets** (bundles of permissions you assign to a user for an account). An **account instance** does *not* support permission sets, so it can't give you access to the AWS account itself. In practice that means enabling **AWS Organizations** (free) first. Fallback for a solo lab: an **IAM user** with MFA — workable, but AWS discourages long-lived IAM users for people.
+- **AWS:** AWS recommends **IAM Identity Center** for human users. Its **organization instance** supports **permission sets** (bundles of permissions you assign to a user for an account). An **account instance** does *not* support permission sets, so it can't give you access to the AWS account itself. So the best-practice path needs **AWS Organizations** — which **automatically moves a free-plan account to the paid plan** (see above). **For this curriculum:** while you're on the free plan, use an **IAM user with MFA** as your daily admin. It's a long-lived credential AWS discourages for people, so treat it as temporary. When you upgrade (by choice, or when the free plan ends), switch to Identity Center — module 03 walks through Organizations.
 - **Azure:** create a **cloud-only user** in your tenant (e.g., `labadmin@<yourtenant>.onmicrosoft.com`) and give it the **Owner** role on your subscription. Owner is an Azure RBAC role for resources; it is *not* the same as **Global Administrator**, which controls the Entra tenant itself. Keep the sign-up identity as break-glass.
-- **Google Cloud:** there's no AWS-style root user. Power comes from roles in the hierarchy (organization, billing account, project). The cleanest personal pattern is a **dedicated Google Account just for labs**, with 2SV. If you signed up as a new Free Trial customer, Google may have created a **standalone organization** for you, and your account holds the Organization Owner and Organization Administrator roles (module 03 explores this).
+- **Google Cloud:** there's no AWS-style root user. Power comes from roles in the hierarchy (organization, billing account, project). The cleanest personal pattern is a **dedicated Google Account just for labs**, with 2SV. If you signed up as a new Free Trial customer, Google may have created a **standalone organization** for you (one per user account), and your account holds the Organization Owner (`roles/cloudowner.admin`) and Organization Administrator roles (module 03 explores this).
 
 > **Shared responsibility, first appearance:** who can log in, with what factor, and with what permissions is **always the customer's job** — on every cloud, in every service model. The provider gives you MFA and IAM; it doesn't configure them for you.
 
@@ -136,9 +147,9 @@ gcloud config configurations activate default
  GOOGLE CLOUD                   AWS                          AZURE
  Google Account (2SV)       Root user (MFA, locked away)  Sign-up identity (break-glass)
    │                          │                             │
-   ├─ Billing account         ├─ AWS Organizations (free)   ├─ Entra ID tenant
-   │   └─ Budget 50/90/100%   │   └─ IAM Identity Center    │   └─ labadmin user (MFA)
-   │                          │       └─ admin user ──┐     │
+   ├─ Billing account         ├─ IAM user labadmin (MFA)    ├─ Entra ID tenant
+   │   └─ Budget 50/90/100%   │   (free plan; later →       │   └─ labadmin user (MFA)
+   │                          │    Identity Center) ──┐     │
    └─ Project "lab-00"        └─ Account ◄────────────┘     └─ Subscription ◄─ Owner role
         └─ Cloud Shell            ├─ AWS Budgets                 ├─ Budget (actual/forecast)
                                   └─ CloudShell                  └─ Cloud Shell (ephemeral)
@@ -149,10 +160,10 @@ gcloud config configurations activate default
 | Capability | Google Cloud | AWS | Azure | Notable difference |
 |---|---|---|---|---|
 | Sign-up credit | $300 / 90 days | $100 + up to $100 / 6-month free plan | $200 / 30 days | Azure's window is shortest; AWS's is longest |
-| Ends automatically without billing? | Yes (no auto-upgrade) | Yes (free plan) | Yes (spending limit) | All three require an explicit upgrade to start charging |
+| Ends automatically without billing? | Yes (no auto-upgrade) | Yes (free plan) — **unless** the account joins AWS Organizations, which auto-upgrades it to paid | Yes (spending limit) | AWS has hidden upgrade triggers; Google and Azure need an explicit upgrade |
 | Top-level identity | Google Account | Root user | Sign-up identity → Entra tenant admin | Only AWS has a distinct "root user" concept |
 | MFA requirement | 2SV required (personal accounts from 2025-05-12) | Root MFA required, all account types | Mandatory MFA, Phases 1 and 2 | All three now *require* MFA; none require phishing-resistant MFA — that's your choice |
-| Recommended daily admin | Dedicated Google Account with scoped roles | IAM Identity Center user | Cloud-only Entra user with Owner on the subscription | AWS's best path needs AWS Organizations |
+| Recommended daily admin | Dedicated Google Account with scoped roles | IAM Identity Center user (best practice); IAM user with MFA while on the free plan | Cloud-only Entra user with Owner on the subscription | AWS's best path needs AWS Organizations, which ends the free plan |
 | Budget tool | Budgets & alerts | AWS Budgets | Cost Management budgets | Azure offers forecast-based alerts prominently; AWS has a zero-spend template |
 | Browser shell | Cloud Shell | CloudShell | Cloud Shell | Azure's can be fully ephemeral |
 | CLI | `gcloud` | `aws` | `az` | `gcloud` uses named configurations; `aws` uses named profiles; `az` uses one active subscription at a time |
@@ -195,7 +206,8 @@ What goes wrong on a fresh account:
 - "Account" means different things: AWS bundles identity + billing + resources; Google and Azure separate them.
 - Current credits: Google $300/90 days, AWS up to $200 on a 6-month free plan (since July 2025), Azure $200/30 days. None auto-bill.
 - All three clouds now **require** MFA on top-level identities. Choose phishing-resistant factors.
-- Don't work as root/owner. AWS → Identity Center; Azure → cloud-only user with Owner; Google → dedicated lab account.
+- Don't work as root/owner. AWS → IAM user with MFA on the free plan, Identity Center once paid; Azure → cloud-only user with Owner; Google → dedicated lab account.
+- Mind the trial cliff: Azure at 30 days, Google at 90, AWS at 6 months — and joining AWS Organizations ends the AWS free plan early.
 - Budgets **alert**; they don't **stop** spend. Cleanup is your real control.
 - Identity and access configuration is **always the customer's responsibility**.
 
@@ -208,6 +220,9 @@ What goes wrong on a fresh account:
 - [Google Cloud — Set up standalone organizations](https://docs.cloud.google.com/resource-manager/docs/standalone-organization-overview)
 - [AWS News Blog — AWS Free Tier update: up to $200 in credits (2025-07-15)](https://aws.amazon.com/blogs/aws/aws-free-tier-update-new-customers-can-get-started-and-explore-aws-with-up-to-200-in-credits)
 - [AWS What's New — Free Tier credits and 6-month free plan](https://aws.amazon.com/about-aws/whats-new/2025/07/aws-free-tier-credits-month-free-plan/)
+- [AWS Billing — Choosing an AWS Free Tier plan (auto-upgrade triggers)](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html)
+- [AWS Free Tier FAQs](https://aws.amazon.com/free/free-tier-faqs/)
+- [Azure — Avoid charges with your Azure free account](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/avoid-charges-free-account)
 - [AWS IAM — MFA for the root user](https://docs.aws.amazon.com/IAM/latest/UserGuide/enable-mfa-for-root.html)
 - [AWS IAM Identity Center — Organization and account instances](https://docs.aws.amazon.com/singlesignon/latest/userguide/identity-center-instances.html)
 - [AWS IAM Identity Center — Account instances](https://docs.aws.amazon.com/singlesignon/latest/userguide/account-instances-identity-center.html)

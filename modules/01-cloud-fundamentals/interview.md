@@ -59,5 +59,5 @@ Draw the sliding line (on-prem → IaaS → PaaS → SaaS) with the seven layers
 ## What you can honestly claim
 
 - **After reading + quiz:** "I've studied cloud fundamentals — NIST 800-145, virtualization, VMs vs containers, the custom isolation hardware at Google, AWS, and Azure, and the shared responsibility model — and can explain them to technical and non-technical audiences."
-- **After completing the lab:** "In a personal Google Cloud lab, I deployed a VM with no public IP and accessed it only through Identity-Aware Proxy, and compared VM and container isolation hands-on." Your existing homelab experience with Proxmox (KVM/LXC) and Docker is real and claimable on its own.
+- **After completing the lab:** "In a personal Google Cloud lab, I deployed a VM with no public IP and accessed it only through Identity-Aware Proxy, and compared kernel sharing between a container and a VM." Your existing homelab experience with Proxmox (KVM/LXC) and Docker is real and claimable on its own.
 - **Still requires (cert / production experience / clearance):** operating production workloads, assessing a provider's isolation for an ATO, or advising on hardware assurance for classified systems. Don't claim cloud architecture experience from this module; a Google Cloud Digital Leader or Associate Cloud Engineer cert is the claimable next step.

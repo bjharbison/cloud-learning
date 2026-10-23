@@ -69,7 +69,7 @@ The **organization** node doesn't always exist:
 
 | Your situation | What you get |
 |---|---|
-| **New Free Trial customer** (signed up recently) | Possibly a **standalone organization**, created automatically when you accept the console terms. No domain needed; named like `yourname-org`. You hold **Organization Owner** and **Organization Administrator**. Google says this isn't available to existing accounts. |
+| **New Free Trial customer** (signed up recently) | Possibly a **standalone organization**, created automatically when you accept the console terms. No domain needed; named like `yourname-org`; one per user account. You hold **Organization Owner** (`roles/cloudowner.admin`) and **Organization Administrator**. Google says this isn't available to existing accounts. |
 | **Existing personal Google Account** | Projects sit under **"No organization."** No folders, no org-level IAM, no org policies you can set. |
 | **Cloud Identity Free or Google Workspace** | A full organization tied to a **domain you own and verify**. Cloud Identity Free provides identity management without Workspace email. |
 
@@ -90,7 +90,7 @@ Organization (management account pays the bill)
 ```
 
 - **Account:** the hard isolation boundary in AWS — its own root user, IAM, resources, and (by default) bill. Module 00: AWS bundles identity + billing + resources into the account.
-- **AWS Organizations:** groups accounts. **No additional charge.** One **management account** (pays for everything; can't be changed), one **root**, zero or more **OUs** (nested up to **5 levels** under the root), and member accounts. Default quota: **10 accounts** (adjustable).
+- **AWS Organizations:** groups accounts. **No additional charge** — but on the post-July-2025 AWS free plan, joining an organization **automatically upgrades the account to the paid plan** (module 00's trial-cliff box). One **management account** (pays for everything; can't be changed), one **root**, zero or more **OUs** (nested up to **5 levels** under the root), and member accounts. Default quota: **10 accounts** (adjustable).
 - **Policy types:** authorization policies — **SCPs** (cap what principals in member accounts can do) and **RCPs** (cap what can be done to resources) — plus a growing set of declarative and management policies (tag, backup, AI-services opt-out, EC2 declarative, and more).
 - **SCPs are guardrails, not grants.** They set the **maximum** permissions available; IAM policies in the account still have to grant access. Up to 10 SCPs attached directly per root, OU, or account.
 - **Critical gotcha:** **SCPs don't restrict the management account.** That's why AWS tells you to keep workloads out of it.
@@ -192,6 +192,7 @@ IAM = access policy · OP = Organization Policy · * some resources accept their
 - [AWS Organizations — Terminology and concepts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html)
 - [AWS Organizations — Quotas](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html)
 - [AWS Organizations — Billing and pricing](https://docs.aws.amazon.com/organizations/latest/userguide/pricing.html)
+- [AWS Billing — Choosing an AWS Free Tier plan (Organizations auto-upgrade)](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html)
 - [AWS CLI — Organizations examples](https://docs.aws.amazon.com/cli/latest/userguide/cli_organizations_code_examples.html)
 - [Microsoft — What are Azure management groups?](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview)
 - [Microsoft — Azure RBAC scope](https://learn.microsoft.com/en-us/azure/role-based-access-control/scope-overview)

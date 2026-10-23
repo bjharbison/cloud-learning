@@ -1,6 +1,6 @@
 # 03 Lab — Build a small hierarchy and watch a guardrail block you
 
-**Cost:** $0. Folders, projects with no resources, AWS OUs and SCPs, Azure management groups, resource groups, and policy assignments create nothing that runs. The "test" actions are attempts to create a bucket or resource group in a forbidden location — they're **denied**, so nothing gets created. AWS Organizations is documented as no additional charge. · **Time:** 90 min · **Clouds:** GCP (required), AWS, Azure
+**Cost:** $0. Folders, projects with no resources, AWS OUs and SCPs, Azure management groups, resource groups, and policy assignments create nothing that runs. The "test" actions are attempts to create a bucket or resource group in a forbidden location — they're **denied**, so nothing gets created. AWS Organizations has no additional charge — **but enabling it automatically moves an AWS free-plan account to the paid plan** (see Part B). · **Time:** 90 min · **Clouds:** GCP (required), AWS, Azure
 
 ## Goal
 
@@ -12,8 +12,8 @@
 ## Prerequisites
 
 - Modules 00–02 done; budget alerts active.
-- AWS: you enabled AWS Organizations in module 00 when you turned on IAM Identity Center. Sign in through the access portal as `labadmin`.
-- Azure: sign in as `labadmin`, or as your sign-up identity if you hit a management-group permission error (see C1).
+- AWS: read the warning at the top of Part B before doing anything there. Sign in as `labadmin`.
+- Azure: if you're past day 30 of the free account, Azure has disabled services until you upgrade to pay-as-you-go (module 00, trial cliff). Management groups, policy assignments, and empty resource groups cost nothing, but you need an active subscription. Sign in as `labadmin`, or as your sign-up identity if you hit a management-group permission error (see C1).
 
 ---
 
@@ -52,7 +52,9 @@ gcloud organizations add-iam-policy-binding $ORG_ID --member=user:$ME --role=rol
 
 **A2. Build the tree (console, then CLI).**
 
-Console: **Manage resources → Create folder** → `lab03-prod`, then `lab03-dev`. Then **Create project** → `lab03-dev-<initials>` with location = the `lab03-dev` folder.
+Use **either** the console **or** the CLI, not both — folder names must be unique under a parent, and duplicate projects complicate cleanup.
+
+Console: **Manage resources → Create folder** → `lab03-prod`, then `lab03-dev`. Then **Create project** → `lab03-dev-<initials>` with location = the `lab03-dev` folder, and add the label `lab=03` (**IAM & Admin → Labels**). Note the folder and project IDs for the steps below.
 
 CLI:
 
@@ -126,7 +128,9 @@ In the console, **Manage resources** shows no **Create folder** option without a
 
 **A2. Simulate environments with projects (console, then CLI).**
 
-Console: project picker → **New project** → `lab03-prod-<initials>`, then `lab03-dev-<initials>`; Location: **No organization**.
+Use **either** the console **or** the CLI, not both.
+
+Console: project picker → **New project** → `lab03-prod-<initials>`, then `lab03-dev-<initials>`; Location: **No organization**. Add labels `lab=03` and `env=prod`/`env=dev` under **IAM & Admin → Labels**.
 
 ```bash
 gcloud projects create lab03-prod-$RANDOM --labels=lab=03,env=prod
@@ -155,7 +159,12 @@ Only the project's own bindings appear; there's no ancestor to inherit from.
 
 ## Part B — AWS
 
-All commands run in CloudShell as `labadmin` in the **management account**.
+> ⚠️ **Free-plan warning.** AWS's billing docs say a free-plan account that joins AWS Organizations is **automatically upgraded to the paid plan** (remaining credits still apply to future bills, but you stop earning new ones). Creating an organization almost certainly counts — ⚠️ AWS doesn't say so explicitly.
+>
+> - **Still on the free plan and want to stay there?** Do Part B as a **read-along**: study the commands and the SCP, but don't run them. You'll lose nothing conceptually — SCPs can't be tested from the management account anyway (B4).
+> - **Already upgraded, or ready to upgrade deliberately?** Run it. This is also the moment to move your admin from the module 00 IAM user to **IAM Identity Center** (organization instance, AdministratorAccess permission set), then delete the IAM user.
+
+All commands run in CloudShell as your admin in the **management account**. Creating the organization (console: **AWS Organizations → Create an organization**, or `aws organizations create-organization --feature-set ALL`) makes your account the management account.
 
 **B1. Inspect the organization.**
 
@@ -182,6 +191,7 @@ DEV_OU=<ou-… ID of Lab03-Dev>
 
 ```bash
 aws organizations enable-policy-type --root-id $ROOT_ID --policy-type SERVICE_CONTROL_POLICY
+# If this returns PolicyTypeAlreadyEnabledException, SCPs are already on — continue.
 
 cat > /tmp/deny-regions.json <<'EOF'
 {
@@ -274,6 +284,7 @@ The policy was set on the management group; it blocked you in the subscription b
 
 ```bash
 gcloud org-policies delete gcp.resourceLocations --folder=$DEV_FOLDER
+gcloud projects list --filter="labels.lab=03 OR projectId:lab03-*" --format="value(projectId)"   # catch any extras
 gcloud projects delete $DEV_PROJECT --quiet
 gcloud resource-manager folders delete $DEV_FOLDER
 gcloud resource-manager folders delete <lab03-prod folder ID>
@@ -286,7 +297,7 @@ Deleted projects enter a pending-deletion period before they're purged. If the f
 **Google Cloud — Path 2**
 
 ```bash
-gcloud projects list --filter="labels.lab=03" --format="value(projectId)"
+gcloud projects list --filter="labels.lab=03 OR projectId:lab03-*" --format="value(projectId)"
 gcloud projects delete <lab03-prod project> --quiet
 gcloud projects delete <lab03-dev project> --quiet
 ```
@@ -300,7 +311,7 @@ aws organizations delete-organizational-unit --organizational-unit-id $DEV_OU
 aws organizations delete-organizational-unit --organizational-unit-id <Lab03-Prod ou-… ID>
 ```
 
-Leave AWS Organizations and IAM Identity Center enabled — module 00's admin depends on them. (You can leave SCPs enabled at the root; `FullAWSAccess` keeps everything allowed.)
+Leave AWS Organizations (and IAM Identity Center, if you moved to it) enabled; later modules build on them. If you did Part B as a read-along, there's nothing to clean up. (You can leave SCPs enabled at the root; `FullAWSAccess` keeps everything allowed.)
 
 **Azure**
 
@@ -318,7 +329,7 @@ az group list -o table        # confirm no lab03-* resource groups remain
 
 If you elevated access in C1, confirm **Access management for Azure resources** is back to **No**.
 
-**Final check — nothing billable remains:** `gcloud projects list --filter="labels.lab=03"` shows only projects in deletion; `gcloud storage ls` shows no `lab03` buckets; AWS Bills page $0.00; Azure Cost analysis $0.00.
+**Final check — nothing billable remains:** `gcloud projects list --filter="labels.lab=03 OR projectId:lab03-*"` shows only projects in deletion; `gcloud storage ls` shows no `lab03` buckets; AWS Bills page $0.00; Azure Cost analysis $0.00.
 
 ## Write-up prompt
 

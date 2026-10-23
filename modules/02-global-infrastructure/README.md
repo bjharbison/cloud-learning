@@ -92,10 +92,10 @@ Compute SLAs side by side (check current versions before quoting):
 
 | | Google Compute Engine | Amazon EC2 | Azure VMs |
 |---|---|---|---|
-| Spread across zones | **≥ 99.99%** (instances in multiple zones, Premium Tier) | **99.99%** Region-level (instances in 2+ AZs) | 99.99% for VMs across two or more zones ⚠️ unverified against current official SLA text |
-| Single instance | **≥ 99.9%** (most families; 99.95% memory-optimized) | **99.5%** instance-level | Varies by disk type ⚠️ unverified |
-| Credit if missed (top tier) | 10% → 25% → 100% as uptime falls | 10% → 30% → 100% | See official SLA |
-| Claim deadline | 60 days | End of the second billing cycle after the incident | See official SLA |
+| Spread across zones | **≥ 99.99%** (instances in multiple zones, Premium Tier) | **99.99%** Region-level (instances in 2+ AZs) | 99.99% for VMs across two or more zones ⚠️ unverified — secondary source only (Microsoft staff answer, 2022); confirm in Microsoft's official SLA document |
+| Availability set / single instance | **≥ 99.9%** single instance (most families; 99.95% memory-optimized) | **99.5%** instance-level | Availability set 99.95% ⚠️ unverified (same secondary source); single-VM figures vary by disk type ⚠️ unverified |
+| Credit if missed (top tier) | 10% → 25% → 100% as uptime falls | 10% → 30% → 100% | ⚠️ not verified — see official SLA |
+| Claim deadline | 60 days | End of the second billing cycle after the incident | ⚠️ not verified — see official SLA |
 
 **What the nines mean in a 30-day-ish month:**
 
@@ -196,7 +196,8 @@ Compute SLAs side by side (check current versions before quoting):
 - [Microsoft — Azure regions overview](https://learn.microsoft.com/en-us/azure/reliability/regions-overview)
 - [Microsoft — Azure region pairs and nonpaired regions](https://learn.microsoft.com/en-us/azure/reliability/regions-paired)
 - [Microsoft — Azure Government documentation](https://learn.microsoft.com/en-us/azure/azure-government/)
-- [Microsoft Q&A — SLA for Virtual Machines (Microsoft staff answer, 2022; secondary source)](https://learn.microsoft.com/en-us/answers/questions/1114758/sla-for-virtual-machines)
+- [Microsoft — Service Level Agreements for Online Services (official; VM terms are in the downloadable document)](https://www.microsoft.com/licensing/docs/view/Service-Level-Agreements-SLA-for-Online-Services)
+- [Microsoft Q&A — SLA for Virtual Machines (Microsoft staff answer, 2022 — secondary, used only for the ⚠️ figures)](https://learn.microsoft.com/en-us/answers/questions/1114758/sla-for-virtual-machines)
 - [MITRE ATT&CK — T1535 Unused/Unsupported Cloud Regions](https://attack.mitre.org/techniques/T1535/)
 
 Verified: 2026-10-23
