@@ -4,9 +4,9 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 
 | Category | Google Cloud | AWS | Azure | Notes |
 |---|---|---|---|---|
-| Top of hierarchy | Organization | AWS Organizations (management account) | Microsoft Entra tenant / root management group | Module 03 |
+| Top of hierarchy | Organization | AWS Organizations root (management account pays) | Microsoft Entra tenant / tenant root management group | Personal Google accounts may have no organization. Module 03 |
 | Billing/isolation unit | Project | Account | Subscription | Projects are lighter-weight than AWS accounts or Azure subscriptions |
-| Grouping | Folder | Organizational Unit (OU) | Management group / resource group | |
+| Grouping | Folder (10 levels) | Organizational Unit (OU, 5 levels) | Management group (6 levels) | Azure resource groups sit *inside* subscriptions; see row below. Module 03 |
 | Virtual machines | Compute Engine | Amazon EC2 | Azure Virtual Machines | |
 | Managed Kubernetes | Google Kubernetes Engine (GKE) | Amazon EKS | Azure Kubernetes Service (AKS) | Kubernetes originated at Google |
 | Object storage | Cloud Storage | Amazon S3 | Azure Blob Storage | |
@@ -26,5 +26,8 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | U.S. government environment | Assured Workloads (controls on commercial regions); Google Distributed Cloud for disconnected | AWS GovCloud (US) Regions | Azure Government (isolated instance) | Different models: policy boundary vs separate environment. Modules 02, 27 |
 | Provider health status | Google Cloud Service Health | AWS Health Dashboard | Azure Service Health | Module 02 |
 | Restrict allowed regions | Org policy resource-location constraint | SCP with requested-region condition | Azure Policy "Allowed locations" | Module 02; detail in 20 |
+| Guardrail (what may exist) | Organization Policy | SCPs / RCPs (AWS Organizations) | Azure Policy | Can block admins; SCPs skip the AWS management account. Module 03 |
+| Lifecycle container inside the billing unit | (labels; no direct equivalent) | (tags; no direct equivalent) | Resource group | Deleting an Azure resource group deletes everything in it. Module 03 |
+| Org identity backbone | Cloud Identity / Google Workspace | IAM Identity Center + per-account IAM | Microsoft Entra ID tenant | GCP org requires an identity domain (or a standalone org). Module 03 |
 
-*Seed rows reflect long-standing service names. Verified: pending first weekly review.*
+*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23.*
