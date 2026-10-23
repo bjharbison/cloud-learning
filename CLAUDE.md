@@ -55,20 +55,17 @@ Each module lives in `modules/NN-slug/` (folder names are fixed in `CURRICULUM.m
 - Never open SSH/RDP to `0.0.0.0/0` without immediately explaining why that's bad and showing the safer option (IAP, Session Manager, Bastion).
 - Offensive or attack-emulation steps only against resources in the learner's own account, using recognized open-source tools.
 
-## Per-run workflow (what the scheduled builder does)
+## Batch workflow (what each scheduled build does)
 
-1. `git pull`. Read this file, `CURRICULUM.md`, `PROGRESS.md`, and the two most recently built modules (to keep continuity and avoid repetition).
-2. Pick the **lowest-numbered module marked ⬜** in `CURRICULUM.md`. Build only that one.
-3. Research with web search. Write the four files.
-4. Add any new cross-cloud equivalents to `reference/service-map.md` and new terms to `reference/glossary.md` (append; keep alphabetical in glossary).
-5. Flip that module's Build marker ⬜ → 🟦 in `CURRICULUM.md`. Do not touch `PROGRESS.md` — that's the learner's.
-6. Self-check: links resolve to official domains, every table has all three clouds, the lab has cleanup, the interview file has the claim tiers, no unverified facts presented as fact.
-7. Commit with message `Add module NN: <title>` and push to `main`.
-8. If every module is already 🟦 or ✅, do nothing and report that the curriculum is fully drafted.
+Modules are built in batches by scheduled runs. Each run's prompt names its modules.
 
-## Weekly review workflow
+1. Read this file, `CURRICULUM.md`, `PROGRESS.md`, `templates/module-template.md`, everything in `reference/`, and every module already in `modules/` (keep continuity, build on what came before, don't repeat it).
+2. Build the modules named in the run, in order. If an **earlier** module is still ⬜, build it first. Skip any module already 🟦/✅ with all four files present.
+3. Research with web search against official docs. Write the four files.
+4. Append new cross-cloud equivalents to `reference/service-map.md` and new terms to `reference/glossary.md` (keep the glossary alphabetical).
+5. Flip the module's Build marker ⬜ → 🟦 in `CURRICULUM.md`. Never touch ✅ markers or `PROGRESS.md` — those are the learner's.
+6. Self-check: links go to official domains, every comparison table covers all three clouds, every lab has complete cleanup, every interview file has the claim tiers, nothing unverified is presented as fact.
+7. Commit each module as `Add module NN: <title>`, fetch and rebase, push to `main`. Never force-push.
+8. After the batch, an independent reviewer agent (one that didn't draft the content) checks accuracy, sequencing, lab safety, and claim honesty. Fix what holds up, commit `Fix review findings for modules NN–NN`, push.
 
-1. Pick up to three 🟦 modules (lowest number first).
-2. Re-verify product names, service availability, compliance authorizations, and lab commands against current official docs. Fix anything stale.
-3. Check consistency with neighboring modules and the service map.
-4. Flip reviewed modules 🟦 → ✅. Commit `Review modules NN, NN, NN` and push.
+The learner flips 🟦 → ✅ after working through a module, or a later review run does after re-verifying facts.

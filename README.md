@@ -20,7 +20,7 @@ It is built for someone moving into cloud-facing security and architecture roles
 |---|---|
 | [`CURRICULUM.md`](CURRICULUM.md) | The full syllabus: 9 phases, 33 modules, and build status for each |
 | [`PROGRESS.md`](PROGRESS.md) | My personal learning tracker — what I've studied, done hands-on, and can claim |
-| [`modules/`](modules/) | One folder per module (built out over time) |
+| [`modules/`](modules/) | One folder per module (built in scheduled batches, late Oct 2026) |
 | [`reference/service-map.md`](reference/service-map.md) | Cross-cloud service equivalents (GCP ↔ AWS ↔ Azure) |
 | [`reference/glossary.md`](reference/glossary.md) | Terms in plain language plus the vocabulary practitioners actually use |
 | [`reference/certifications.md`](reference/certifications.md) | Certification roadmap across the three clouds |

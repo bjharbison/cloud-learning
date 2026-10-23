@@ -15,7 +15,7 @@ The automated builder updates the **Build** column; I update [`PROGRESS.md`](PRO
 | 🟦 | Drafted — content written, not yet through the weekly review |
 | ✅ | Reviewed — facts re-checked against official docs |
 
-Build order is strictly by module number. The builder takes the lowest-numbered ⬜ module each run.
+Modules are built in numbered order, in batches of four or five by scheduled runs. Each batch gets an independent review pass before it's done.
 
 ---
 
