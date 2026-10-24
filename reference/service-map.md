@@ -7,8 +7,8 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Top of hierarchy | Organization | AWS Organizations root (management account pays) | Microsoft Entra tenant / tenant root management group | Personal Google accounts may have no organization. Module 03 |
 | Billing/isolation unit | Project | Account | Subscription | Projects are lighter-weight than AWS accounts or Azure subscriptions |
 | Grouping | Folder (10 levels) | Organizational Unit (OU, 5 levels) | Management group (6 levels) | Azure resource groups sit *inside* subscriptions; see row below. Module 03 |
-| Virtual machines | Compute Engine | Amazon EC2 | Azure Virtual Machines | |
-| Managed Kubernetes | Google Kubernetes Engine (GKE) | Amazon EKS | Azure Kubernetes Service (AKS) | Kubernetes originated at Google |
+| Virtual machines | Compute Engine | Amazon EC2 | Azure Virtual Machines | Module 05 |
+| Managed Kubernetes | Google Kubernetes Engine (GKE) | Amazon EKS | Azure Kubernetes Service (AKS) | Kubernetes originated at Google. Module 06 |
 | Object storage | Cloud Storage | Amazon S3 | Azure Blob Storage | |
 | Virtual network | VPC network | Amazon VPC | Azure Virtual Network (VNet) | GCP VPCs are global; AWS VPCs and Azure VNets are regional |
 | Key management | Cloud KMS | AWS KMS | Azure Key Vault | |
@@ -48,5 +48,10 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Pod-to-cloud identity | Workload Identity Federation for GKE | EKS Pod Identity / IRSA | Microsoft Entra Workload ID | Always on in GKE Autopilot. Module 06 |
 | Human access to the Kubernetes API | Google IAM + Kubernetes RBAC | EKS access entries + RBAC | Entra ID + Kubernetes RBAC or Azure RBAC | Module 06 |
 | Kubernetes network policy enforcement | GKE Dataplane V2 (always on; default on new Autopilot) | VPC CNI network policy (must enable) | Azure CNI Powered by Cilium / NPM / Calico (must choose) | Module 06 |
+| Serverless containers (HTTP) | Cloud Run services | AWS Fargate (tasks for ECS/EKS); App Runner ⚠️ not covered | Azure Container Apps | Cloud Run and Container Apps share the same free-grant numbers. Module 07 |
+| Functions (FaaS) | Cloud Run functions (renamed from Cloud Functions, Aug 2024) | AWS Lambda | Azure Functions (Flex Consumption recommended) | Module 07 |
+| Run-to-completion containers | Cloud Run jobs | ECS tasks / AWS Batch | Container Apps jobs | Module 07 |
+| Serverless invocation auth | Invoker IAM check (on by default; `roles/run.invoker`) | Function URL `AuthType` `AWS_IAM` / `NONE` | Ingress external/internal + built-in authentication | Cloud Run is private by default. Module 07 |
+| Serverless runtime identity | Service account (default: Compute default SA) | Execution role | Managed identity | Module 07 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24.*
