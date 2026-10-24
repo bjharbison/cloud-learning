@@ -42,5 +42,11 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Instance metadata hardening | Metadata server (`Metadata-Flavor` header ⚠️ unverified) | IMDSv2 (session tokens) | IMDS | Module 05 |
 | Boot integrity | Shielded VM | NitroTPM / UEFI Secure Boot | Trusted Launch (default for new Gen2 VMs) | Module 05 |
 | Confidential VMs | Confidential VM (AMD SEV / SEV-SNP, Intel TDX) | AMD SEV-SNP instances | Confidential VMs (AMD SEV-SNP, Intel TDX) | AWS adds a 10% fee on shared tenancy. Module 05 |
+| Container registry | Artifact Registry | Amazon ECR | Azure Container Registry (ACR) | Module 06 |
+| Kubernetes with provider-managed nodes | GKE Autopilot (pod-request billing) | EKS Auto Mode; EKS on Fargate | AKS Automatic | Module 06 |
+| Kubernetes control-plane fee | $0.10/cluster-hr; $74.40/month credit covers one Autopilot or zonal cluster | $0.10/cluster-hr (standard support) | Free tier: no fee (no SLA); Standard/Premium paid | GKE and EKS charge $0.60/hr on extended support. Module 06 |
+| Pod-to-cloud identity | Workload Identity Federation for GKE | EKS Pod Identity / IRSA | Microsoft Entra Workload ID | Always on in GKE Autopilot. Module 06 |
+| Human access to the Kubernetes API | Google IAM + Kubernetes RBAC | EKS access entries + RBAC | Entra ID + Kubernetes RBAC or Azure RBAC | Module 06 |
+| Kubernetes network policy enforcement | GKE Dataplane V2 (always on; default on new Autopilot) | VPC CNI network policy (must enable) | Azure CNI Powered by Cilium / NPM / Calico (must choose) | Module 06 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24.*
