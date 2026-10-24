@@ -2,6 +2,8 @@
 
 Plain-language definition first, then how practitioners use the term. Alphabetical. Modules append as they're built.
 
+**Antideficiency Act** — U.S. law (31 U.S.C. § 1341 and related sections) barring federal employees from obligating or spending more than an appropriation provides, or before funds are appropriated. Why elastic, bill-after-use cloud spend worries government comptrollers. (Module 04)
+
 **Assured Workloads (Google Cloud)** — A service that applies compliance control packages (data residency, personnel access, service restrictions) to folders, used for FedRAMP, DoD IL, CJIS, ITAR and similar needs on Google's commercial infrastructure. (Module 02; deep dive in 27)
 
 **AWS GovCloud (US)** — Isolated AWS Regions (US-East and US-West) for sensitive U.S. government workloads, administered by U.S. citizens per AWS. (Module 02; deep dive in 27)
@@ -16,15 +18,23 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Budget (cloud billing)** — A spending threshold that sends alerts as actual or forecasted cost crosses percentages you set. On all three clouds, budgets notify; they don't stop resources. (Module 00)
 
+**Budget action (AWS)** — An AWS Budgets feature that responds to a threshold automatically or after approval: apply an IAM policy or SCP, or stop specific EC2/RDS instances. The closest thing to a native cost brake on the three clouds — still not a hard cap. (Module 04)
+
 **Cloud Identity** — Google's identity service for organizations, without Workspace email. Its free edition needs a domain you own and verify; it gives you a Google Cloud organization node. (Module 03)
 
 **Cloud shell** — A free, temporary Linux environment in the browser, pre-authenticated and preloaded with the provider's CLI: Google Cloud Shell, AWS CloudShell, Azure Cloud Shell. Keeps credentials off your laptop. (Module 00)
+
+**Committed use discount (CUD, Google Cloud)** — A discount for committing to use specific resources (resource-based) or to spend a minimum amount (spend-based) for one or three years. AWS analogs: Savings Plans and Reserved Instances; Azure: reservations and savings plan for compute. (Module 04)
 
 **Container** — A packaged app plus its libraries that runs as an isolated process on a shared host kernel, separated by Linux namespaces (what it can see) and cgroups (what it can use). Faster and denser than a VM; a weaker isolation boundary. Homelab equivalent: Docker or Proxmox LXC. (Module 01)
 
 **Control plane / data plane** — The control plane is where you *manage* resources (create a VM, change a policy) — almost always API calls. The data plane is where the resource *does its work* (traffic through a VM, reads from a bucket). Logging and permissions often differ between the two.
 
+**Cost allocation tag (AWS)** — A resource tag that AWS Billing uses to group costs. User-defined tags must be activated in the Billing console before they appear in cost reports. (Module 04)
+
 **Edge location** — A small provider site near users, used for caching (CDN), DNS, and traffic entry rather than general compute. AWS also offers Local Zones (metro compute) and Wavelength Zones (inside 5G networks). (Module 02)
+
+**FinOps** — The practice of making engineering, finance, and leadership jointly accountable for cloud spend. The FinOps Foundation describes three repeating phases: Inform, Optimize, Operate. (Module 04)
 
 **Folder (Google Cloud)** — A grouping node between the organization and projects, nestable up to 10 levels. IAM and organization policies set on a folder apply to everything under it. (Module 03)
 
@@ -37,6 +47,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **IaaS / PaaS / SaaS** — How much of the stack the provider runs for you. IaaS: they run hardware and virtualization; you run the OS up. PaaS: they also run the OS and runtime; you bring code and data. SaaS: they run the whole application; you manage users and data. (Module 01)
 
 **IAM Identity Center (AWS)** — AWS's service for human sign-in to AWS accounts and apps, using permission sets instead of long-lived IAM users. Its organization instance runs in an AWS Organizations management account — and joining Organizations automatically moves a free-plan account to the paid plan. (Module 00)
+
+**Label (Google Cloud)** — A key-value pair on a resource (up to 64 per resource, lowercase) that flows into billing reports and the BigQuery billing export, used for cost allocation. Not usable in policy conditions — Google's separate "tags" feature is for that. (Module 04)
 
 **Least privilege** — Give each identity only the permissions it needs, for only as long as it needs them. The cloud version of need-to-know.
 
@@ -60,6 +72,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Phishing-resistant MFA** — A second factor cryptographically bound to the real website (passkeys, FIDO2 security keys), so a fake login page can't capture and replay it. SMS codes and push approvals are not phishing-resistant. (Module 00)
 
+**Programmatic budget notification (Google Cloud)** — Budget status that Cloud Billing publishes to a Pub/Sub topic several times a day, so code can react to spend. The building block for any automated cost response on Google Cloud. (Module 04)
+
+**Quota** — A provider-enforced cap on how much of a resource a project/account/subscription can use (e.g., vCPUs per region). Distinct from a budget, which only measures spend. Also limits an attacker's blast radius. Google calls fixed caps "system limits." (Module 04)
+
 **Region / zone** — A region is a geographic area containing several isolated data-center groups called zones (AWS: Availability Zones). Spreading across zones protects against a single facility failing; spreading across regions protects against a regional outage. (Module 02)
 
 **Region pair (Azure)** — Microsoft's pairing of two regions in the same geography for recovery prioritization and staggered updates. Not a DR plan by itself; newer regions are often nonpaired. (Module 02)
@@ -76,15 +92,25 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **RTO (Recovery Time Objective)** — The maximum acceptable time a system can be offline after an incident. (Module 02)
 
+**Savings Plan (AWS)** — A one- or three-year commitment to a dollar-per-hour amount of usage in exchange for discounts; Compute Savings Plans apply across EC2 families, Regions, Fargate, and Lambda. (Module 04)
+
 **Service control policy (SCP, AWS)** — An AWS Organizations guardrail that sets the maximum permissions available to principals in member accounts. Doesn't grant anything and doesn't apply to the management account. (Module 03)
 
 **Shared fate** — Google Cloud's framing that the provider should actively help customers secure their workloads (secure defaults, blueprints, guidance), on top of the shared responsibility split. Doesn't move the line: customers still configure identity and access. (Module 01)
 
 **Shared responsibility model** — The provider secures the cloud itself (facilities, hardware, hypervisor); the customer secures what they put in it. Identity, access control, firewall rules, network configuration, and data are always the customer's job. (Module 01)
 
+**Showback / chargeback** — Showback reports each team's share of cloud cost to them; chargeback actually bills their budget for it. Both depend on consistent labels/tags. (Module 04)
+
+**SKU (billing)** — The individual priced item a provider meters, such as a vCPU-hour of a machine family in a region. One resource usually generates several SKUs. (Module 04)
+
 **SLA (Service Level Agreement)** — A provider's contractual uptime commitment; if missed, you can claim a service credit. A refund policy, not an availability guarantee. (Module 02)
 
+**Spot capacity** — Spare provider capacity sold at a deep discount that the provider can reclaim on short notice: Google Spot VMs, AWS Spot Instances, Azure Spot VMs. Good for fault-tolerant batch work; bad for anything that must stay up. (Module 04)
+
 **Standalone organization (Google Cloud)** — A Google Cloud organization created automatically, without a domain, for new Free Trial customers when they accept the console terms. Not available to existing accounts. (Module 03)
+
+**Sustained use discount (Google Cloud)** — An automatic discount on eligible Compute Engine machine series that grows as a resource runs more of the month (after 25%), up to 30% net for a full month. No equivalent on AWS or Azure. (Module 04)
 
 **Titanium (Google Cloud)** — Google's hardware security architecture: Titan root-of-trust chips, Caliptra, Titanium Offload Processors, and related components that verify boot integrity and offload I/O and encryption. (Module 01)
 

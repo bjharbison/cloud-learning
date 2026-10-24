@@ -29,5 +29,11 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Guardrail (what may exist) | Organization Policy | SCPs / RCPs (AWS Organizations) | Azure Policy | Can block admins; SCPs skip the AWS management account. Module 03 |
 | Lifecycle container inside the billing unit | (labels; no direct equivalent) | (tags; no direct equivalent) | Resource group | Deleting an Azure resource group deletes everything in it. Module 03 |
 | Org identity backbone | Cloud Identity / Google Workspace | IAM Identity Center + per-account IAM | Microsoft Entra ID tenant | GCP org requires an identity domain (or a standalone org). Module 03 |
+| Automated budget response | Budget → Pub/Sub programmatic notifications → your code | AWS Budgets actions (IAM/SCP deny, stop EC2/RDS) | Budget → action group → your automation | Only AWS has built-in response actions; none is a native hard cap. Module 04 |
+| Cost allocation metadata | Labels (flow to billing automatically) | Cost allocation tags (must be activated) | Tags (+ Cost Management tag inheritance) | Google "tags" are a separate, policy-oriented feature. Module 04 |
+| Quotas | Cloud Quotas (allocation / rate / concurrent) | Service Quotas | Subscription quotas (vCPUs per family per region) | Free trials restrict increases. Module 04 |
+| Spend anomaly detection | Cost anomalies (Cloud Billing) | AWS Cost Anomaly Detection | Cost Management anomaly alerts | None real-time; Azure's isn't available in Azure Government. Module 04 |
+| Flexible spend commitment | Spend-based CUDs (incl. flexible compute commitments) | Compute Savings Plans | Savings plan for compute | 1- or 3-year terms. Module 04 |
+| Resource commitment | Resource-based CUDs | Reserved Instances / EC2 Instance Savings Plans | Azure Reservations | Google also has automatic sustained use discounts. Module 04 |
 
-*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23.*
+*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24.*
