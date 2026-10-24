@@ -35,5 +35,12 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Spend anomaly detection | Cost anomalies (Cloud Billing) | AWS Cost Anomaly Detection | Cost Management anomaly alerts | None real-time; Azure's isn't available in Azure Government. Module 04 |
 | Flexible spend commitment | Spend-based CUDs (incl. flexible compute commitments) | Compute Savings Plans | Savings plan for compute | 1- or 3-year terms. Module 04 |
 | Resource commitment | Resource-based CUDs | Reserved Instances / EC2 Instance Savings Plans | Azure Reservations | Google also has automatic sustained use discounts. Module 04 |
+| VM blueprint | Instance template | Launch template | Scale set model | Module 05 |
+| Managed VM fleet | Managed instance group (zonal or regional) | Auto Scaling group | Virtual Machine Scale Set (Uniform / Flexible) | Azure's orchestration mode is fixed at creation. Module 05 |
+| Identity-based admin access to VMs | OS Login + IAP TCP forwarding | Systems Manager Session Manager | Azure Bastion (Developer SKU free for dev/test) | Only Session Manager needs no inbound rule. Module 05 |
+| VM's own cloud identity | Attached service account | Instance profile (IAM role) | Managed identity | Google's default compute SA may hold Editor. Module 05 |
+| Instance metadata hardening | Metadata server (`Metadata-Flavor` header ⚠️ unverified) | IMDSv2 (session tokens) | IMDS | Module 05 |
+| Boot integrity | Shielded VM | NitroTPM / UEFI Secure Boot | Trusted Launch (default for new Gen2 VMs) | Module 05 |
+| Confidential VMs | Confidential VM (AMD SEV / SEV-SNP, Intel TDX) | AMD SEV-SNP instances | Confidential VMs (AMD SEV-SNP, Intel TDX) | AWS adds a 10% fee on shared tenancy. Module 05 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24.*

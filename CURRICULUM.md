@@ -45,7 +45,7 @@ Modules are built in numbered order, in batches of four or five by scheduled run
 
 | # | Module | Folder | Build |
 |---|---|---|---|
-| 05 | Compute: virtual machines, images, instance groups, autoscaling | `modules/05-compute` | ⬜ |
+| 05 | Compute: virtual machines, images, instance groups, autoscaling | `modules/05-compute` | 🟦 |
 | 06 | Containers and Kubernetes: GKE, EKS, AKS | `modules/06-containers-kubernetes` | ⬜ |
 | 07 | Serverless: Cloud Run / Cloud Run functions, Lambda, Azure Functions & Container Apps | `modules/07-serverless` | ⬜ |
 | 08 | Storage: object, block, file; lifecycle, versioning, data protection | `modules/08-storage` | ⬜ |
