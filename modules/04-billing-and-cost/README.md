@@ -139,7 +139,7 @@ Microsoft's own guidance captures the trade-off: reservations save the most for 
 All three clouds now flag unusual spend automatically, but none in real time:
 
 - **Google Cloud:** **cost anomalies** across projects on a billing account, by email or Pub/Sub. Standard anomalies come through next-day channels.
-- **AWS:** **Cost Anomaly Detection** needs at least one **cost monitor**; alerts may start within 24 hours; individual alerts go through SNS, or daily/weekly email summaries.
+- **AWS:** **Cost Anomaly Detection** works through **cost monitors**. AWS has automatically set up new Cost Explorer users (since March 2023) with a free AWS services monitor and daily email alert; alerts may start within 24 hours; individual alerts go through SNS, or daily/weekly email summaries.
 - **Azure:** anomaly insights in Cost analysis smart views and **anomaly alerts** at subscription scope. Evaluation runs 36 hours after the end of each UTC day. Microsoft says this isn't available for Azure Government.
 
 ---
@@ -168,7 +168,7 @@ All three clouds now flag unusual spend automatically, but none in real time:
 | Cost labels | Labels (automatic in billing) | Cost allocation tags (**must activate**) | Tags (+ optional tag inheritance) | AWS's activation step catches people out |
 | Quotas | Cloud Quotas (allocation/rate/concurrent) | Service Quotas | Subscription/region quotas (vCPU per family) | Free trials limit increases |
 | Commitments | Resource- and spend-based CUDs; automatic SUDs | Savings Plans; Reserved Instances | Reservations; savings plan for compute | Only Google has an automatic usage discount |
-| Anomaly detection | Cost anomalies (next day) | Cost Anomaly Detection (needs a monitor) | Anomaly alerts (subscription scope; not in Azure Government) | None are real-time |
+| Anomaly detection | Cost anomalies (next day) | Cost Anomaly Detection (default monitor for new users) | Anomaly alerts (subscription scope; not in Azure Government) | None are real-time |
 
 ## Administer and monitor it
 
@@ -234,7 +234,7 @@ This is where cloud billing gets genuinely hard.
 - [Google Cloud — Sustained use discounts](https://docs.cloud.google.com/compute/docs/sustained-use-discounts)
 - [AWS — Configuring budget actions](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-controls.html)
 - [AWS — Activating user-defined cost allocation tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/activating-tags.html)
-- [AWS — Getting started with Cost Anomaly Detection](https://docs.aws.amazon.com/cost-management/latest/userguide/getting-started-ad.html)
+- [AWS — Getting started with Cost Anomaly Detection](https://docs.aws.amazon.com/cost-management/latest/userguide/getting-started-ad.html) and [FAQs](https://aws.amazon.com/aws-cost-management/aws-cost-anomaly-detection/faqs/)
 - [AWS — Savings Plans types](https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.html)
 - [Microsoft — Create and manage budgets](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets)
 - [Microsoft — Manage costs with budgets (automation scenario)](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/cost-management-budget-scenario)

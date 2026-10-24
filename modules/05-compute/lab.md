@@ -1,6 +1,6 @@
 # 05 Lab — A self-healing, autoscaling fleet you can only reach through identity
 
-**Cost:** $0 expected on Google Cloud. Every VM is an **e2-micro** in `us-central1` with a 10 GB **standard** persistent disk and **no external IP**. Google's free tier counts e2-micro **hours pooled across all your e2-micro VMs** (about one VM-month), so 2–3 small VMs for about an hour use a few of those hours; disks stay well under 30 GB-month. Don't use Spot for this lab — the free tier covers **non-preemptible** e2-micro only. AWS (optional): a `t3.micro` (free-plan eligible) for under an hour plus a public IPv4 address, drawn from your plan credits — expect cents. Azure (optional): a free-account B-series VM plus a small managed disk; **Bastion Developer is free**. · **Time:** 90–120 min · **Clouds:** GCP (required), AWS and Azure (optional parallels)
+**Cost:** $0 expected on Google Cloud. Every VM is an **e2-micro** in `us-central1` with a 10 GB **standard** persistent disk and **no external IP**. Google's free tier counts e2-micro **hours pooled across all your e2-micro VMs** (about one VM-month), so 2–3 small VMs for about an hour use a few of those hours; disks stay well under 30 GB-month. Don't use Spot for this lab — the free tier covers **non-preemptible** e2-micro only. AWS (optional): a `t3.micro` (free-plan eligible) for under an hour plus a public IPv4 address, drawn from your plan credits — expect cents. Azure (optional): a free-account B-series VM plus a small Standard HDD managed disk (⚠️ may cost a few cents while it exists — the free account's disk allowance wasn't verified this run); **Bastion Developer is free**. · **Time:** 90–120 min · **Clouds:** GCP (required), AWS and Azure (optional parallels)
 
 ## Goal
 
@@ -213,7 +213,7 @@ aws ec2 describe-security-groups --group-ids $SG_ID --query "SecurityGroups[0].I
 ### B3. Launch with IMDSv2 required (CLI, then console)
 
 ```bash
-sleep 10   # give the new instance profile a moment to propagate
+sleep 30   # IAM changes take time to propagate; if the next command fails with an IAM/role error, wait 30 s and rerun it
 INSTANCE_ID=$(aws ec2 run-instances \
   --image-id resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64 \
   --instance-type t3.micro \

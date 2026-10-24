@@ -194,7 +194,7 @@ def lambda_handler(event, context):
     return {"statusCode": 200, "body": "hello from Lambda\n"}
 EOF
 zip -q fn.zip lambda_function.py
-sleep 10   # let the new role propagate
+sleep 30   # IAM changes take time to propagate; if the next command fails with an IAM/role error, wait 30 s and rerun it
 aws lambda create-function --function-name lab07-hello \
   --runtime python3.13 --handler lambda_function.lambda_handler \
   --role $ROLE_ARN --zip-file fileb://fn.zip --tags lab=07

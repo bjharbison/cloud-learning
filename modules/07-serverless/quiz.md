@@ -45,7 +45,7 @@ The default Compute Engine service account may hold Editor on the project. Any c
 8. Which Azure Functions plan does Microsoft recommend for new serverless function apps, and what's happening to Linux Consumption?
 <details><summary>Answer</summary>
 
-Flex Consumption. The original Consumption plan is legacy; Linux Consumption retires September 30, 2028 (and v3 runtime apps on Linux Consumption stop after September 30, 2026).
+Flex Consumption. The original Consumption plan is legacy; Linux Consumption retires September 30, 2028.
 </details>
 
 9. Scenario: an agency needs a webhook that receives about 200 requests a day from a partner system, plus a nightly batch job. Recommend a Google Cloud design.

@@ -217,6 +217,8 @@ gcloud container clusters describe lab06-ap --location=us-central1 \
 
 **What you should see:** `autopilot: enabled: true`; a `workloadPool` of `PROJECT_ID.svc.id.goog` (Workload Identity Federation — always on in Autopilot); and `datapathProvider: ADVANCED_DATAPATH` (that's Dataplane V2, which enforces NetworkPolicy). There may be zero nodes until you deploy something — Autopilot creates nodes for your pods.
 
+> **Public control-plane endpoint:** Google documents that new Autopilot clusters have a publicly accessible IP. Anyone on the internet can reach the API server's address, but every request still needs a valid Google identity plus IAM and RBAC permissions. Production clusters narrow this with authorized networks, a private endpoint, or the DNS-based endpoint — remember the README's misconfiguration #1.
+
 Also notice what you **can't** see:
 
 ```bash
@@ -409,7 +411,7 @@ gcloud compute addresses list                       # nothing from this lab
 gcloud compute networks list                        # no lab06-net
 ```
 
-Remove the stale kubeconfig entry (optional): `kubectl config delete-context gke_${PROJECT_ID}_us-central1_lab06-ap`.
+Remove the stale **kubeconfig** entry (the local file where kubectl stores cluster addresses and credentials; optional): `kubectl config delete-context gke_${PROJECT_ID}_us-central1_lab06-ap`.
 
 **AWS / Azure:** nothing was created.
 

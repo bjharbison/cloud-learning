@@ -33,7 +33,7 @@ Extended support: clusters on Kubernetes versions past standard support pay an e
 6. Spot the problem: "We wrote NetworkPolicies for every namespace on our new EKS cluster, so pods are segmented."
 <details><summary>Answer</summary>
 
-NetworkPolicy is only enforced if the CNI enforces it. On EKS the VPC CNI's network policy support must be explicitly enabled (`enableNetworkPolicy`). Without it the policies are silently ignored. (AKS similarly needs an engine chosen; GKE Dataplane V2 enforces by default.)
+NetworkPolicy is only enforced if the CNI enforces it. On EKS the VPC CNI's network policy support must be explicitly enabled (`enableNetworkPolicy`). Without it the policies are silently ignored. (Standard AKS similarly needs an engine chosen and GKE Standard needs Dataplane V2 or network policy enabled; GKE Autopilot and AKS Automatic enforce by default.)
 </details>
 
 7. What problem does workload identity solve? Name it on each cloud.

@@ -39,7 +39,7 @@
 
 **Answer outline:**
 - Exposed kubelets and Docker APIs → deploy miners (Hildegard, Kinsing; T1610, T1496.001).
-- Stolen kubeconfig or cloud credentials → `kubectl exec`, read Secrets (T1609, T1552.007).
+- Stolen kubeconfig (kubectl's credentials file) or cloud credentials → `kubectl exec`, read Secrets (T1609, T1552.007).
 - Privileged pods → escape to node → node identity → cloud (T1611, then T1552.005).
 - Detection: Kubernetes audit logs for `create pod`, `exec`, `get secrets`, new ClusterRoleBindings.
 

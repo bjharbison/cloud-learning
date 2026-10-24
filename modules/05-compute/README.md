@@ -49,7 +49,6 @@ An **image** is a snapshot of a boot disk you can stamp out repeatedly.
 
 Security consequence: an image is software supply chain. Anything baked in — a backdoor, a stale package, an SSH key — ships to every VM. ATT&CK even has a technique for it (T1525, below).
 
-**Bridge:** your homelab Proxmox templates. If the template has a weak root password, every clone does.
 
 ### Instance groups and scale sets
 
@@ -122,7 +121,7 @@ Every VM can carry an identity. Code on the VM fetches short-lived credentials f
 
 Why this is a big deal:
 
-- **Google:** if you don't pick a service account, VMs can use the **Compute Engine default service account**. Depending on org policy, it may have the broad **Editor** role (Google turns off that automatic grant by default for organizations created after May 3, 2024). Google recommends a user-managed service account with only the permissions the workload needs — or none at all (`--no-service-account --no-scopes`). Google also notes that **anyone who can log in to a VM can use its service account's permissions.**
+- **Google:** if you don't pick a service account, VMs can use the **Compute Engine default service account**. Depending on org policy, it may have the broad **Editor** role (Google turns off that automatic grant by default for organizations created after May 3, 2024). **If your lab project sits under "No organization" (module 03), assume its default service account has Editor.** Google recommends a user-managed service account with only the permissions the workload needs — or none at all (`--no-service-account --no-scopes`). Google also notes that **anyone who can log in to a VM can use its service account's permissions.**
 - **AWS:** **IMDSv2** requires a session token before the metadata service answers, which blocks the classic **SSRF** trick of tricking a web app into fetching credentials. Amazon Linux 2023 uses IMDSv2 by default; you can require it per instance (`HttpTokens=required`).
 - **Azure:** **managed identities** get tokens from Azure's IMDS; give them the narrowest role assignment that works.
 
@@ -172,15 +171,14 @@ Azure says Trusted Launch is the default for new Gen2 VMs created in the portal,
 | Capability | Google Cloud | AWS | Azure | Notable difference |
 |---|---|---|---|---|
 | VM service | Compute Engine | EC2 | Azure Virtual Machines | |
-| Free-tier VM | 1 non-preemptible `e2-micro`/month in us-west1, us-central1, us-east1 (hours pooled across instances) + 30 GB-month standard PD | Free plan (since July 2025): eligible types include `t3.micro`, `t3.small`, `t4g.micro`, `t4g.small`, `c7i-flex.large`, `m7i-flex.large`; usage draws on plan credits ⚠️ hour allowances not verified | 12 months: B1s, B2pts v2, B2ats v2, 750 hours/month combined | AWS's new plan works differently from the old "750 hours of t2.micro" |
+| Free-tier VM | 1 non-preemptible `e2-micro`/month in us-west1, us-central1, us-east1 (hours pooled across instances) + 30 GB-month standard PD | Free plan (since July 2025): eligible types include `t3.micro`, `t3.small`, `t4g.micro`, `t4g.small`, `c7i-flex.large`, `m7i-flex.large`; usage draws on plan credits ⚠️ hour allowances not verified | 12 months: B1s, B2pts v2, B2ats v2, up to 750 hours/month in any combination of instances (⚠️ whether the three sizes share one pool isn't stated) | AWS's new plan works differently from the old "750 hours of t2.micro" |
 | Blueprint | Instance template | Launch template | Scale set model | |
 | Managed fleet | Managed instance group (zonal or regional) | Auto Scaling group | Virtual Machine Scale Set (Uniform/Flexible) | Azure's mode can't be changed later |
-| Identity-based admin access | OS Login + IAP TCP forwarding | Session Manager | Azure Bastion | Only Session Manager needs no inbound rule at all |
+| Identity-based admin access | OS Login + IAP TCP forwarding | Session Manager | Azure Bastion | Only Session Manager needs no inbound network path at all |
 | VM identity | Service account | Instance profile (IAM role) | Managed identity | Google's default SA may carry Editor |
 | Metadata hardening | Metadata server requires `Metadata-Flavor: Google` header ⚠️ not re-verified this run | IMDSv2 tokens (default on AL2023) | IMDS | AWS's IMDSv2 is the most-discussed SSRF mitigation |
 | Boot integrity | Shielded VM | NitroTPM / UEFI Secure Boot | Trusted Launch (default for new Gen2 VMs) | |
 | Confidential VM | SEV, SEV-SNP, TDX | SEV-SNP | SEV-SNP, TDX | AWS charges a 10% uplift on shared tenancy |
-| Self-destruct timer | `--max-run-duration` | — ⚠️ not checked | — ⚠️ not checked | Handy for labs |
 
 ## Administer and monitor it
 

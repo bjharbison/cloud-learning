@@ -37,7 +37,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Resource commitment | Resource-based CUDs | Reserved Instances / EC2 Instance Savings Plans | Azure Reservations | Google also has automatic sustained use discounts. Module 04 |
 | VM blueprint | Instance template | Launch template | Scale set model | Module 05 |
 | Managed VM fleet | Managed instance group (zonal or regional) | Auto Scaling group | Virtual Machine Scale Set (Uniform / Flexible) | Azure's orchestration mode is fixed at creation. Module 05 |
-| Identity-based admin access to VMs | OS Login + IAP TCP forwarding | Systems Manager Session Manager | Azure Bastion (Developer SKU free for dev/test) | Only Session Manager needs no inbound rule. Module 05 |
+| Identity-based admin access to VMs | OS Login + IAP TCP forwarding | Systems Manager Session Manager | Azure Bastion (Developer SKU free for dev/test) | Only Session Manager needs no inbound network path at all. Module 05 |
 | VM's own cloud identity | Attached service account | Instance profile (IAM role) | Managed identity | Google's default compute SA may hold Editor. Module 05 |
 | Instance metadata hardening | Metadata server (`Metadata-Flavor` header ⚠️ unverified) | IMDSv2 (session tokens) | IMDS | Module 05 |
 | Boot integrity | Shielded VM | NitroTPM / UEFI Secure Boot | Trusted Launch (default for new Gen2 VMs) | Module 05 |
@@ -47,7 +47,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Kubernetes control-plane fee | $0.10/cluster-hr; $74.40/month credit covers one Autopilot or zonal cluster | $0.10/cluster-hr (standard support) | Free tier: no fee (no SLA); Standard/Premium paid | GKE and EKS charge $0.60/hr on extended support. Module 06 |
 | Pod-to-cloud identity | Workload Identity Federation for GKE | EKS Pod Identity / IRSA | Microsoft Entra Workload ID | Always on in GKE Autopilot. Module 06 |
 | Human access to the Kubernetes API | Google IAM + Kubernetes RBAC | EKS access entries + RBAC | Entra ID + Kubernetes RBAC or Azure RBAC | Module 06 |
-| Kubernetes network policy enforcement | GKE Dataplane V2 (always on; default on new Autopilot) | VPC CNI network policy (must enable) | Azure CNI Powered by Cilium / NPM / Calico (must choose) | Module 06 |
+| Kubernetes network policy enforcement | GKE Dataplane V2 (default on new Autopilot; choose on Standard) | VPC CNI network policy (must enable) | Standard: Cilium / NPM / Calico (must choose); AKS Automatic: Cilium by default | Module 06 |
 | Serverless containers (HTTP) | Cloud Run services | AWS Fargate (tasks for ECS/EKS); App Runner ⚠️ not covered | Azure Container Apps | Cloud Run and Container Apps share the same free-grant numbers. Module 07 |
 | Functions (FaaS) | Cloud Run functions (renamed from Cloud Functions, Aug 2024) | AWS Lambda | Azure Functions (Flex Consumption recommended) | Module 07 |
 | Run-to-completion containers | Cloud Run jobs | ECS tasks / AWS Batch | Container Apps jobs | Module 07 |

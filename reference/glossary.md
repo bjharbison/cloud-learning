@@ -34,7 +34,7 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cloud shell** — A free, temporary Linux environment in the browser, pre-authenticated and preloaded with the provider's CLI: Google Cloud Shell, AWS CloudShell, Azure Cloud Shell. Keeps credentials off your laptop. (Module 00)
 
-**CNI (Container Network Interface)** — The plugin that gives Kubernetes pods their network. Whether NetworkPolicy is actually enforced depends on it: GKE Dataplane V2 enforces by default; EKS's VPC CNI and AKS need it enabled or chosen. (Module 06)
+**CNI (Container Network Interface)** — The plugin that gives Kubernetes pods their network. Whether NetworkPolicy is actually enforced depends on it: GKE Dataplane V2 (default on Autopilot) and AKS Automatic's Cilium enforce by default; EKS's VPC CNI, GKE Standard, and Standard AKS need it enabled or chosen. (Module 06)
 
 **Cold start** — The extra latency when a serverless request arrives and a new instance must start first. Reduced with minimum instances, at the cost of paying for idle capacity. (Module 07)
 

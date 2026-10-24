@@ -52,7 +52,7 @@ gcloud pubsub subscriptions create lab04-budget-sub \
 gcloud pubsub topics describe lab04-budget-alerts --format="yaml(labels)"
 ```
 
-Label rules to remember: lowercase keys starting with a letter; letters, numbers, `_`, `-`; up to 64 per resource. Try `--labels=Cost-Center=Training` and read the error.
+Label rules to remember: lowercase keys starting with a letter; letters, numbers, `_`, `-`; up to 64 per resource. See it enforced: `gcloud pubsub topics update lab04-budget-alerts --update-labels=Cost-Center=Training` — read the error (uppercase isn't allowed), then carry on.
 
 `--expiration-period=7d` makes the subscription delete itself after a week of inactivity — a cleanup safety net.
 
@@ -77,6 +77,8 @@ gcloud billing budgets list --billing-account=$BILLING_ID \
 ```
 
 Console equivalent: **Billing → Budgets & alerts → Create budget** → scope: this project → amount $1 → thresholds → **Manage notifications → Connect a Pub/Sub topic to this budget**.
+
+If your billing account isn't in US dollars, use your currency code (e.g., `--budget-amount=1EUR`).
 
 Why exclude credits? Same reason as module 00: with the $300 credit counted, your net cost is $0 and nothing ever fires.
 
@@ -165,7 +167,10 @@ Console: **Billing and Cost Management → Cost allocation tags → User-defined
 
 ### B3. Cost Anomaly Detection (console)
 
-**Billing and Cost Management → Cost Anomaly Detection → Create monitor** → type **AWS services** → name `lab04-services` → alert subscription: **daily summary** to your lab email, threshold **$1 absolute**. ⚠️ AWS's getting-started page doesn't state a price; check the pricing note on the console page before creating.
+**Billing and Cost Management → Cost Anomaly Detection → Cost monitors.** Since March 27, 2023, AWS automatically sets up new Cost Explorer users with an **AWS services** monitor and a daily email alert, at no cost — and an account can have only one AWS services monitor. So:
+
+1. Find the default monitor and check its alert subscription goes to your lab email. If no monitor exists, create one of type **AWS services**.
+2. Then create a second, custom monitor: **Create monitor → Cost allocation tag** → key `cost-center` → name `lab04-costcenter` → alert subscription: **daily summary**, threshold **$1 absolute**. (If the tag key isn't selectable yet, come back after you activate it in B1.)
 
 ### B4. Service quotas (CLI)
 
@@ -217,7 +222,7 @@ az vm list-usage --location eastus -o table | head -20
 |---|---|---|---|
 | Labeled resource | `topics describe` shows `lab: '04'` | SNS topic has tags | `rg-lab04` shows tags |
 | Budget → code path | Pulled a budget JSON message (A4) | Saw action types (B2) | Saw action group field (C2) |
-| Anomaly detection | Notification settings reviewed | Monitor `lab04-services` exists | Anomaly alert rule exists |
+| Anomaly detection | Notification settings reviewed | Default monitor checked; `lab04-costcenter` created | Anomaly alert rule exists |
 | Quotas | Found CPU and GPU quota values | Listed On-Demand vCPU quotas | Listed regional vCPU usage |
 
 ## What to notice (reflection questions)
@@ -266,7 +271,7 @@ aws sns delete-topic --topic-arn $TOPIC_ARN
 aws sns list-topics --output text | grep lab04 || echo "lab04 topic gone"
 ```
 
-Keep the anomaly monitor if you like it (it's a useful tripwire); otherwise **Cost Anomaly Detection → Cost monitors → lab04-services → Delete**. Leave the activated `cost-center` tag key — it's just a billing setting.
+Delete only the monitor you created: **Cost Anomaly Detection → Cost monitors → lab04-costcenter → Delete**. Keep the default AWS services monitor — it's a free tripwire. Leave the activated `cost-center` tag key — it's just a billing setting.
 
 **Azure**
 
@@ -283,4 +288,4 @@ Keep or delete the anomaly alert rule (**Cost alerts → Alert rules**).
 
 ## Write-up prompt
 
-> On [date] I configured cost governance in personal Google Cloud, AWS, and Azure lab accounts. On Google Cloud I labeled resources for cost allocation, created a project-scoped budget that publishes programmatic notifications to Pub/Sub and read the budget JSON directly, reviewed the documented disable-billing pattern and its data-loss risk, and inspected Compute Engine quotas. On AWS I activated a user-defined cost allocation tag, reviewed Budgets action types (IAM/SCP deny, EC2/RDS stop), and created a Cost Anomaly Detection monitor. On Azure I tagged a resource group, created a resource-group budget, and set an anomaly alert. I cleaned up all lab resources.
+> On [date] I configured cost governance in personal Google Cloud, AWS, and Azure lab accounts. On Google Cloud I labeled resources for cost allocation, created a project-scoped budget that publishes programmatic notifications to Pub/Sub and read the budget JSON directly, reviewed the documented disable-billing pattern and its data-loss risk, and inspected Compute Engine quotas. On AWS I activated a user-defined cost allocation tag, reviewed Budgets action types (IAM/SCP deny, EC2/RDS stop), and configured Cost Anomaly Detection monitors. On Azure I tagged a resource group, created a resource-group budget, and set an anomaly alert. I cleaned up all lab resources.

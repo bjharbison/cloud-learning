@@ -40,7 +40,7 @@ There are still servers. You just don't see, size, patch, or pay for them while 
 
 ### The serverless spectrum
 
-Module 01's sliding line: serverless sits between PaaS and FaaS.
+Module 01's sliding line: serverless spans everything from serverless containers (PaaS-like) to functions (**FaaS**, functions as a service).
 
 ```
  VMs (05) ──► Kubernetes (06) ──► Serverless containers ──► Functions (FaaS)
@@ -62,7 +62,7 @@ Module 01's sliding line: serverless sits between PaaS and FaaS.
 
 ### AWS: Lambda
 
-- Upload a zip or container image; Lambda runs your handler in response to events (S3, SQS, API Gateway, EventBridge, and many more) or an HTTPS **function URL**.
+- Upload a zip or container image; Lambda runs your handler in response to events (S3, **SQS** queues, API Gateway, **EventBridge** event buses, and many more) or an HTTPS **function URL**.
 - Runs in **Firecracker** microVMs on Nitro-based hosts; each function executes in a sandbox inside its microVM, bound to the customer's account.
 - **Free tier:** 1 million requests and 400,000 GB-seconds per month (Provisioned Concurrency excluded).
 - Identity: the function's **execution role** (an IAM role).
@@ -96,7 +96,7 @@ With no OS to patch, serverless security comes down to **who can call it** and *
 
 | | Cloud Run | Lambda function URL | Azure Container Apps / Functions |
 |---|---|---|---|
-| Default | **Invoker IAM check on** — callers need `roles/run.invoker` and a Google-signed ID token | You choose `AuthType`: **`AWS_IAM`** (SigV4-signed, IAM-authorized) or **`NONE`** (public, but still needs a resource-based policy) | Ingress `external` or `internal`; authentication is a separate built-in feature you turn on |
+| Default | **Invoker IAM check on** — callers need `roles/run.invoker` and a Google-signed ID token | You choose `AuthType`: **`AWS_IAM`** (signed with **SigV4**, AWS's request-signing scheme, and IAM-authorized) or **`NONE`** (public, but still needs a resource-based policy) | Ingress `external` or `internal`; authentication is a separate built-in feature you turn on |
 | Making it public | Disable the invoker check (Google's recommended way) **or** grant `roles/run.invoker` to `allUsers` | `AuthType NONE` + resource policy for `lambda:InvokeFunctionUrl` **and** `lambda:InvokeFunction` (both required for new URLs since October 2025) | `--ingress external` with no auth configured |
 | Network-level control | **Ingress**: `all`, `internal`, `internal-and-cloud-load-balancing` — combined with IAM, not instead of it | Resource policies; VPC options ⚠️ not detailed this run | `internal` ingress (reachable only inside the environment); IP restrictions |
 | Org-wide guardrail | Domain Restricted Sharing blocks `allUsers` grants; the `run.managed.requireInvokerIam` constraint can block disabling the check (not enforced by default) | SCPs / RCPs (module 03) | Azure Policy |
@@ -107,7 +107,7 @@ With no OS to patch, serverless security comes down to **who can call it** and *
 
 Every serverless workload runs as an identity:
 
-- **Cloud Run:** if you don't specify one, it runs as the **Compute Engine default service account** — which may hold **Editor** (module 05). Google strongly recommends a **user-managed service account** with only the roles it needs.
+- **Cloud Run:** if you don't specify one, it runs as the **Compute Engine default service account** — which may hold **Editor** (module 05), and almost certainly does in a personal project with no organization. Google strongly recommends a **user-managed service account** with only the roles it needs.
 - **Lambda:** the **execution role**. The common anti-pattern is a role with `*` permissions "to get it working."
 - **Azure:** a **managed identity** with scoped role assignments.
 
@@ -138,7 +138,7 @@ A function triggered by "new object in bucket" runs whatever arrives in that buc
 
 | Capability | Google Cloud | AWS | Azure | Notable difference |
 |---|---|---|---|---|
-| Serverless containers (HTTP) | Cloud Run services | (App Runner, ⚠️ not covered this run); Fargate for ECS/EKS tasks | Azure Container Apps | Cloud Run and Container Apps have near-identical free grants |
+| Serverless containers (HTTP) | Cloud Run services | (App Runner, ⚠️ not covered this run); Fargate for ECS (AWS's own container orchestrator) and EKS tasks | Azure Container Apps | Cloud Run and Container Apps have near-identical free grants |
 | Functions | Cloud Run functions (renamed from Cloud Functions, Aug 2024) | AWS Lambda | Azure Functions (Flex Consumption recommended) | Google's functions now run on Cloud Run |
 | Batch / run-to-completion | Cloud Run jobs | Lambda (short tasks), AWS Batch, ECS tasks | Container Apps jobs | |
 | Free monthly allowance | 180k vCPU-s, 360k GiB-s, 2M requests (services); functions have their own allowance | 1M requests, 400k GB-s | Container Apps: 180k vCPU-s, 360k GiB-s, 2M requests | Google doesn't bill IAM-denied requests |

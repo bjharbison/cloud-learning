@@ -127,7 +127,7 @@ Pods often need to call cloud APIs (read a bucket, write a queue). The bad old w
 | | Google Cloud | AWS | Azure |
 |---|---|---|---|
 | Feature | **Workload Identity Federation for GKE** | **EKS Pod Identity** (or the older **IRSA**) | **Microsoft Entra Workload ID** |
-| How | KSA becomes an IAM principal in pool `PROJECT_ID.svc.id.goog`; GKE metadata server intercepts metadata requests | Associate an IAM role with a KSA; an agent DaemonSet hands out credentials per node | Cluster acts as an OIDC issuer; a federated identity credential on a managed identity trusts the KSA |
+| How | KSA (Kubernetes ServiceAccount) becomes an IAM principal in pool `PROJECT_ID.svc.id.goog`; GKE metadata server intercepts metadata requests | Associate an IAM role with a KSA; an agent **DaemonSet** (a pod that runs on every node) hands out credentials per node | Cluster acts as an **OIDC issuer** (it signs identity tokens that Entra ID can verify); a federated identity credential on a managed identity trusts the KSA |
 | Default | **Always on** in Autopilot; opt-in on Standard | Opt-in (agent add-on; built into Auto Mode) | Preconfigured in AKS Automatic; opt-in on Standard |
 | What it prevents | Pods using the **node's** service account | Pods using the node's instance profile | Stored client secrets |
 
@@ -137,9 +137,9 @@ Why it matters: without it, every pod on a node can use the node's identity — 
 
 **By default, every pod can talk to every other pod in the cluster.** A Kubernetes **NetworkPolicy** restricts that, but only if the cluster's network plugin (**CNI**) enforces it.
 
-- **GKE:** **Dataplane V2** (eBPF/Cilium-based) enforces NetworkPolicy "always on" and is enabled by default on new Autopilot clusters, with built-in network policy logging.
+- **GKE:** **Dataplane V2** (built on **eBPF** — small programs the Linux kernel runs safely in-kernel — and Cilium) enforces NetworkPolicy "always on" and is enabled by default on new **Autopilot** clusters, with built-in network policy logging. On **Standard** clusters you must create the cluster with Dataplane V2 or turn on network policy enforcement.
 - **EKS:** the Amazon VPC CNI supports network policy, but you must **enable** it (`enableNetworkPolicy`). A "strict" mode starts new pods default-deny.
-- **AKS:** off unless you choose an engine: **Azure CNI Powered by Cilium** (recommended), Azure Network Policy Manager (being retired on Linux by September 30, 2028), or Calico.
+- **AKS:** on Standard AKS, off unless you choose an engine: **Azure CNI Powered by Cilium** (recommended), Azure Network Policy Manager (being retired on Linux by September 30, 2028), or Calico. **AKS Automatic** defaults to Azure CNI Overlay powered by Cilium.
 
 **The trap:** a NetworkPolicy object on a cluster that doesn't enforce it does nothing — silently.
 
@@ -186,7 +186,7 @@ Why it matters: without it, every pod on a node can use the node's identity — 
 | Extended/LTS support | Extended channel (+$0.50/hr) | Extended support (+$0.50/hr) | Premium tier with LTS (24 months) | |
 | API access identity | Google IAM + RBAC | IAM via **access entries** + RBAC | Entra ID + Kubernetes RBAC or Azure RBAC | |
 | Workload identity | Workload Identity Federation for GKE (always on in Autopilot) | EKS Pod Identity / IRSA | Entra Workload ID | |
-| Network policy | Dataplane V2, always on (default for new Autopilot) | VPC CNI, **must enable** | Cilium / NPM / Calico, **must choose** | Only GKE enforces out of the box |
+| Network policy | Dataplane V2 (default on new Autopilot; choose it on Standard) | VPC CNI, **must enable** | Standard: Cilium / NPM / Calico, **must choose**; Automatic: Cilium by default | Managed-node modes (Autopilot, AKS Automatic) ship with an enforcing dataplane; standard modes need it enabled |
 | Control-plane logs | Cloud Audit Logs (⚠️ default log scope not re-verified this run) | **Off by default**; enable each type (api, audit, authenticator, controllerManager, scheduler) to CloudWatch | Diagnostic settings (⚠️ not verified this run) | EKS audit logs cost CloudWatch ingestion |
 | Registry | Artifact Registry | ECR | ACR | |
 
@@ -238,7 +238,7 @@ Top misconfigurations:
 - GKE Autopilot manages nodes and bills by pod request; Standard gives control. EKS and AKS have their own managed-node modes.
 - **Control planes bill while idle:** GKE and EKS $0.10/hr (6× on extended support); AKS Free tier has no fee. GKE's $74.40/month credit covers one Autopilot or zonal cluster's fee.
 - Five controls: RBAC, workload identity, network policy (enforced!), admission control, image supply chain.
-- Only GKE enforces NetworkPolicy out of the box; EKS and AKS need it enabled.
+- GKE Autopilot and AKS Automatic ship with an enforcing dataplane; GKE Standard, standard EKS, and Standard AKS need network policy enabled.
 - The API server is the crown jewel. RBAC, network policy, and exposure are **always the customer's**.
 
 ## Sources
