@@ -69,5 +69,5 @@ For API versions released after March 31, 2026, subnets in new VNets default to 
 12. Give two cloud network changes you'd alert on as possible adversary activity, with an ATT&CK reference.
 <details><summary>Answer</summary>
 
-New peerings or VPN tunnels to unknown networks, and new routes (especially `0.0.0.0/0` or appliance next hops) — network boundary bridging (T1599) or infrastructure modification (T1578). Also firewall changes opening ingress (T1562.007, module 11) and subnets created in unexpected regions.
+New peerings or VPN tunnels to unknown networks, and new routes (especially `0.0.0.0/0` or appliance next hops) — infrastructure modification (T1578); conceptually network boundary bridging, though ATT&CK's T1599 is scoped to network devices. Also firewall changes opening ingress (T1562.007, module 11) and subnets created in unexpected regions.
 </details>

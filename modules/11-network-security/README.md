@@ -46,7 +46,7 @@ Google's firewall family is called **Cloud Next Generation Firewall (Cloud NGFW)
 - **Network firewall policies** (global or regional) — groupings of rules attached to a network, supporting newer features like **secure tags** (IAM-controlled tags for micro-segmentation) and, on paid tiers, **FQDN objects**, **geolocation**, and **threat-intelligence lists**.
 - **Hierarchical firewall policies** — attached to the **organization or folders**. Lower levels **can't override** a higher-level rule; they only see traffic the higher policy passes down with **`goto_next`**. Use them to say "nobody in this org opens RDP to the internet," full stop. They require an organization and carry a small per-VM charge.
 - **Evaluation order (default):** hierarchical policies (org, then folders down) → VPC firewall rules → global network firewall policy → regional network firewall policy → implied rules.
-- **Tiers:** **Essentials** (IP/port/protocol rules) is free; **Standard** adds FQDN, geolocation, and threat-intelligence matching (billed per GiB evaluated on internet-bound traffic); **Enterprise** adds Layer 7 inspection — **intrusion prevention** and URL filtering — through firewall endpoints (billed per endpoint-hour plus per GiB).
+- **Tiers:** **Essentials** (IP/port/protocol rules) is free; **Standard** adds FQDN, geolocation, and threat-intelligence matching (billed per GiB for internet traffic in both directions that a Standard rule evaluates — allowed or denied; east-west traffic isn't charged); **Enterprise** adds Layer 7 inspection — **intrusion prevention** and URL filtering — through firewall endpoints (billed per endpoint-hour plus per GiB).
 - **Firewall Rules Logging** is per rule and off by default; turn it on for the rules you need evidence from.
 
 **Prefer service accounts or secure tags as targets over network tags.** Anyone who can edit a VM can add a network tag to it — and inherit whatever the tag's rules allow. Service-account and secure-tag targets are controlled by IAM.
@@ -62,7 +62,7 @@ Google's firewall family is called **Cloud Next Generation Firewall (Cloud NGFW)
 | Defaults | Default SG: allows inbound from members of the same SG, all outbound | Default NACL: allows everything; custom NACLs deny everything until you add rules |
 | AWS guidance | Primary control | Secondary, coarse guardrail (e.g., block a known-bad range subnet-wide) |
 
-A security group can reference **another security group** as a source — "the app tier may talk to the DB tier" — the AWS equivalent of Google's service-account targets. Central enforcement across accounts uses **AWS Firewall Manager** ⚠️ (feature details not verified this run); deeper inspection uses **AWS Network Firewall**.
+A security group can reference **another security group** as a source — "the app tier may talk to the DB tier" — the AWS equivalent of Google's service-account targets. Central enforcement across accounts uses **AWS Firewall Manager** (security group, Network Firewall, and WAF policies across an AWS Organization); deeper inspection uses **AWS Network Firewall**.
 
 **Homelab bridge:** NACLs behave like a stateless ACL on a basic switch — forget the ephemeral-port return rule and "everything's broken." Security groups behave like OPNsense's stateful rules.
 
@@ -77,7 +77,7 @@ A security group can reference **another security group** as a source — "the a
 
 | | Google Cloud | AWS | Azure |
 |---|---|---|---|
-| Org/hierarchy-level network rules | **Hierarchical firewall policies** (org/folder; lower levels can't override) | **AWS Firewall Manager** policies across accounts ⚠️ | **Virtual Network Manager security admin rules** (evaluated before NSGs) |
+| Org/hierarchy-level network rules | **Hierarchical firewall policies** (org/folder; lower levels can't override) | **AWS Firewall Manager** security group / Network Firewall policies across accounts | **Virtual Network Manager security admin rules** (evaluated before NSGs) |
 | Guardrails on *configuration* (not packets) | Org policies, e.g., `compute.vmExternalIpAccess`, `compute.skipDefaultNetworkCreation` | SCPs | Azure Policy |
 
 ### Private access to provider services — no internet required
@@ -124,7 +124,7 @@ Layered egress options:
 
 **The peers:**
 
-- **AWS data perimeters:** not a single product but a pattern — SCPs, RCPs, resource-based policies, and **VPC endpoint policies** using condition keys like `aws:PrincipalOrgID`, `aws:ResourceOrgID`, and `aws:SourceVpce` so that only trusted identities reach trusted resources from expected networks.
+- **AWS data perimeters:** not a single product but a pattern — SCPs, RCPs, resource-based policies, and **VPC endpoint policies** using condition keys like `aws:PrincipalOrgID`, `aws:ResourceOrgID`, and `aws:SourceVpce` — in effect, your own principals may touch only your organization's resources, and only from networks you expect.
 - **Azure:** **Private Endpoints** with public access disabled, plus **network security perimeter**, which Microsoft describes as an explicit boundary around PaaS resources, used alongside Private Endpoints for exfiltration protection.
 
 **Bridge to your intel background:** IAM is your clearance and need-to-know. VPC Service Controls is the SCIF door: even a cleared person can't carry the material out through it, and a stranger with someone else's badge can't use it from the parking lot. It doesn't replace clearances; it constrains where cleared access can be exercised.
@@ -137,7 +137,7 @@ Layered egress options:
 
 ```
  Org ── Hierarchical FW policy: deny 22/3389 from 0.0.0.0/0 (except IAP 35.235.240.0/20 → goto_next)
-  └─ Folder Prod ── VPC SC perimeter "prod" (restricted: storage, bigquery) ── dry run → enforced
+  └─ Folder Prod ── VPC SC perimeter "prod" around the Prod projects (restricted: storage, bigquery) ── dry run → enforced
        └─ Host project net-prod ── VPC prod-vpc
             ├─ Network FW policy: egress deny 0.0.0.0/0 (logged) · allow 199.36.153.4/30 :443
             ├─ subnet app (Private Google Access ON) ── VMs: no external IP, SA-targeted ingress rules
@@ -152,13 +152,13 @@ Layered egress options:
 |---|---|---|---|---|
 | Per-workload stateful rules | VPC firewall rules / network firewall policies (target by SA or secure tag) | Security groups (allow-only; reference other SGs) | NSGs on NIC + ASGs | AWS SGs can't deny |
 | Subnet-level rules | (rules are network-wide with targets) | NACLs (stateless) | NSG on subnet (stateful) | Only AWS has a stateless layer |
-| Org-level network rules | Hierarchical firewall policies | Firewall Manager ⚠️ | Virtual Network Manager security admin rules | Google's attach to the resource hierarchy |
+| Org-level network rules | Hierarchical firewall policies | Firewall Manager | Virtual Network Manager security admin rules | Google's attach to the resource hierarchy |
 | Default egress | Allow (implied) | Allow (SG outbound) | Allow (`AllowInternetOutBound`) | Egress control is always opt-in |
-| L7 / IPS | Cloud NGFW Enterprise | AWS Network Firewall | Azure Firewall Premium ⚠️ | |
+| L7 / IPS | Cloud NGFW Enterprise | AWS Network Firewall | Azure Firewall Premium (IDPS, TLS inspection) | |
 | Private API access (free) | Private Google Access | Gateway endpoints (S3, DynamoDB) | Service endpoints | |
 | Private endpoint to a specific service | Private Service Connect | Interface endpoints (PrivateLink) | Private Endpoint (Private Link) | |
 | API-level exfiltration boundary | **VPC Service Controls** (perimeters, access levels, ingress/egress rules, dry run) | Data perimeter pattern (SCP/RCP + endpoint and resource policies) | Private Endpoints + network security perimeter | Google's is one purpose-built service |
-| Denial telemetry | Firewall Rules Logging; Policy Denied audit logs (VPC-SC, always on) | VPC Flow Logs; CloudTrail access-denied events | NSG/VNet flow logs ⚠️; Activity Log | |
+| Denial telemetry | Firewall Rules Logging; Policy Denied audit logs (VPC-SC, always on) | VPC Flow Logs; CloudTrail access-denied events | VNet flow logs; Activity Log | |
 
 ## Administer and monitor it
 
@@ -216,9 +216,11 @@ Layered egress options:
 - [Google Cloud Architecture Center — Preventative controls (org policy constraints)](https://docs.cloud.google.com/architecture/blueprints/security-foundations/preventative-controls)
 - [AWS — Infrastructure security in Amazon VPC (SGs vs NACLs)](https://docs.aws.amazon.com/vpc/latest/userguide/infrastructure-security.html), [Security groups](https://docs.aws.amazon.com/vpc/latest/userguide/security-groups.html), [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html)
 - [AWS — Gateway endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html)
+- [AWS — Firewall Manager security group policies](https://docs.aws.amazon.com/waf/latest/developerguide/security-group-policies.html)
 - [AWS Security Blog — Establishing a data perimeter on AWS](https://aws.amazon.com/blogs/security/establishing-a-data-perimeter-on-aws/)
 - [Microsoft — Network security groups overview](https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview)
 - [Microsoft — Security admin rules in Azure Virtual Network Manager](https://learn.microsoft.com/en-us/azure/virtual-network-manager/concept-security-admins)
+- [Microsoft — Azure Firewall Premium features](https://learn.microsoft.com/en-us/azure/firewall/premium-features)
 - [Microsoft — Private access to Azure PaaS services](https://learn.microsoft.com/en-us/azure/networking/design-guide/private-platform-as-a-service) and [What is Azure Private Link?](https://learn.microsoft.com/en-us/azure/private-link/private-link-overview)
 - [MITRE ATT&CK — T1562.007](https://attack.mitre.org/techniques/T1562/007/), [T1537](https://attack.mitre.org/techniques/T1537/), [T1078.004](https://attack.mitre.org/techniques/T1078/004/), [T1048](https://attack.mitre.org/techniques/T1048/)
 

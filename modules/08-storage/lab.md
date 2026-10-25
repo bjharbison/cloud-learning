@@ -48,7 +48,7 @@ gcloud storage buckets describe gs://$B \
   --format="yaml(location,default_storage_class,uniform_bucket_level_access,public_access_prevention,soft_delete_policy,labels)"
 ```
 
-**What you should see:** `uniform_bucket_level_access: true`, `public_access_prevention: enforced`, and a soft-delete policy of `604800s` (7 days) — Google turned that on without being asked.
+**What you should see:** `uniform_bucket_level_access: true`, `public_access_prevention: enforced`, and a soft-delete policy with `retentionDurationSeconds: '604800'` (7 days) — Google turned that on without being asked.
 
 ### A2. Try to make it public (CLI)
 
@@ -270,7 +270,8 @@ az storage blob upload --account-name $SA --container-name lab08 --name h.txt --
 **Google Cloud**
 
 ```bash
-# Optional: stop soft delete from keeping the deleted objects another 7 days (kilobytes; ~$0 either way)
+# Optional: objects deleted FROM NOW ON won't be retained. Anything already soft-deleted keeps its 7-day
+# window (kilobytes; ~$0). Deleting a bucket also soft-deletes the bucket itself for a restorable window.
 gcloud storage buckets update gs://$B --clear-soft-delete
 gcloud storage buckets update gs://$R --clear-soft-delete
 

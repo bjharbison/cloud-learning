@@ -42,6 +42,7 @@ echo "classified-ish lab data" > hello.txt && gcloud storage cp hello.txt gs://$
 
 gcloud iam service-accounts create lab11-reader --display-name="lab11 bucket reader"
 SA=lab11-reader@$PROJECT_ID.iam.gserviceaccount.com
+sleep 30   # new service accounts take a moment to propagate; if the next command errors, wait and rerun it
 gcloud storage buckets add-iam-policy-binding gs://$B --member=serviceAccount:$SA --role=roles/storage.objectViewer
 ```
 
@@ -229,6 +230,7 @@ CloudShell, `us-east-1`, as `labadmin`. Uses the default VPC but attaches nothin
 
 ```bash
 VPC_ID=$(aws ec2 describe-vpcs --filters Name=is-default,Values=true --query "Vpcs[0].VpcId" --output text)
+echo $VPC_ID    # if this prints None, you deleted the default VPC: run 'aws ec2 create-default-vpc' (free) or skip Part B
 
 SG=$(aws ec2 create-security-group --group-name lab11-sg --description "lab11" --vpc-id $VPC_ID --query GroupId --output text)
 aws ec2 describe-security-groups --group-ids $SG --query "SecurityGroups[0].{In:IpPermissions,Out:IpPermissionsEgress}"

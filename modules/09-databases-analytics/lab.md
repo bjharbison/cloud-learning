@@ -21,7 +21,7 @@
 
 ### A1. Create a sandbox project (console, then CLI)
 
-Console: project picker → **New project** → name `lab09-sbx` → Create. When asked to link a billing account, **skip it**. Open **BigQuery** in that project — you should see a **SANDBOX** badge near the top.
+Console: project picker → **New project** → name `lab09-sbx`. If a **Billing account** field appears, it may be pre-filled with your trial account — change it to **No billing account** (if you can't, use the CLI path) → Create. Verify: **Billing → Account management** for this project should say it has no billing account. Open **BigQuery** in that project — you should see a **SANDBOX** badge near the top. If you don't, billing is attached: unlink it (**Billing → My projects → Actions → Disable billing**) before continuing.
 
 CLI (either, not both):
 

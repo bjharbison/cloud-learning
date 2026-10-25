@@ -141,7 +141,7 @@ Note the contrast with module 08: Cloud Storage object reads are *not* logged by
 |---|---|---|---|---|
 | Managed MySQL/PostgreSQL/SQL Server | Cloud SQL | Amazon RDS | Azure Database for MySQL/PostgreSQL (flexible server); Azure SQL Database / SQL Managed Instance | Azure's SQL Server heritage shows: several SQL Server flavors |
 | High-performance PostgreSQL-compatible | AlloyDB for PostgreSQL | Amazon Aurora (PostgreSQL/MySQL-compatible) | Azure Database for PostgreSQL ⚠️ (Azure's Cosmos DB for PostgreSQL not compared this run) | |
-| Globally distributed relational | Spanner (up to 99.999% SLA) | Aurora DSQL ⚠️ not verified this run | Cosmos DB (multi-model, not relational in the same sense) | Spanner is the long-standing reference design |
+| Globally distributed relational | Spanner (up to 99.999% SLA) | Amazon Aurora DSQL (serverless distributed SQL, GA May 2025) | Cosmos DB (multi-model, not relational in the same sense) | Spanner is the long-standing reference design |
 | Document | Firestore | Amazon DocumentDB ⚠️; DynamoDB (key-value/document) | Azure Cosmos DB | |
 | Wide-column / high-throughput NoSQL | Bigtable | DynamoDB; Amazon Keyspaces ⚠️ | Cosmos DB (Cassandra API) ⚠️ | |
 | In-memory | Memorystore (Valkey, Redis, Memcached) | Amazon ElastiCache ⚠️ | Azure Cache for Redis ⚠️ | Products in flux industry-wide after Redis licensing changes |
@@ -209,6 +209,7 @@ Note the contrast with module 08: Cloud Storage object reads are *not* logged by
 - [Google Cloud Threat Intelligence — UNC5537 targets Snowflake customer instances (Jun 2024)](https://cloud.google.com/blog/topics/threat-intelligence/unc5537-snowflake-data-theft-extortion)
 - [Google Cloud — Free cloud features](https://docs.cloud.google.com/free/docs/free-cloud-features)
 - [AWS — Amazon Security Lake](https://aws.amazon.com/security-lake/)
+- [AWS — Amazon Aurora DSQL is now generally available (May 2025)](https://aws.amazon.com/about-aws/whats-new/2025/05/amazon-aurora-dsql-generally-available/)
 - [AWS — What is Amazon Redshift Serverless?](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-whatis.html)
 - [AWS — DynamoDB point-in-time recovery](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PointInTimeRecovery_Howitworks.html)
 - [Microsoft — Try Azure SQL Database for free](https://learn.microsoft.com/en-us/azure/azure-sql/database/free-tier?view=azuresql)

@@ -72,7 +72,7 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cost allocation tag (AWS)** — A resource tag that AWS Billing uses to group costs. User-defined tags must be activated in the Billing console before they appear in cost reports. (Module 04)
 
-**Data perimeter (AWS)** — AWS's pattern for ensuring only trusted identities access trusted resources from expected networks, built from SCPs, RCPs, resource policies, and VPC endpoint policies with conditions like `aws:PrincipalOrgID`, `aws:ResourceOrgID`, `aws:SourceVpce`. (Module 11)
+**Data perimeter (AWS)** — AWS's pattern for keeping your principals on your organization's resources, reached only from networks you expect, built from SCPs, RCPs, resource policies, and VPC endpoint policies with conditions like `aws:PrincipalOrgID`, `aws:ResourceOrgID`, `aws:SourceVpce`. (Module 11)
 
 **Data warehouse** — A database built for analytical (OLAP) queries over large history rather than transactions. BigQuery, Amazon Redshift, Azure Synapse dedicated SQL pools / Fabric Data Warehouse. (Module 09)
 

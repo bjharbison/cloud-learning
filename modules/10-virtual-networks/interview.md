@@ -43,7 +43,7 @@
 ### Q5. "How would an attacker abuse cloud networking, and how would you see it?"
 
 **Answer outline:**
-- Add peerings, routes, or VPN tunnels to bridge into a network they control (T1599); open firewall paths (T1562.007); scan internally from a foothold (T1046).
+- Add peerings, routes, or VPN tunnels to bridge into a network they control (T1578; conceptually like T1599, which ATT&CK scopes to network devices); open firewall paths (T1562.007); scan internally from a foothold (T1046).
 - Telemetry: Admin Activity logs for network, route, and peering changes; VPC Flow Logs (opt-in, sampled); firewall rules logging.
 - Prevention: restrict who holds network admin; org policies on external IPs and default networks; review peerings.
 

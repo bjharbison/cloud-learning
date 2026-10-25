@@ -39,7 +39,7 @@ No billing account or credit card; 10 GiB storage over the project's lifetime; 1
 7. Spot the misconfiguration: "Our Cloud SQL instance has a public IP with authorized network `0.0.0.0/0` so contractors can connect from anywhere; the passwords are strong."
 <details><summary>Answer</summary>
 
-The database port is reachable from the entire internet; strong passwords don't stop credential theft (infostealers) or engine vulnerabilities. Use private IP (Private Service Connect is Google's recommended option), or the Cloud SQL Auth Proxy with IAM authorization and IAM database authentication, and narrow allowlists. Network exposure is the customer's responsibility.
+The database port is reachable from the entire internet; strong passwords don't stop credential theft (infostealers) or engine vulnerabilities. Use private IP (Private Service Connect is Google's recommended option — module 11 explains it), or the Cloud SQL Auth Proxy with IAM authorization and IAM database authentication, and narrow allowlists. Network exposure is the customer's responsibility.
 </details>
 
 8. Which BigQuery feature lets a team query a curated slice of a dataset without having any access to the source dataset?

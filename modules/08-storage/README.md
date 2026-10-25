@@ -105,7 +105,7 @@ Each cloud now has a "turn off the legacy mess, and block public" control:
 |---|---|---|---|
 | Turn off per-object ACLs | **Uniform bucket-level access (UBLA)** — IAM only. Can be reverted only within 90 days | **Object Ownership: bucket owner enforced** (ACLs disabled) | No object ACLs; access via RBAC, keys, or SAS |
 | Block public access | **Public access prevention (PAP)** — `allUsers` / `allAuthenticatedUsers` grants fail; existing ones are overridden | **S3 Block Public Access** — four settings, at account and bucket level | Storage account **`AllowBlobPublicAccess = false`** overrides every container's setting |
-| Default for new buckets | UBLA: enforced by default org policy on organizations created since early 2024; PAP: set per bucket or by the `storage.publicAccessPrevention` org policy | Block Public Access **on** and ACLs **off** for all new buckets since April 2023 | Anonymous access never permitted unless explicitly enabled |
+| Default for new buckets | UBLA: enforced by a default org policy on organizations created on or after May 3, 2024 (some created Feb–Apr 2024 too) — check yours under **IAM & Admin → Organization Policies**; PAP: set per bucket or by the `storage.publicAccessPrevention` org policy | Block Public Access **on** and ACLs **off** for all new buckets since April 2023 | Anonymous access never permitted unless explicitly enabled |
 | Org-wide guardrail | Org policies `storage.uniformBucketLevelAccess`, `storage.publicAccessPrevention` | Account-level Block Public Access; SCPs/RCPs | Azure Policy |
 
 **Azure-specific trap: keys and SAS tokens.** A storage account has two **account keys** that grant full access, and anyone holding a key can mint **shared access signatures (SAS)** — URLs with a token embedded. A SAS is a bearer credential: whoever has the URL has the access. Microsoft recommends one hour or less for SAS lifetimes, and you can disable shared-key access entirely to force Entra ID authorization.
@@ -173,7 +173,7 @@ Most common storage failures:
 
 - **T1530 Data from Cloud Storage** — collecting data from object storage, often via misconfigured permissions or leaked credentials. MITRE lists ShinyHunters collecting from insecure buckets and Storm-0501 changing Azure Storage settings to expose accounts for exfiltration. Pacu and Peirates automate S3 enumeration and download.
 - **T1619 Cloud Storage Object Discovery** — listing buckets and objects to find what's worth taking.
-- **T1485 / T1486 Data Destruction / Data Encrypted for Impact** — in January 2025 AWS's incident response team reported attackers using stolen long-term access keys to rewrite S3 objects encrypted with keys only the attacker held (SSE-C). AWS's guidance: short-term credentials, versioning or backups, monitoring — and S3 has since begun disabling SSE-C by default on new buckets (rollout announced April 2026).
+- **T1485 / T1486 Data Destruction / Data Encrypted for Impact** — in January 2025 AWS's incident response team reported attackers using stolen long-term access keys to rewrite S3 objects encrypted with keys only the attacker held (SSE-C). AWS's guidance: short-term credentials, versioning or backups, monitoring — and S3 has since begun disabling SSE-C by default on new buckets (announced November 2025, rolling out from April 2026; also applies to existing buckets in accounts with no SSE-C data).
 
 **Recurring patterns from public reporting:**
 
@@ -207,7 +207,7 @@ Most common storage failures:
 - [Google Cloud — Bucket Lock (retention policies)](https://docs.cloud.google.com/storage/docs/bucket-lock) and [Use and lock retention policies](https://docs.cloud.google.com/storage/docs/using-bucket-lock)
 - [Google Cloud — Uniform bucket-level access](https://docs.cloud.google.com/storage/docs/uniform-bucket-level-access)
 - [Google Cloud — Public access prevention](https://docs.cloud.google.com/storage/docs/public-access-prevention)
-- [Google Cloud Blog — Introducing stronger default Org Policies (Mar 2024)](https://cloud.google.com/blog/products/identity-security/introducing-stronger-default-org-policies-for-our-customers)
+- [Google Cloud Blog — Introducing stronger default Org Policies (Mar 2024)](https://cloud.google.com/blog/products/identity-security/introducing-stronger-default-org-policies-for-our-customers) and [Manage security baseline constraints](https://docs.cloud.google.com/resource-manager/docs/manage-baseline-constraints)
 - [Google Cloud — Cloud Audit Logs with Cloud Storage](https://docs.cloud.google.com/storage/docs/audit-logging)
 - [Google Cloud — Default encryption at rest](https://docs.cloud.google.com/docs/security/encryption/default-encryption)
 - [Google Cloud — Choose a disk type](https://docs.cloud.google.com/compute/docs/disks) and [Filestore overview](https://docs.cloud.google.com/filestore/docs/overview)
@@ -218,7 +218,7 @@ Most common storage failures:
 - [AWS — S3 automatically encrypts all new objects (Jan 2023)](https://aws.amazon.com/about-aws/whats-new/2023/01/amazon-s3-automatically-encrypts-new-objects/)
 - [AWS — Logging data events with CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html)
 - [AWS Security Blog — Preventing unintended encryption of Amazon S3 objects (Jan 2025)](https://aws.amazon.com/blogs/security/preventing-unintended-encryption-of-amazon-s3-objects/)
-- [AWS — S3 new default bucket security setting: SSE-C disabled (Apr 2026)](https://aws.amazon.com/about-aws/whats-new/2026/04/s3-default-bucket-security-setting/)
+- [AWS — S3 new default bucket security setting: SSE-C disabled (Apr 2026)](https://aws.amazon.com/about-aws/whats-new/2026/04/s3-default-bucket-security-setting/) and [advance notice (Nov 2025)](https://aws.amazon.com/blogs/storage/advanced-notice-amazon-s3-to-disable-the-use-of-sse-c-encryption-by-default-for-all-new-buckets-and-select-existing-buckets-in-april-2026/)
 - [Microsoft — Access tiers for blob data](https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview)
 - [Microsoft — Overview of remediating anonymous read access](https://learn.microsoft.com/en-us/azure/storage/blobs/anonymous-read-access-overview)
 - [Microsoft — Immutable storage for blob data](https://learn.microsoft.com/en-us/azure/storage/blobs/immutable-storage-overview)

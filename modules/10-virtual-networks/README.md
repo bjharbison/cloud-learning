@@ -144,7 +144,7 @@ Every VPC has a route table, mostly written for you.
 | Peering | VPC Network Peering (non-transitive) | VPC peering (non-transitive) | VNet peering (non-transitive) | Same rule everywhere |
 | Hub | Network Connectivity Center | Transit Gateway / Cloud WAN | Virtual WAN | |
 | Dynamic routing | Cloud Router (BGP) | TGW / VGW route propagation | Gateways / Route Server ⚠️ | Module 13 |
-| Flow telemetry | VPC Flow Logs (opt-in, sampled) | VPC Flow Logs | VNet flow logs ⚠️ not verified this run | Module 11/18 |
+| Flow telemetry | VPC Flow Logs (opt-in, sampled) | VPC Flow Logs | VNet flow logs (NSG flow logs retire Sep 30, 2027) | Module 11/18 |
 | Cost of the network itself | No charge for networks/subnets; pay data transfer (same-zone internal free; cross-zone $0.01/GiB; NA inter-region $0.02/GiB) | No charge for the VPC; pay NAT gateways, public IPv4 ($0.005/hr each), cross-AZ transfer | VNets free (50 always-free per the free-services page) ⚠️ peering per-GB charges not verified | AWS public IPv4 charge started Feb 2024 |
 
 ## Administer and monitor it
@@ -165,8 +165,7 @@ Every VPC has a route table, mostly written for you.
 
 ## Threat intel angle
 
-- **T1599 Network Boundary Bridging** — modifying network boundaries to reach otherwise isolated segments; in cloud terms, adding a route, peering, or VPN that joins a segment to one the adversary controls ⚠️ (cloud procedures under this technique not checked this run).
-- **T1578 Modify Cloud Compute Infrastructure** and **T1562.007 Impair Defenses: Disable or Modify Cloud Firewall** (module 11) — changing infrastructure and network controls to open paths.
+- **T1578 Modify Cloud Compute Infrastructure** and **T1562.007 Impair Defenses: Disable or Modify Cloud Firewall** (module 11) — the closest ATT&CK fits for an adversary adding a route, peering, or VPN that joins a segment to one they control. (**T1599 Network Boundary Bridging** describes the same idea on routers and firewalls; ATT&CK scopes it to network devices, so treat it as an analogy, not a cloud mapping.)
 - **T1046 Network Service Discovery** — scanning internal ranges after gaining a foothold; flat networks make it rewarding.
 - **T1021 Remote Services** — lateral movement over SSH/RDP between VMs, which internal firewall rules and segmentation limit.
 
@@ -212,6 +211,7 @@ Every VPC has a route table, mostly written for you.
 - [Microsoft — Private IP addresses in Azure (reserved addresses)](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/private-ip-addresses)
 - [Microsoft — Default outbound access in Azure](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/default-outbound-access)
 - [Microsoft — Explore free Azure services](https://azure.microsoft.com/en-gb/pricing/free-services)
-- [MITRE ATT&CK — T1599](https://attack.mitre.org/techniques/T1599/), [T1046](https://attack.mitre.org/techniques/T1046/), [T1021](https://attack.mitre.org/techniques/T1021/)
+- [Microsoft — NSG flow logs overview (retirement; VNet flow logs replacement)](https://learn.microsoft.com/en-us/azure/network-watcher/nsg-flow-logs-overview)
+- [MITRE ATT&CK — T1578](https://attack.mitre.org/techniques/T1578/), [T1599](https://attack.mitre.org/techniques/T1599/), [T1046](https://attack.mitre.org/techniques/T1046/), [T1021](https://attack.mitre.org/techniques/T1021/)
 
 Verified: 2026-10-25

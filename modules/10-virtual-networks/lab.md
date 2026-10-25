@@ -256,7 +256,7 @@ az network vnet peering list -g rg-lab10 --vnet-name lab10-vnet1 --query "[].{na
 2. B could reach A and C, but A and C couldn't reach each other. Why might a security architect *want* peering to be non-transitive?
 3. You expanded a subnet with a VM running in it. What would have blocked the expansion if `lab10-b` had used `10.10.0.0/24`?
 4. Map today's build to your OPNsense lab: which pieces had a direct equivalent, and which (broadcast, VRRP, your DHCP server) don't exist here?
-5. Write a plain-English detection for an attacker adding a peering to a network they control (T1599).
+5. Write a plain-English detection for an attacker adding a peering to a network they control (T1578).
 
 ## Cleanup
 
