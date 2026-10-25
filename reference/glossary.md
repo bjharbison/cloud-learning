@@ -20,7 +20,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Azure Policy** — Azure's guardrail service: rules about what resources may exist or how they must be configured, assigned at management group, subscription, or resource group scope and inherited downward. (Module 03)
 
+**Block, file, and object storage** — Block: a raw virtual disk attached to a VM (Persistent Disk/Hyperdisk, EBS, Managed Disks). File: a shared NFS/SMB filesystem (Filestore, EFS, Azure Files). Object: whole files with metadata in buckets, reached over an HTTPS API (Cloud Storage, S3, Blob Storage). (Module 08)
+
 **Break-glass account** — An emergency admin identity kept locked away, used only when normal admin access fails, and alerted on whenever it signs in. (Module 00)
+
+**Bucket Lock (Google Cloud)** — Locking a bucket's retention policy so it can be lengthened but never shortened or removed — irreversible. Objects can't be deleted until they age past the period, and the bucket can't be deleted until all objects do. AWS analog: S3 Object Lock compliance mode; Azure: a locked immutability policy. (Module 08)
 
 **Budget (cloud billing)** — A spending threshold that sends alerts as actual or forecasted cost crosses percentages you set. On all three clouds, budgets notify; they don't stop resources. (Module 00)
 
@@ -98,6 +102,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Least privilege** — Give each identity only the permissions it needs, for only as long as it needs them. The cloud version of need-to-know.
 
+**Lifecycle rule** — An automated policy that changes an object's storage class or deletes it based on conditions such as age or number of newer versions. Google Object Lifecycle Management, S3 Lifecycle, Azure lifecycle management. (Module 08)
+
 **Machine type / instance type / VM size** — The vCPU and memory shape of a VM. Google machine types (e.g., `e2-micro`), AWS instance types (`t3.micro`), Azure sizes (`Standard_B1s`). Shared-core/burstable types are what free tiers offer. (Module 05)
 
 **Managed instance group (MIG, Google Cloud)** — A group of identical VMs created from an instance template that Google keeps at a target size, autoheals, updates in rolling fashion, and autoscales. A regional MIG spreads VMs across zones. AWS: Auto Scaling group; Azure: Virtual Machine Scale Set. (Module 05)
@@ -105,6 +111,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Management group (Azure)** — A container above subscriptions for applying Azure RBAC and Azure Policy at scale; up to six levels deep under the tenant root group. (Module 03)
 
 **Metadata server / IMDS** — A link-local endpoint (169.254.169.254) inside every cloud VM that serves configuration and the VM identity's short-lived credentials. A prime target for SSRF and credential theft (ATT&CK T1552.005). (Module 05)
+
+**Minimum storage duration** — The shortest time you're billed for in a colder storage class; deleting or moving an object earlier incurs an early-deletion charge for the remainder (e.g., Google Nearline 30 days, Coldline 90, Archive 365). (Module 08)
 
 **Multi-tenancy** — Many customers' workloads sharing the same physical infrastructure, kept apart by the hypervisor and hardware. NIST calls it resource pooling. (Module 01)
 
@@ -115,6 +123,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **NIST SP 800-145** — The U.S. government's definition of cloud computing: five essential characteristics (on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service), three service models, four deployment models. Citing it signals fluency with government customers. (Module 01)
 
 **Nitro System (AWS)** — AWS's virtualization platform: Nitro Cards (networking, storage, management offload), the Nitro Security Chip, and the minimal Nitro Hypervisor. (Module 01)
+
+**Object Lock (AWS S3)** — S3's WORM feature for object versions: governance mode (users with `s3:BypassGovernanceRetention` can override) or compliance mode (no one, including root, can delete before the retain-until date), plus open-ended legal holds. Requires versioning. (Module 08)
+
+**Object versioning** — Keeping prior copies of an object when it's overwritten or deleted; the current copy is live, older ones noncurrent. Off by default on Google, AWS, and Azure; every version is billed. (Module 08)
 
 **Offload card / processor** — Dedicated hardware that handles networking, storage, encryption, and management off the host CPU, keeping provider control software out of tenant reach. Google Titanium Offload Processors, AWS Nitro Cards, Azure Boost. (Module 01)
 
@@ -136,6 +148,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Programmatic budget notification (Google Cloud)** — Budget status that Cloud Billing publishes to a Pub/Sub topic several times a day, so code can react to spend. The building block for any automated cost response on Google Cloud. (Module 04)
 
+**Public access prevention (Google Cloud)** — A bucket setting (or the `storage.publicAccessPrevention` org policy) that makes grants to `allUsers`/`allAuthenticatedUsers` fail and overrides any that already exist. AWS analog: S3 Block Public Access; Azure: `AllowBlobPublicAccess = false`. (Module 08)
+
 **Quota** — A provider-enforced cap on how much of a resource a project/account/subscription can use (e.g., vCPUs per region). Distinct from a budget, which only measures spend. Also limits an attacker's blast radius. Google calls fixed caps "system limits." (Module 04)
 
 **RBAC (Kubernetes)** — Kubernetes' authorization model: Roles/ClusterRoles list allowed verbs on resources; RoleBindings/ClusterRoleBindings grant them to users, groups, or ServiceAccounts. Separate from, and layered under, cloud IAM. (Module 06)
@@ -155,6 +169,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **RPO (Recovery Point Objective)** — The maximum acceptable amount of data loss, measured in time ("we can lose at most 15 minutes of work"). (Module 02)
 
 **RTO (Recovery Time Objective)** — The maximum acceptable time a system can be offline after an incident. (Module 02)
+
+**S3 Block Public Access** — Four account- and bucket-level settings that block public ACLs and public bucket policies. On by default for new buckets since April 2023, together with ACLs disabled. (Module 08)
+
+**SAS token (Azure)** — Shared access signature: a URL-embedded token granting scoped access to storage. A bearer credential — whoever has the URL has the access; account-key-signed SAS can be very broad. Microsoft recommends lifetimes of one hour or less. Google analog: signed URL; AWS: presigned URL. (Module 08)
 
 **Savings Plan (AWS)** — A one- or three-year commitment to a dollar-per-hour amount of usage in exchange for discounts; Compute Savings Plans apply across EC2 families, Regions, Fargate, and Lambda. (Module 04)
 
@@ -182,16 +200,25 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **SLA (Service Level Agreement)** — A provider's contractual uptime commitment; if missed, you can claim a service credit. A refund policy, not an availability guarantee. (Module 02)
 
+**Soft delete** — A recovery window during which deleted data can be restored. On by default for Google Cloud Storage (7 days, configurable 7–90 or off; billed while retained); Azure offers blob and container soft delete; S3 relies on versioning instead. (Module 08)
+
 **Spot capacity** — Spare provider capacity sold at a deep discount that the provider can reclaim on short notice: Google Spot VMs, AWS Spot Instances, Azure Spot VMs. Good for fault-tolerant batch work; bad for anything that must stay up. (Module 04)
 
 **Standalone organization (Google Cloud)** — A Google Cloud organization created automatically, without a domain, for new Free Trial customers when they accept the console terms. Not available to existing accounts. (Module 03)
 
+**Storage class / access tier** — The price/access profile of stored objects: hot (Google Standard, S3 Standard, Azure Hot) through infrequent and cold to archive. Colder tiers cost less to store and more to read. (Module 08)
+
 **Sustained use discount (Google Cloud)** — An automatic discount on eligible Compute Engine machine series that grows as a resource runs more of the month (after 25%), up to 30% net for a full month. No equivalent on AWS or Azure. (Module 04)
 
 **Titanium (Google Cloud)** — Google's hardware security architecture: Titan root-of-trust chips, Caliptra, Titanium Offload Processors, and related components that verify boot integrity and offload I/O and encryption. (Module 01)
+
+**Uniform bucket-level access (UBLA, Google Cloud)** — Disables object ACLs so access to a bucket is controlled only by IAM. Required for IAM Conditions on buckets; can be turned off only within 90 days of enabling. Enforced by default org policy on organizations created since 2024. (Module 08)
 
 **VM escape** — Code inside a virtual machine breaking out to the hypervisor or host. Rare in public reporting and the provider's responsibility to prevent; container escape (ATT&CK T1611) is the customer-side analog. (Module 01)
 
 **VPC (Virtual Private Cloud)** — A private, software-defined network inside a cloud provider, where you define IP ranges, subnets, routes, and firewall rules. Closest homelab analogy: your OPNsense-managed VLANs — but defined entirely by API. (Module 10)
 
 **Workload identity** — Giving a workload (pod, function, VM) short-lived cloud credentials based on its own identity instead of a stored key. In Kubernetes: GKE Workload Identity Federation, EKS Pod Identity/IRSA, Microsoft Entra Workload ID. (Module 06; deep dive in 15)
+
+
+**WORM (write once, read many)** — Storage that can be read but not modified or deleted until a retention date. Used for records compliance and ransomware resilience: Google retention policies/Bucket Lock, S3 Object Lock, Azure immutable storage. (Module 08)

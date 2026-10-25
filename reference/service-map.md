@@ -9,7 +9,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Grouping | Folder (10 levels) | Organizational Unit (OU, 5 levels) | Management group (6 levels) | Azure resource groups sit *inside* subscriptions; see row below. Module 03 |
 | Virtual machines | Compute Engine | Amazon EC2 | Azure Virtual Machines | Module 05 |
 | Managed Kubernetes | Google Kubernetes Engine (GKE) | Amazon EKS | Azure Kubernetes Service (AKS) | Kubernetes originated at Google. Module 06 |
-| Object storage | Cloud Storage | Amazon S3 | Azure Blob Storage | |
+| Object storage | Cloud Storage | Amazon S3 | Azure Blob Storage | Azure adds a storage-account layer (keys, network settings) above containers. Module 08 |
 | Virtual network | VPC network | Amazon VPC | Azure Virtual Network (VNet) | GCP VPCs are global; AWS VPCs and Azure VNets are regional |
 | Key management | Cloud KMS | AWS KMS | Azure Key Vault | |
 | Identity & access | Cloud IAM | AWS IAM | Azure RBAC + Microsoft Entra ID | |
@@ -53,5 +53,13 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Run-to-completion containers | Cloud Run jobs | ECS tasks / AWS Batch | Container Apps jobs | Module 07 |
 | Serverless invocation auth | Invoker IAM check (on by default; `roles/run.invoker`) | Function URL `AuthType` `AWS_IAM` / `NONE` | Ingress external/internal + built-in authentication | Cloud Run is private by default. Module 07 |
 | Serverless runtime identity | Service account (default: Compute default SA) | Execution role | Managed identity | Module 07 |
+| Block storage | Persistent Disk / Hyperdisk / Local SSD | Amazon EBS | Azure Managed Disks | Local SSD data is lost when the VM stops. Modules 05, 08 |
+| Managed file storage | Filestore (NFS) | Amazon EFS (NFS); FSx family | Azure Files (SMB/NFS) | Module 08 |
+| Coldest storage class | Archive (online, ms reads, 365-day min) | S3 Glacier Deep Archive (restore first, 180-day min) | Archive tier (offline, rehydrate up to 15 h, 180-day min) | Google's archive class stays online. Module 08 |
+| Automatic storage tiering | Autoclass | S3 Intelligent-Tiering | Lifecycle management (+ smart tier ⚠️ unverified) | Module 08 |
+| Recover deleted objects | Soft delete (on by default, 7 days) + Object Versioning | S3 Versioning (delete markers) | Blob/container soft delete + blob versioning | Module 08 |
+| WORM / immutability | Retention policy + Bucket Lock; Object Retention Lock | S3 Object Lock (governance/compliance) + legal hold | Immutable storage (unlocked/locked) + legal hold | Locking is irreversible on all three. Module 08 |
+| Block public object access | Uniform bucket-level access + public access prevention | S3 Block Public Access + ACLs disabled (defaults since Apr 2023) | `AllowBlobPublicAccess = false` | Module 08 |
+| Bearer URL to an object | Signed URL | Presigned URL | SAS token | Treat as secrets; keep short-lived. Module 08 |
 
-*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24.*
+*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25.*
