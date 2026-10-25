@@ -10,7 +10,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Virtual machines | Compute Engine | Amazon EC2 | Azure Virtual Machines | Module 05 |
 | Managed Kubernetes | Google Kubernetes Engine (GKE) | Amazon EKS | Azure Kubernetes Service (AKS) | Kubernetes originated at Google. Module 06 |
 | Object storage | Cloud Storage | Amazon S3 | Azure Blob Storage | Azure adds a storage-account layer (keys, network settings) above containers. Module 08 |
-| Virtual network | VPC network | Amazon VPC | Azure Virtual Network (VNet) | GCP VPCs are global; AWS VPCs and Azure VNets are regional |
+| Virtual network | VPC network | Amazon VPC | Azure Virtual Network (VNet) | GCP VPCs are global; AWS VPCs and Azure VNets are regional. Module 10 |
 | Key management | Cloud KMS | AWS KMS | Azure Key Vault | |
 | Identity & access | Cloud IAM | AWS IAM | Azure RBAC + Microsoft Entra ID | |
 | Audit logging | Cloud Audit Logs | AWS CloudTrail | Azure Activity Log | Module 18 |
@@ -69,5 +69,13 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | In-memory cache | Memorystore (Valkey, Redis, Memcached) | ElastiCache ⚠️ | Azure Cache for Redis ⚠️ | Module 09 |
 | Data warehouse | BigQuery (serverless; per-TiB or slots) | Amazon Redshift (provisioned / Serverless); Athena for SQL on S3 | Synapse dedicated SQL pools; Fabric Data Warehouse | Module 09 |
 | Security data lake | BigQuery / Observability Analytics via aggregated log sinks | Amazon Security Lake (S3 + OCSF) | Microsoft Sentinel data lake | Module 09; SIEMs in 22 |
+| Subnet scope | Regional | One Availability Zone | Regional (spans zones) | Reserved IPs per subnet: Google 4, AWS 5, Azure 5. Module 10 |
+| Default network | `default` auto-mode VPC (permissive rules) | Default VPC per region (public subnets) | None | Block with `compute.skipDefaultNetworkCreation`. Module 10 |
+| Central multi-team network | Shared VPC (host + service projects) | VPC sharing (AWS RAM, same Organization) | Hub-and-spoke VNets | Module 10 |
+| Network peering | VPC Network Peering | VPC peering | VNet peering (incl. global) | Non-transitive on all three. Module 10 |
+| Network hub | Network Connectivity Center | Transit Gateway / Cloud WAN | Virtual WAN | Module 10; hybrid in 13 |
+| Custom routes | Static routes (optionally by network tag) | Route tables | User-defined routes (UDRs) | Module 10 |
+| Dynamic routing (BGP) | Cloud Router | Transit Gateway / virtual private gateway propagation | VPN/ExpressRoute gateways; Route Server ⚠️ | Module 13 |
+| Outbound internet for private VMs | Cloud NAT | NAT gateway (hourly + per GB) | NAT Gateway (new VNets private by default after Mar 31, 2026 API versions) | Module 10–11 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25.*

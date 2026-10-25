@@ -10,6 +10,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Authorized view (BigQuery)** — A view granted read access to a source dataset so its users can query a curated slice (selected columns or rows) without any access to the underlying data. (Module 09)
 
+**Auto mode / custom mode VPC (Google Cloud)** — Auto mode creates one subnet per region from predefined ranges in `10.128.0.0/9`; custom mode starts with no subnets and you choose regions and ranges. Auto can convert to custom, not back. Google recommends custom mode for production. (Module 10)
+
 **Autoscaling** — Automatically adding or removing VMs (or containers) based on a signal such as CPU, load-balancer capacity, a custom metric, or a schedule, within a minimum and maximum you set. The maximum is a cost and blast-radius control. (Module 05)
 
 **AWS GovCloud (US)** — Isolated AWS Regions (US-East and US-West) for sensitive U.S. government workloads, administered by U.S. citizens per AWS. (Module 02; deep dive in 27)
@@ -36,7 +38,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Budget action (AWS)** — An AWS Budgets feature that responds to a threshold automatically or after approval: apply an IAM policy or SCP, or stop specific EC2/RDS instances. The closest thing to a native cost brake on the three clouds — still not a hard cap. (Module 04)
 
+**CIDR (Classless Inter-Domain Routing)** — Notation for an IP range as address plus prefix length (`10.10.0.0/16`). Cloud network planning is mostly CIDR planning: non-overlapping ranges for everything that might ever connect. (Module 10)
+
 **Cloud Identity** — Google's identity service for organizations, without Workspace email. Its free edition needs a domain you own and verify; it gives you a Google Cloud organization node. (Module 03)
+
+**Cloud Router (Google Cloud)** — Google's managed BGP speaker that exchanges dynamic routes between a VPC and on-prem or other networks over VPN or Interconnect. (Module 10; deep dive in 13)
 
 **Cloud Run (Google Cloud)** — Google's serverless platform for containers: services (HTTPS endpoints that autoscale, including to zero), jobs (run to completion), and functions (built from source). Invocation requires IAM by default. (Module 07)
 
@@ -63,6 +69,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Data warehouse** — A database built for analytical (OLAP) queries over large history rather than transactions. BigQuery, Amazon Redshift, Azure Synapse dedicated SQL pools / Fabric Data Warehouse. (Module 09)
 
 **Dataplane V2 (GKE)** — GKE's eBPF-based networking layer, which always enforces Kubernetes NetworkPolicy and offers network policy logging; enabled by default on new Autopilot clusters. (Module 06)
+
+**Default network (Google Cloud)** — The auto-mode VPC named `default` created in new projects unless org policy (`compute.skipDefaultNetworkCreation`) prevents it, with pre-populated rules including SSH and RDP from `0.0.0.0/0`. Don't use it. AWS analog: the default VPC with public subnets. (Module 10)
 
 **Deployment (Kubernetes)** — An object declaring how many identical pods to run and how to roll out changes; a controller keeps reality matching it. Docker analog: `restart: always` plus "run N copies." (Module 06)
 
@@ -102,6 +110,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Instance template (Google Cloud)** — A reusable blueprint (machine type, image, disk, network, identity, labels) for creating VMs, especially in managed instance groups. AWS: launch template; Azure: scale set model. (Module 05)
 
+**Internet gateway (AWS)** — The VPC component that connects a VPC to the internet; a subnet is "public" when its route table sends `0.0.0.0/0` to one. Private subnets use a NAT gateway for outbound access instead. (Module 10)
+
 **Invoker IAM check (Cloud Run)** — Cloud Run's default requirement that callers present a Google-signed ID token for an identity holding `run.routes.invoke` (e.g., `roles/run.invoker`). Disabling it, or granting `allUsers`, makes a service public. (Module 07)
 
 **kubelet** — The Kubernetes agent on every node that starts containers and reports status. An exposed kubelet API with anonymous access is a well-known initial-access path (e.g., Hildegard malware). (Module 06)
@@ -128,6 +138,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Namespace (Kubernetes)** — A named scope inside a cluster for objects, RBAC permissions, quotas, and Pod Security labels. Roughly a Compose project; not a hard security boundary by itself. (Module 06)
 
+**Network Connectivity Center (Google Cloud)** — A hub-and-spoke service for connecting many VPC networks (VPC spokes) and on-prem/hybrid connections through a global hub. AWS analog: Transit Gateway; Azure: Virtual WAN. (Module 10)
+
 **NetworkPolicy (Kubernetes)** — A label-based rule restricting which pods can talk to which. Pods are allow-all by default; a policy only works if the CNI enforces it. (Module 06)
 
 **NIST SP 800-145** — The U.S. government's definition of cloud computing: five essential characteristics (on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service), three service models, four deployment models. Citing it signals fluency with government customers. (Module 01)
@@ -153,6 +165,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **OS Login (Google Cloud)** — Ties Linux accounts on Compute Engine VMs to Google identities and IAM roles (`roles/compute.osLogin`, `roles/compute.osAdminLogin`) instead of static SSH keys in metadata, so access is revoked centrally. Enabled with metadata `enable-oslogin=TRUE`. (Module 05)
 
 **Partitioning (BigQuery)** — Dividing a table into segments, usually by date, so queries filtering on that column scan only matching partitions. The main lever on query cost for log tables. (Module 09)
+
+**Peering (VPC / VNet)** — A private connection that exchanges routes between two networks. Non-transitive on Google, AWS, and Azure; ranges can't overlap; on Google, firewall rules aren't shared across it. (Module 10)
 
 **Permission set (AWS)** — A reusable bundle of permissions in IAM Identity Center that you assign to a user or group for a specific AWS account. (Module 00)
 
@@ -184,6 +198,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Root user (AWS)** — The identity created with an AWS account, with unrestricted access including billing and account closure. AWS requires MFA on it; best practice is no access keys and rare use. Google Cloud has no direct equivalent. (Module 00)
 
+**Route table** — The set of rules deciding where a network sends traffic by destination: subnet/local routes (automatic), a default route, static/user-defined routes, dynamic (BGP) routes, and peering routes. (Module 10)
+
 **RPO (Recovery Point Objective)** — The maximum acceptable amount of data loss, measured in time ("we can lose at most 15 minutes of work"). (Module 02)
 
 **RTO (Recovery Time Objective)** — The maximum acceptable time a system can be offline after an incident. (Module 02)
@@ -212,6 +228,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Shared responsibility model** — The provider secures the cloud itself (facilities, hardware, hypervisor); the customer secures what they put in it. Identity, access control, firewall rules, network configuration, and data are always the customer's job. (Module 01)
 
+**Shared VPC (Google Cloud)** — A host project owns a VPC network and shares its subnets with service projects in the same organization, whose admins get `compute.networkUser` to deploy into them. Central network control, per-project billing. AWS analog: VPC sharing via AWS RAM. (Module 10)
+
 **Shielded VM / Trusted Launch** — Boot-integrity protections for VMs: Secure Boot (signed boot components only), a virtual TPM, and integrity monitoring. Google calls it Shielded VM; Azure calls it Trusted Launch. (Modules 01, 05)
 
 **Showback / chargeback** — Showback reports each team's share of cloud cost to them; chargeback actually bills their budget for it. Both depend on consistent labels/tags. (Module 04)
@@ -232,14 +250,23 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Storage class / access tier** — The price/access profile of stored objects: hot (Google Standard, S3 Standard, Azure Hot) through infrequent and cold to archive. Colder tiers cost less to store and more to read. (Module 08)
 
+**Subnet** — A range of a virtual network's address space. Regional on Google and Azure (Azure subnets span zones); tied to one Availability Zone on AWS. Providers reserve addresses in each (Google 4, AWS and Azure 5). (Module 10)
+
 **Sustained use discount (Google Cloud)** — An automatic discount on eligible Compute Engine machine series that grows as a resource runs more of the month (after 25%), up to 30% net for a full month. No equivalent on AWS or Azure. (Module 04)
 
 **Titanium (Google Cloud)** — Google's hardware security architecture: Titan root-of-trust chips, Caliptra, Titanium Offload Processors, and related components that verify boot integrity and offload I/O and encryption. (Module 01)
 
+**Transit Gateway (AWS)** — AWS's regional network hub for connecting many VPCs and on-prem networks, avoiding a full mesh of non-transitive peerings. (Module 10)
+
 **Uniform bucket-level access (UBLA, Google Cloud)** — Disables object ACLs so access to a bucket is controlled only by IAM. Required for IAM Conditions on buckets; can be turned off only within 90 days of enabling. Enforced by default org policy on organizations created since 2024. (Module 08)
 
+**Virtual WAN (Azure)** — Azure's managed hub-and-spoke networking service for connecting VNets, branches, and remote users, integrated with Azure Firewall. (Module 10)
+
 **VM escape** — Code inside a virtual machine breaking out to the hypervisor or host. Rare in public reporting and the provider's responsibility to prevent; container escape (ATT&CK T1611) is the customer-side analog. (Module 01)
+
+**VNet (Azure Virtual Network)** — Azure's private network, scoped to one region, with subnets that span the region's availability zones. For API versions after March 31, 2026, new VNets' subnets are private (no implicit outbound internet) by default. (Module 10)
 
 **VPC (Virtual Private Cloud)** — A private, software-defined network inside a cloud provider, where you define IP ranges, subnets, routes, and firewall rules. Closest homelab analogy: your OPNsense-managed VLANs — but defined entirely by API. (Module 10)
 
 **Workload identity** — Giving a workload (pod, function, VM) short-lived cloud credentials based on its own identity instead of a stored key. In Kubernetes: GKE Workload Identity Federation, EKS Pod Identity/IRSA, Microsoft Entra Workload ID. (Module 06; deep dive in 15)
+
