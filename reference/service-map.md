@@ -77,5 +77,12 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Custom routes | Static routes (optionally by network tag) | Route tables | User-defined routes (UDRs) | Module 10 |
 | Dynamic routing (BGP) | Cloud Router | Transit Gateway / virtual private gateway propagation | VPN/ExpressRoute gateways; Route Server ⚠️ | Module 13 |
 | Outbound internet for private VMs | Cloud NAT | NAT gateway (hourly + per GB) | NAT Gateway (new VNets private by default after Mar 31, 2026 API versions) | Module 10–11 |
+| Per-workload stateful rules | VPC firewall rules / network firewall policies (target by SA or secure tag) | Security groups (allow-only) | NSGs + application security groups | Module 11 |
+| Subnet-level stateless rules | — | Network ACLs | — (NSGs are stateful) | Module 11 |
+| Org-level network rules | Hierarchical firewall policies (org/folder) | AWS Firewall Manager ⚠️ | Virtual Network Manager security admin rules | Lower levels can't override Google's hierarchical rules. Module 11 |
+| L7 firewall / IPS | Cloud NGFW Enterprise | AWS Network Firewall | Azure Firewall (Premium ⚠️) | Module 11 |
+| Private access to provider APIs (free) | Private Google Access | Gateway endpoints (S3, DynamoDB) | Service endpoints | Module 11 |
+| Private endpoint to a specific service | Private Service Connect | Interface endpoints (PrivateLink) | Private Endpoint (Private Link) | Turn off the public path afterward. Module 11 |
+| API-level exfiltration boundary | VPC Service Controls | Data perimeter pattern (SCP/RCP + endpoint/resource policies) | Private Endpoints + network security perimeter | Module 11 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25.*

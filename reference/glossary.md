@@ -2,9 +2,13 @@
 
 Plain-language definition first, then how practitioners use the term. Alphabetical. Modules append as they're built.
 
+**Access level (Access Context Manager)** — A named condition (source IP ranges, device attributes, geography) that VPC Service Controls perimeters can use to admit requests from outside. (Module 11)
+
 **Admission controller (Kubernetes)** — Code in the API server that inspects create/update requests after authentication and can reject or modify them before they're stored. Pod Security Admission, OPA Gatekeeper, Kyverno, and Binary Authorization work here. (Module 06)
 
 **Antideficiency Act** — U.S. law (31 U.S.C. § 1341 and related sections) barring federal employees from obligating or spending more than an appropriation provides, or before funds are appropriated. Why elastic, bill-after-use cloud spend worries government comptrollers. (Module 04)
+
+**Application security group (ASG, Azure)** — A label grouping VMs by role so NSG rules can reference "web" or "db" instead of IP addresses. AWS analog: referencing another security group. (Module 11)
 
 **Assured Workloads (Google Cloud)** — A service that applies compliance control packages (data residency, personnel access, service restrictions) to folders, used for FedRAMP, DoD IL, CJIS, ITAR and similar needs on Google's commercial infrastructure. (Module 02; deep dive in 27)
 
@@ -42,6 +46,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cloud Identity** — Google's identity service for organizations, without Workspace email. Its free edition needs a domain you own and verify; it gives you a Google Cloud organization node. (Module 03)
 
+**Cloud NGFW (Google Cloud)** — Google's firewall family: VPC firewall rules and network/hierarchical firewall policies. Tiers: Essentials (free IP/port rules), Standard (FQDN, geolocation, threat-intel matching), Enterprise (intrusion prevention, URL filtering). (Module 11)
+
 **Cloud Router (Google Cloud)** — Google's managed BGP speaker that exchanges dynamic routes between a VPC and on-prem or other networks over VPN or Interconnect. (Module 10; deep dive in 13)
 
 **Cloud Run (Google Cloud)** — Google's serverless platform for containers: services (HTTPS endpoints that autoscale, including to zero), jobs (run to completion), and functions (built from source). Invocation requires IAM by default. (Module 07)
@@ -66,6 +72,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cost allocation tag (AWS)** — A resource tag that AWS Billing uses to group costs. User-defined tags must be activated in the Billing console before they appear in cost reports. (Module 04)
 
+**Data perimeter (AWS)** — AWS's pattern for ensuring only trusted identities access trusted resources from expected networks, built from SCPs, RCPs, resource policies, and VPC endpoint policies with conditions like `aws:PrincipalOrgID`, `aws:ResourceOrgID`, `aws:SourceVpce`. (Module 11)
+
 **Data warehouse** — A database built for analytical (OLAP) queries over large history rather than transactions. BigQuery, Amazon Redshift, Azure Synapse dedicated SQL pools / Fabric Data Warehouse. (Module 09)
 
 **Dataplane V2 (GKE)** — GKE's eBPF-based networking layer, which always enforces Kubernetes NetworkPolicy and offers network policy logging; enabled by default on new Autopilot clusters. (Module 06)
@@ -75,6 +83,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Deployment (Kubernetes)** — An object declaring how many identical pods to run and how to roll out changes; a controller keeps reality matching it. Docker analog: `restart: always` plus "run N copies." (Module 06)
 
 **Edge location** — A small provider site near users, used for caching (CDN), DNS, and traffic entry rather than general compute. AWS also offers Local Zones (metro compute) and Wavelength Zones (inside 5G networks). (Module 02)
+
+**Egress control** — Restricting outbound traffic from workloads (no public IPs, central NAT, deny-by-default egress, FQDN filtering, API perimeters). Allow-all egress is the default on Google, AWS, and Azure. (Module 11)
 
 **etcd** — The key-value database where Kubernetes stores all cluster state, including Secrets. Managed services run it for you; whoever can read it can read everything. (Module 06)
 
@@ -90,11 +100,15 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Function URL (AWS Lambda)** — A dedicated HTTPS endpoint for a Lambda function. Auth type `AWS_IAM` requires signed, IAM-authorized requests; `NONE` is public but still needs a resource-based policy. (Module 07)
 
+**Gateway endpoint (AWS)** — A free VPC endpoint for S3 or DynamoDB implemented as a route-table prefix-list route; not PrivateLink and not reachable from on-prem. (Module 11)
+
 **GKE Autopilot** — GKE mode where Google manages nodes, scaling, and hardened defaults, and general-purpose pods are billed by their resource requests. Google recommends it for most workloads; the alternative is Standard mode with self-managed node pools. (Module 06)
 
 **Golden image** — A hardened, patched custom VM image used as the standard base for a fleet. Software supply chain: whatever is baked in ships to every VM (ATT&CK T1525 targets this). (Module 05)
 
 **Hardware root of trust** — A chip that verifies a server's firmware before the main CPU runs anything, so tampered hardware won't boot. Google: Titan (and Caliptra); AWS: Nitro Controller + Nitro Security Chip; Azure: Cerberus. (Module 01)
+
+**Hierarchical firewall policy (Google Cloud)** — Firewall rules attached to the organization or folders, evaluated before project-level rules; lower levels can't override them, only receive traffic delegated with `goto_next`. (Module 11)
 
 **Hypervisor** — Software that runs multiple isolated virtual machines on one physical server. Type 1 runs on bare metal (KVM, Hyper-V, Nitro Hypervisor); Type 2 runs as an app on a normal OS. (Module 01)
 
@@ -109,6 +123,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Ingress setting (Cloud Run)** — Network-level control over where requests may come from: `all`, `internal` (VPC and certain Google sources), or `internal-and-cloud-load-balancing`. Layers with, and doesn't replace, IAM invoker checks. (Module 07)
 
 **Instance template (Google Cloud)** — A reusable blueprint (machine type, image, disk, network, identity, labels) for creating VMs, especially in managed instance groups. AWS: launch template; Azure: scale set model. (Module 05)
+
+**Interface endpoint (AWS PrivateLink)** — Elastic network interfaces with private IPs giving private access to many AWS and partner services; billed hourly and per GB. (Module 11)
 
 **Internet gateway (AWS)** — The VPC component that connects a VPC to the internet; a subnet is "public" when its route table sends `0.0.0.0/0` to one. Private subnets use a NAT gateway for outbound access instead. (Module 10)
 
@@ -138,7 +154,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Namespace (Kubernetes)** — A named scope inside a cluster for objects, RBAC permissions, quotas, and Pod Security labels. Roughly a Compose project; not a hard security boundary by itself. (Module 06)
 
+**Network ACL (NACL, AWS)** — A stateless, subnet-level list of numbered allow/deny rules evaluated in order. A secondary guardrail behind security groups. (Module 11)
+
 **Network Connectivity Center (Google Cloud)** — A hub-and-spoke service for connecting many VPC networks (VPC spokes) and on-prem/hybrid connections through a global hub. AWS analog: Transit Gateway; Azure: Virtual WAN. (Module 10)
+
+**Network security group (NSG, Azure)** — Azure's stateful allow/deny rule set (priorities 100–4096) on a subnet or NIC; default rules allow VNet traffic and outbound internet and deny other inbound. (Module 11)
 
 **NetworkPolicy (Kubernetes)** — A label-based rule restricting which pods can talk to which. Pods are allow-all by default; a policy only works if the CNI enforces it. (Module 06)
 
@@ -178,6 +198,14 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Point-in-time recovery (PITR)** — Restoring a database to any moment within a retention window. DynamoDB PITR is off until enabled (1–35 days); managed SQL services offer it with configurable retention. (Module 09)
 
+**Policy Denied audit logs (Google Cloud)** — Always-on audit logs recording requests blocked by security policies such as VPC Service Controls, including dry-run violations (`dryRun: true`). (Module 11)
+
+**Private Endpoint (Azure)** — A private IP in your VNet mapped to one specific PaaS resource via Azure Private Link; Microsoft's preferred private-access option. Disable the resource's public access afterward. (Module 11)
+
+**Private Google Access** — A per-subnet setting letting VMs without external IPs reach Google APIs, optionally via `private.googleapis.com` (199.36.153.8/30) or `restricted.googleapis.com` (199.36.153.4/30). (Module 11)
+
+**Private Service Connect (PSC, Google Cloud)** — Private endpoints using your own internal IPs to reach Google APIs or published services (Cloud SQL, partner, or your own) across VPC boundaries. (Module 11)
+
 **Programmatic budget notification (Google Cloud)** — Budget status that Cloud Billing publishes to a Pub/Sub topic several times a day, so code can react to spend. The building block for any automated cost response on Google Cloud. (Module 04)
 
 **Public access prevention (Google Cloud)** — A bucket setting (or the `storage.publicAccessPrevention` org policy) that makes grants to `allUsers`/`allAuthenticatedUsers` fail and overrides any that already exist. AWS analog: S3 Block Public Access; Azure: `AllowBlobPublicAccess = false`. (Module 08)
@@ -212,7 +240,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Scale to zero** — A serverless platform running no instances, and charging no compute on request-based billing, when there's no traffic. (Module 07)
 
+**Security admin rule (Azure Virtual Network Manager)** — A centrally managed rule applied to VNets and evaluated before NSGs, with Allow, Always allow, or Deny actions. (Module 11)
+
 **Security data lake** — Centralized, long-retention storage of security telemetry queried with SQL or analytics tools, cheaper than a SIEM's hot tier. BigQuery with aggregated log sinks, Amazon Security Lake, Microsoft Sentinel data lake. (Module 09)
+
+**Security group (AWS)** — A stateful, allow-only set of rules attached to an instance's network interface; can reference other security groups as sources. AWS's primary network control. (Module 11)
 
 **Serverless** — A model where the provider runs, scales, and patches the infrastructure for code or containers you supply, typically scaling to zero and billing per use. Security shifts to invocation permissions and the workload's identity. (Module 07)
 
@@ -268,5 +300,6 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **VPC (Virtual Private Cloud)** — A private, software-defined network inside a cloud provider, where you define IP ranges, subnets, routes, and firewall rules. Closest homelab analogy: your OPNsense-managed VLANs — but defined entirely by API. (Module 10)
 
-**Workload identity** — Giving a workload (pod, function, VM) short-lived cloud credentials based on its own identity instead of a stored key. In Kubernetes: GKE Workload Identity Federation, EKS Pod Identity/IRSA, Microsoft Entra Workload ID. (Module 06; deep dive in 15)
+**VPC Service Controls (Google Cloud)** — Service perimeters around projects that block access to restricted Google APIs from outside (even with valid credentials) and data movement to resources outside, with access levels, ingress/egress rules, and dry-run mode. Complements IAM. (Module 11)
 
+**Workload identity** — Giving a workload (pod, function, VM) short-lived cloud credentials based on its own identity instead of a stored key. In Kubernetes: GKE Workload Identity Federation, EKS Pod Identity/IRSA, Microsoft Entra Workload ID. (Module 06; deep dive in 15)
