@@ -61,5 +61,13 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | WORM / immutability | Retention policy + Bucket Lock; Object Retention Lock | S3 Object Lock (governance/compliance) + legal hold | Immutable storage (unlocked/locked) + legal hold | Locking is irreversible on all three. Module 08 |
 | Block public object access | Uniform bucket-level access + public access prevention | S3 Block Public Access + ACLs disabled (defaults since Apr 2023) | `AllowBlobPublicAccess = false` | Module 08 |
 | Bearer URL to an object | Signed URL | Presigned URL | SAS token | Treat as secrets; keep short-lived. Module 08 |
+| Managed relational (MySQL/PostgreSQL/SQL Server) | Cloud SQL | Amazon RDS | Azure Database for MySQL/PostgreSQL (flexible server); Azure SQL Database / SQL Managed Instance | Module 09 |
+| High-performance PostgreSQL-compatible | AlloyDB for PostgreSQL | Amazon Aurora | Azure Database for PostgreSQL ⚠️ closest match not verified | Module 09 |
+| Globally distributed relational | Spanner | Aurora DSQL ⚠️ unverified | Cosmos DB (multi-model) | Spanner offers up to 99.999% SLA. Module 09 |
+| Document database | Firestore | DynamoDB / DocumentDB ⚠️ | Azure Cosmos DB | Module 09 |
+| Wide-column NoSQL | Bigtable | DynamoDB; Keyspaces ⚠️ | Cosmos DB (Cassandra API) ⚠️ | Module 09 |
+| In-memory cache | Memorystore (Valkey, Redis, Memcached) | ElastiCache ⚠️ | Azure Cache for Redis ⚠️ | Module 09 |
+| Data warehouse | BigQuery (serverless; per-TiB or slots) | Amazon Redshift (provisioned / Serverless); Athena for SQL on S3 | Synapse dedicated SQL pools; Fabric Data Warehouse | Module 09 |
+| Security data lake | BigQuery / Observability Analytics via aggregated log sinks | Amazon Security Lake (S3 + OCSF) | Microsoft Sentinel data lake | Module 09; SIEMs in 22 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25.*

@@ -8,6 +8,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Assured Workloads (Google Cloud)** — A service that applies compliance control packages (data residency, personnel access, service restrictions) to folders, used for FedRAMP, DoD IL, CJIS, ITAR and similar needs on Google's commercial infrastructure. (Module 02; deep dive in 27)
 
+**Authorized view (BigQuery)** — A view granted read access to a source dataset so its users can query a curated slice (selected columns or rows) without any access to the underlying data. (Module 09)
+
 **Autoscaling** — Automatically adding or removing VMs (or containers) based on a signal such as CPU, load-balancer capacity, a custom metric, or a schedule, within a minimum and maximum you set. The maximum is a cost and blast-radius control. (Module 05)
 
 **AWS GovCloud (US)** — Isolated AWS Regions (US-East and US-West) for sensitive U.S. government workloads, administered by U.S. citizens per AWS. (Module 02; deep dive in 27)
@@ -19,6 +21,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Azure Government** — A physically isolated instance of Azure for eligible U.S. government customers. (Module 02; deep dive in 27)
 
 **Azure Policy** — Azure's guardrail service: rules about what resources may exist or how they must be configured, assigned at management group, subscription, or resource group scope and inherited downward. (Module 03)
+
+**BigQuery** — Google Cloud's serverless data warehouse: columnar storage separated from compute, billed by bytes scanned (on-demand; first 1 TiB/month free) or by slot capacity (editions). Data Access audit logs are always on. (Module 09)
+
+**BigQuery sandbox** — A way to use BigQuery with no billing account: 10 GiB lifetime storage, 1 TiB of queries per month, 60-day table expiration, no streaming or DML. (Module 09)
 
 **Block, file, and object storage** — Block: a raw virtual disk attached to a VM (Persistent Disk/Hyperdisk, EBS, Managed Disks). File: a shared NFS/SMB filesystem (Filestore, EFS, Azure Files). Object: whole files with metadata in buckets, reached over an HTTPS API (Cloud Storage, S3, Blob Storage). (Module 08)
 
@@ -42,6 +48,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cold start** — The extra latency when a serverless request arrives and a new instance must start first. Reduced with minimum instances, at the cost of paying for idle capacity. (Module 07)
 
+**Columnar storage** — Storing each column's values together, so analytical queries read only the columns they reference. Why `SELECT *` is expensive in a warehouse. (Module 09)
+
 **Committed use discount (CUD, Google Cloud)** — A discount for committing to use specific resources (resource-based) or to spend a minimum amount (spend-based) for one or three years. AWS analogs: Savings Plans and Reserved Instances; Azure: reservations and savings plan for compute. (Module 04)
 
 **Confidential VM** — A VM whose memory is encrypted by the CPU with keys the hypervisor can't read (AMD SEV/SEV-SNP, Intel TDX), with hardware attestation of its state. Protects data in use. Available on specific machine series on all three clouds. (Module 05)
@@ -51,6 +59,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Control plane / data plane** — The control plane is where you *manage* resources (create a VM, change a policy) — almost always API calls. The data plane is where the resource *does its work* (traffic through a VM, reads from a bucket). Logging and permissions often differ between the two.
 
 **Cost allocation tag (AWS)** — A resource tag that AWS Billing uses to group costs. User-defined tags must be activated in the Billing console before they appear in cost reports. (Module 04)
+
+**Data warehouse** — A database built for analytical (OLAP) queries over large history rather than transactions. BigQuery, Amazon Redshift, Azure Synapse dedicated SQL pools / Fabric Data Warehouse. (Module 09)
 
 **Dataplane V2 (GKE)** — GKE's eBPF-based networking layer, which always enforces Kubernetes NetworkPolicy and offers network policy logging; enabled by default on new Autopilot clusters. (Module 06)
 
@@ -128,7 +138,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Object versioning** — Keeping prior copies of an object when it's overwritten or deleted; the current copy is live, older ones noncurrent. Off by default on Google, AWS, and Azure; every version is billed. (Module 08)
 
+**OCSF (Open Cybersecurity Schema Framework)** — An open schema for normalizing security events from different sources; Amazon Security Lake stores data in OCSF. (Module 09)
+
 **Offload card / processor** — Dedicated hardware that handles networking, storage, encryption, and management off the host CPU, keeping provider control software out of tenant reach. Google Titanium Offload Processors, AWS Nitro Cards, Azure Boost. (Module 01)
+
+**OLTP / OLAP** — Online transaction processing (many small reads/writes with transactions, e.g., Cloud SQL) vs online analytical processing (few huge scans and aggregations, e.g., BigQuery). (Module 09)
 
 **Organization (Google Cloud)** — The root of a Google Cloud resource hierarchy, normally tied to a Cloud Identity or Workspace domain; new Free Trial sign-ups may get a domainless standalone organization. (Module 03)
 
@@ -138,6 +152,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **OS Login (Google Cloud)** — Ties Linux accounts on Compute Engine VMs to Google identities and IAM roles (`roles/compute.osLogin`, `roles/compute.osAdminLogin`) instead of static SSH keys in metadata, so access is revoked centrally. Enabled with metadata `enable-oslogin=TRUE`. (Module 05)
 
+**Partitioning (BigQuery)** — Dividing a table into segments, usually by date, so queries filtering on that column scan only matching partitions. The main lever on query cost for log tables. (Module 09)
+
 **Permission set (AWS)** — A reusable bundle of permissions in IAM Identity Center that you assign to a user or group for a specific AWS account. (Module 00)
 
 **Phishing-resistant MFA** — A second factor cryptographically bound to the real website (passkeys, FIDO2 security keys), so a fake login page can't capture and replay it. SMS codes and push approvals are not phishing-resistant. (Module 00)
@@ -145,6 +161,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Pod** — The smallest unit Kubernetes schedules: one or more containers sharing a network namespace and volumes. (Module 06)
 
 **Pod Security Admission** — Kubernetes' built-in admission controller (stable since v1.25) that enforces the Pod Security Standards — `privileged`, `baseline`, `restricted` — per namespace via labels, in `enforce`, `audit`, or `warn` mode. (Module 06)
+
+**Point-in-time recovery (PITR)** — Restoring a database to any moment within a retention window. DynamoDB PITR is off until enabled (1–35 days); managed SQL services offer it with configurable retention. (Module 09)
 
 **Programmatic budget notification (Google Cloud)** — Budget status that Cloud Billing publishes to a Pub/Sub topic several times a day, so code can react to spend. The building block for any automated cost response on Google Cloud. (Module 04)
 
@@ -178,6 +196,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Scale to zero** — A serverless platform running no instances, and charging no compute on request-based billing, when there's no traffic. (Module 07)
 
+**Security data lake** — Centralized, long-retention storage of security telemetry queried with SQL or analytics tools, cheaper than a SIEM's hot tier. BigQuery with aggregated log sinks, Amazon Security Lake, Microsoft Sentinel data lake. (Module 09)
+
 **Serverless** — A model where the provider runs, scales, and patches the infrastructure for code or containers you supply, typically scaling to zero and billing per use. Security shifts to invocation permissions and the workload's identity. (Module 07)
 
 **Service (Kubernetes)** — A stable virtual IP and DNS name in front of a changing set of pods, selected by labels. Type `LoadBalancer` creates a cloud load balancer — a public endpoint and a bill. (Module 06)
@@ -200,7 +220,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **SLA (Service Level Agreement)** — A provider's contractual uptime commitment; if missed, you can claim a service credit. A refund policy, not an availability guarantee. (Module 02)
 
+**Slot (BigQuery)** — A unit of BigQuery compute capacity. Editions (Standard, Enterprise, Enterprise Plus) bill by slot-hours instead of bytes scanned. (Module 09)
+
 **Soft delete** — A recovery window during which deleted data can be restored. On by default for Google Cloud Storage (7 days, configurable 7–90 or off; billed while retained); Azure offers blob and container soft delete; S3 relies on versioning instead. (Module 08)
+
+**Spanner (Google Cloud)** — Google's globally distributed relational database offering strong consistency, horizontal scale, and up to a 99.999% availability SLA. (Module 09)
 
 **Spot capacity** — Spare provider capacity sold at a deep discount that the provider can reclaim on short notice: Google Spot VMs, AWS Spot Instances, Azure Spot VMs. Good for fault-tolerant batch work; bad for anything that must stay up. (Module 04)
 
@@ -219,6 +243,3 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **VPC (Virtual Private Cloud)** — A private, software-defined network inside a cloud provider, where you define IP ranges, subnets, routes, and firewall rules. Closest homelab analogy: your OPNsense-managed VLANs — but defined entirely by API. (Module 10)
 
 **Workload identity** — Giving a workload (pod, function, VM) short-lived cloud credentials based on its own identity instead of a stored key. In Kubernetes: GKE Workload Identity Federation, EKS Pod Identity/IRSA, Microsoft Entra Workload ID. (Module 06; deep dive in 15)
-
-
-**WORM (write once, read many)** — Storage that can be read but not modified or deleted until a retention date. Used for records compliance and ransomware resilience: Google retention policies/Bucket Lock, S3 Object Lock, Azure immutable storage. (Module 08)

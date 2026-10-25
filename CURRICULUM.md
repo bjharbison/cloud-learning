@@ -49,7 +49,7 @@ Modules are built in numbered order, in batches of four or five by scheduled run
 | 06 | Containers and Kubernetes: GKE, EKS, AKS | `modules/06-containers-kubernetes` | 🟦 |
 | 07 | Serverless: Cloud Run / Cloud Run functions, Lambda, Azure Functions & Container Apps | `modules/07-serverless` | 🟦 |
 | 08 | Storage: object, block, file; lifecycle, versioning, data protection | `modules/08-storage` | 🟦 |
-| 09 | Databases and analytics: managed SQL/NoSQL, data warehouses (BigQuery, Redshift, Azure equivalents) | `modules/09-databases-analytics` | ⬜ |
+| 09 | Databases and analytics: managed SQL/NoSQL, data warehouses (BigQuery, Redshift, Azure equivalents) | `modules/09-databases-analytics` | 🟦 |
 
 ## Phase 3 — Networking
 
