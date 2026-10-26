@@ -8,6 +8,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Antideficiency Act** — U.S. law (31 U.S.C. § 1341 and related sections) barring federal employees from obligating or spending more than an appropriation provides, or before funds are appropriated. Why elastic, bill-after-use cloud spend worries government comptrollers. (Module 04)
 
+**Anycast** — One IP address announced from many locations, so each user reaches the nearest one. Google's global external load balancers use a single anycast IP worldwide. (Module 12)
+
+**Application Load Balancer** — A Layer 7 (HTTP/HTTPS) proxy load balancer that can route by host, path, or header. Google's family name for its L7 load balancers; AWS's ALB is the regional equivalent. (Module 12)
+
 **Application security group (ASG, Azure)** — A label grouping VMs by role so NSG rules can reference "web" or "db" instead of IP addresses. AWS analog: referencing another security group. (Module 11)
 
 **Assured Workloads (Google Cloud)** — A service that applies compliance control packages (data residency, personnel access, service restrictions) to folders, used for FedRAMP, DoD IL, CJIS, ITAR and similar needs on Google's commercial infrastructure. (Module 02; deep dive in 27)
@@ -28,6 +32,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Azure Policy** — Azure's guardrail service: rules about what resources may exist or how they must be configured, assigned at management group, subscription, or resource group scope and inherited downward. (Module 03)
 
+**Backend service (Google Cloud)** — The load balancer component that defines a pool of backends plus its health check, Cloud Armor policy, CDN, and logging settings. (Module 12)
+
 **BigQuery** — Google Cloud's serverless data warehouse: columnar storage separated from compute, billed by bytes scanned (on-demand; first 1 TiB/month free) or by slot capacity (editions). Data Access audit logs are always on. (Module 09)
 
 **BigQuery sandbox** — A way to use BigQuery with no billing account: 10 GiB lifetime storage, 1 TiB of queries per month, 60-day table expiration, no streaming or DML. (Module 09)
@@ -38,11 +44,15 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Bucket Lock (Google Cloud)** — Locking a bucket's retention policy so it can be lengthened but never shortened or removed — irreversible. Objects can't be deleted until they age past the period, and the bucket can't be deleted until all objects do. AWS analog: S3 Object Lock compliance mode; Azure: a locked immutability policy. (Module 08)
 
-**Budget (cloud billing)** — A spending threshold that sends alerts as actual or forecasted cost crosses percentages you set. On all three clouds, budgets notify; they don't stop resources. (Module 00)
-
 **Budget action (AWS)** — An AWS Budgets feature that responds to a threshold automatically or after approval: apply an IAM policy or SCP, or stop specific EC2/RDS instances. The closest thing to a native cost brake on the three clouds — still not a hard cap. (Module 04)
 
+**Budget (cloud billing)** — A spending threshold that sends alerts as actual or forecasted cost crosses percentages you set. On all three clouds, budgets notify; they don't stop resources. (Module 00)
+
+**CDN (content delivery network)** — Edge caches that serve copies of content close to users, cutting latency and origin load. Cloud CDN / Media CDN, CloudFront, Azure Front Door. (Module 12)
+
 **CIDR (Classless Inter-Domain Routing)** — Notation for an IP range as address plus prefix length (`10.10.0.0/16`). Cloud network planning is mostly CIDR planning: non-overlapping ranges for everything that might ever connect. (Module 10)
+
+**Cloud Armor (Google Cloud)** — Google's WAF and DDoS-protection service: security policies with preconfigured OWASP CRS-based rules, custom rules, rate limiting, and (Enterprise tier) Adaptive Protection. (Module 12)
 
 **Cloud Identity** — Google's identity service for organizations, without Workspace email. Its free edition needs a domain you own and verify; it gives you a Google Cloud organization node. (Module 03)
 
@@ -50,9 +60,9 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cloud Router (Google Cloud)** — Google's managed BGP speaker that exchanges dynamic routes between a VPC and on-prem or other networks over VPN or Interconnect. (Module 10; deep dive in 13)
 
-**Cloud Run (Google Cloud)** — Google's serverless platform for containers: services (HTTPS endpoints that autoscale, including to zero), jobs (run to completion), and functions (built from source). Invocation requires IAM by default. (Module 07)
-
 **Cloud Run functions** — Google's functions-as-a-service, renamed from Cloud Functions on August 21, 2024; functions are built into containers with buildpacks and Cloud Build and run on Cloud Run. AWS analog: Lambda; Azure: Azure Functions. (Module 07)
+
+**Cloud Run (Google Cloud)** — Google's serverless platform for containers: services (HTTPS endpoints that autoscale, including to zero), jobs (run to completion), and functions (built from source). Invocation requires IAM by default. (Module 07)
 
 **Cloud shell** — A free, temporary Linux environment in the browser, pre-authenticated and preloaded with the provider's CLI: Google Cloud Shell, AWS CloudShell, Azure Cloud Shell. Keeps credentials off your laptop. (Module 00)
 
@@ -72,6 +82,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cost allocation tag (AWS)** — A resource tag that AWS Billing uses to group costs. User-defined tags must be activated in the Billing console before they appear in cost reports. (Module 04)
 
+**Dangling DNS / subdomain takeover** — A DNS record still pointing at a deleted cloud resource; an attacker who re-creates that resource name controls your subdomain. (Module 12)
+
 **Data perimeter (AWS)** — AWS's pattern for keeping your principals on your organization's resources, reached only from networks you expect, built from SCPs, RCPs, resource policies, and VPC endpoint policies with conditions like `aws:PrincipalOrgID`, `aws:ResourceOrgID`, `aws:SourceVpce`. (Module 11)
 
 **Data warehouse** — A database built for analytical (OLAP) queries over large history rather than transactions. BigQuery, Amazon Redshift, Azure Synapse dedicated SQL pools / Fabric Data Warehouse. (Module 09)
@@ -81,6 +93,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Default network (Google Cloud)** — The auto-mode VPC named `default` created in new projects unless org policy (`compute.skipDefaultNetworkCreation`) prevents it, with pre-populated rules including SSH and RDP from `0.0.0.0/0`. Don't use it. AWS analog: the default VPC with public subnets. (Module 10)
 
 **Deployment (Kubernetes)** — An object declaring how many identical pods to run and how to roll out changes; a controller keeps reality matching it. Docker analog: `restart: always` plus "run N copies." (Module 06)
+
+**DNSSEC** — Digital signatures on DNS records so resolvers can detect forged answers. Authenticity, not encryption. (Module 12)
 
 **Edge location** — A small provider site near users, used for caching (CDN), DNS, and traffic entry rather than general compute. AWS also offers Local Zones (metro compute) and Wavelength Zones (inside 5G networks). (Module 02)
 
@@ -96,6 +110,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Folder (Google Cloud)** — A grouping node between the organization and projects, nestable up to 10 levels. IAM and organization policies set on a folder apply to everything under it. (Module 03)
 
+**Forwarding rule (Google Cloud)** — A load balancer's frontend: IP address, protocol, and port. Billed hourly even when idle. (Module 12)
+
 **Free trial vs free tier** — A free trial is time-limited credit you can spend broadly (Google $300/90 days; AWS up to $200 on a 6-month free plan; Azure $200/30 days, as of 2026). A free tier is specific services with monthly limits that stay free. (Module 00)
 
 **Function URL (AWS Lambda)** — A dedicated HTTPS endpoint for a Lambda function. Auth type `AWS_IAM` requires signed, IAM-authorized requests; `NONE` is public but still needs a resource-based policy. (Module 07)
@@ -107,6 +123,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Golden image** — A hardened, patched custom VM image used as the standard base for a fleet. Software supply chain: whatever is baked in ships to every VM (ATT&CK T1525 targets this). (Module 05)
 
 **Hardware root of trust** — A chip that verifies a server's firmware before the main CPU runs anything, so tampered hardware won't boot. Google: Titan (and Caliptra); AWS: Nitro Controller + Nitro Security Chip; Azure: Cerberus. (Module 01)
+
+**Health check** — Periodic probes a load balancer sends to backends; failing backends stop receiving traffic. Firewalls must allow the provider's probe ranges. (Module 12)
 
 **Hierarchical firewall policy (Google Cloud)** — Firewall rules attached to the organization or folders, evaluated before project-level rules; lower levels can't override them, only receive traffic delegated with `goto_next`. (Module 11)
 
@@ -136,6 +154,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Label (Google Cloud)** — A key-value pair on a resource (up to 64 per resource, lowercase) that flows into billing reports and the BigQuery billing export, used for cost allocation. Not usable in policy conditions — Google's separate "tags" feature is for that. (Module 04)
 
+**Layer 4 / Layer 7 load balancing** — L4 balances by IP, port, and protocol (TCP/UDP); L7 understands HTTP and can route on paths, hosts, and headers, and enables WAF and CDN. (Module 12)
+
 **Least privilege** — Give each identity only the permissions it needs, for only as long as it needs them. The cloud version of need-to-know.
 
 **Lifecycle rule** — An automated policy that changes an object's storage class or deletes it based on conditions such as age or number of newer versions. Google Object Lifecycle Management, S3 Lifecycle, Azure lifecycle management. (Module 08)
@@ -157,6 +177,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Network ACL (NACL, AWS)** — A stateless, subnet-level list of numbered allow/deny rules evaluated in order. A secondary guardrail behind security groups. (Module 11)
 
 **Network Connectivity Center (Google Cloud)** — A hub-and-spoke service for connecting many VPC networks (VPC spokes) and on-prem/hybrid connections through a global hub. AWS analog: Transit Gateway; Azure: Virtual WAN. (Module 10)
+
+**Network endpoint group (NEG, Google Cloud)** — A list of backend endpoints for a load balancer. A serverless NEG points at Cloud Run, Cloud Run functions, or App Engine. (Module 12)
 
 **Network security group (NSG, Azure)** — Azure's stateful allow/deny rule set (priorities 100–4096) on a subnet or NIC; default rules allow VNet traffic and outbound internet and deny other inbound. (Module 11)
 
@@ -182,9 +204,13 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Organizational unit (OU, AWS)** — A grouping of AWS accounts within AWS Organizations, nestable up to five levels under the root; policies attached to an OU apply to accounts inside it. (Module 03)
 
+**Origin bypass** — Reaching a backend directly instead of through the load balancer/CDN/WAF, skipping its protections. Prevented by restricting backend ingress to the edge only. (Module 12)
+
 **OS Login (Google Cloud)** — Ties Linux accounts on Compute Engine VMs to Google identities and IAM roles (`roles/compute.osLogin`, `roles/compute.osAdminLogin`) instead of static SSH keys in metadata, so access is revoked centrally. Enabled with metadata `enable-oslogin=TRUE`. (Module 05)
 
 **Partitioning (BigQuery)** — Dividing a table into segments, usually by date, so queries filtering on that column scan only matching partitions. The main lever on query cost for log tables. (Module 09)
+
+**Passthrough vs proxy load balancer** — A proxy terminates client connections and opens new ones to backends; a passthrough forwards packets unchanged, preserving the client IP. (Module 12)
 
 **Peering (VPC / VNet)** — A private connection that exchanges routes between two networks. Non-transitive on Google, AWS, and Azure; ranges can't overlap; on Google, firewall rules aren't shared across it. (Module 10)
 
@@ -200,17 +226,23 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Policy Denied audit logs (Google Cloud)** — Always-on audit logs recording requests blocked by security policies such as VPC Service Controls, including dry-run violations (`dryRun: true`). (Module 11)
 
+**Preview mode (Cloud Armor)** — Running a security-policy rule in log-only mode to find false positives before enforcing it. (Module 12)
+
 **Private Endpoint (Azure)** — A private IP in your VNet mapped to one specific PaaS resource via Azure Private Link; Microsoft's preferred private-access option. Disable the resource's public access afterward. (Module 11)
 
 **Private Google Access** — A per-subnet setting letting VMs without external IPs reach Google APIs, optionally via `private.googleapis.com` (199.36.153.8/30) or `restricted.googleapis.com` (199.36.153.4/30). (Module 11)
 
 **Private Service Connect (PSC, Google Cloud)** — Private endpoints using your own internal IPs to reach Google APIs or published services (Cloud SQL, partner, or your own) across VPC boundaries. (Module 11)
 
+**Private zone (DNS)** — A DNS zone answered only for specific VPCs/VNets — cloud split-horizon DNS. (Module 12)
+
 **Programmatic budget notification (Google Cloud)** — Budget status that Cloud Billing publishes to a Pub/Sub topic several times a day, so code can react to spend. The building block for any automated cost response on Google Cloud. (Module 04)
 
 **Public access prevention (Google Cloud)** — A bucket setting (or the `storage.publicAccessPrevention` org policy) that makes grants to `allUsers`/`allAuthenticatedUsers` fail and overrides any that already exist. AWS analog: S3 Block Public Access; Azure: `AllowBlobPublicAccess = false`. (Module 08)
 
 **Quota** — A provider-enforced cap on how much of a resource a project/account/subscription can use (e.g., vCPUs per region). Distinct from a budget, which only measures spend. Also limits an attacker's blast radius. Google calls fixed caps "system limits." (Module 04)
+
+**Rate limiting (WAF)** — Capping requests per client key (IP, header, fingerprint) per interval; excess requests are throttled, denied (e.g., HTTP 429), or banned. (Module 12)
 
 **RBAC (Kubernetes)** — Kubernetes' authorization model: Roles/ClusterRoles list allowed verbs on resources; RoleBindings/ClusterRoleBindings grant them to users, groups, or ServiceAccounts. Separate from, and layered under, cloud IAM. (Module 06)
 
@@ -248,9 +280,9 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Serverless** — A model where the provider runs, scales, and patches the infrastructure for code or containers you supply, typically scaling to zero and billing per use. Security shifts to invocation permissions and the workload's identity. (Module 07)
 
-**Service (Kubernetes)** — A stable virtual IP and DNS name in front of a changing set of pods, selected by labels. Type `LoadBalancer` creates a cloud load balancer — a public endpoint and a bill. (Module 06)
-
 **Service control policy (SCP, AWS)** — An AWS Organizations guardrail that sets the maximum permissions available to principals in member accounts. Doesn't grant anything and doesn't apply to the management account. (Module 03)
+
+**Service (Kubernetes)** — A stable virtual IP and DNS name in front of a changing set of pods, selected by labels. Type `LoadBalancer` creates a cloud load balancer — a public endpoint and a bill. (Module 06)
 
 **ServiceAccount (Kubernetes)** — An identity for workloads inside a cluster. With workload identity (GKE Workload Identity Federation, EKS Pod Identity, Entra Workload ID) it can be exchanged for short-lived cloud credentials. (Module 06)
 
@@ -261,6 +293,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Shared responsibility model** — The provider secures the cloud itself (facilities, hardware, hypervisor); the customer secures what they put in it. Identity, access control, firewall rules, network configuration, and data are always the customer's job. (Module 01)
 
 **Shared VPC (Google Cloud)** — A host project owns a VPC network and shares its subnets with service projects in the same organization, whose admins get `compute.networkUser` to deploy into them. Central network control, per-project billing. AWS analog: VPC sharing via AWS RAM. (Module 10)
+
+**Shield Standard / Shield Advanced (AWS)** — AWS DDoS protection: Standard is free and automatic for L3/L4; Advanced ($3,000/month, 1-year term) adds the Shield Response Team, cost protection, and WAF fee coverage. (Module 12)
 
 **Shielded VM / Trusted Launch** — Boot-integrity protections for VMs: Secure Boot (signed boot components only), a virtual TPM, and integrity monitoring. Google calls it Shielded VM; Azure calls it Trusted Launch. (Modules 01, 05)
 
@@ -298,8 +332,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **VNet (Azure Virtual Network)** — Azure's private network, scoped to one region, with subnets that span the region's availability zones. For API versions after March 31, 2026, new VNets' subnets are private (no implicit outbound internet) by default. (Module 10)
 
+**VPC Service Controls (Google Cloud)** — Service perimeters around projects that block access to restricted Google APIs from outside (even with valid credentials) and data movement to resources outside, with access levels, ingress/egress rules, and dry-run mode. Complements IAM. (Module 11)
+
 **VPC (Virtual Private Cloud)** — A private, software-defined network inside a cloud provider, where you define IP ranges, subnets, routes, and firewall rules. Closest homelab analogy: your OPNsense-managed VLANs — but defined entirely by API. (Module 10)
 
-**VPC Service Controls (Google Cloud)** — Service perimeters around projects that block access to restricted Google APIs from outside (even with valid credentials) and data movement to resources outside, with access levels, ingress/egress rules, and dry-run mode. Complements IAM. (Module 11)
+**WAF (web application firewall)** — A Layer 7 filter that inspects HTTP requests and blocks attack patterns (SQLi, XSS), mostly using OWASP Core Rule Set-derived managed rules plus custom rules. (Module 12)
 
 **Workload identity** — Giving a workload (pod, function, VM) short-lived cloud credentials based on its own identity instead of a stored key. In Kubernetes: GKE Workload Identity Federation, EKS Pod Identity/IRSA, Microsoft Entra Workload ID. (Module 06; deep dive in 15)

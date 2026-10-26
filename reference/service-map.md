@@ -84,5 +84,17 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Private access to provider APIs (free) | Private Google Access | Gateway endpoints (S3, DynamoDB) | Service endpoints | Module 11 |
 | Private endpoint to a specific service | Private Service Connect | Interface endpoints (PrivateLink) | Private Endpoint (Private Link) | Turn off the public path afterward. Module 11 |
 | API-level exfiltration boundary | VPC Service Controls | Data perimeter pattern (SCP/RCP + endpoint/resource policies) | Private Endpoints + network security perimeter | Module 11 |
+| Global L7 load balancer | Global external Application Load Balancer (one anycast IP, Premium tier) | CloudFront / Global Accelerator in front of regional ALBs | Azure Front Door Standard/Premium (classic retires Mar 31, 2027) | Google's is a single global service. Module 12 |
+| Regional L7 load balancer | Regional external / internal Application Load Balancer | Application Load Balancer (ALB) | Application Gateway v2 (v1 retired Apr 28, 2026) | Module 12 |
+| L4 load balancer | Network Load Balancer (proxy or passthrough) | Network Load Balancer (NLB) | Azure Load Balancer (Standard; Basic retired Sep 30, 2025) | Passthrough preserves client IP. Module 12 |
+| Appliance insertion load balancer | — (NGFW endpoints / packet mirroring) | Gateway Load Balancer | Gateway Load Balancer SKU | Module 12 |
+| DNS-based global routing | Cloud DNS routing policies (geo, weighted, failover) | Route 53 routing policies | Traffic Manager | Module 12 |
+| Authoritative / private DNS | Cloud DNS public and private zones (100% SLO) | Route 53 public and private hosted zones | Azure DNS + Private DNS zones | Route 53 zones aren't prorated. Module 12 |
+| Hybrid DNS resolution | Cloud DNS forwarding zones + inbound/outbound server policies | Route 53 VPC Resolver endpoints (renamed from Route 53 Resolver) | DNS Private Resolver | Module 12–13 |
+| DNS-layer filtering | Response policies; DNS Armor ⚠️ | Route 53 Resolver DNS Firewall | DNS security policy ⚠️ | Module 12 |
+| CDN | Cloud CDN (on global external ALB); Media CDN | Amazon CloudFront (pay-as-you-go or flat-rate plans) | Azure Front Door | Azure CDN from Edgio retired Jan 2025. Module 12 |
+| WAF | Cloud Armor security policies (OWASP CRS 4.22 / 3.3 rules) | AWS WAF web ACLs + managed rule groups | Azure WAF (DRS 2.2 on App Gateway / Front Door) | Module 12 |
+| Free DDoS baseline | Always-on L3/L4 for global external and proxy load balancers | AWS Shield Standard | DDoS infrastructure protection | Module 12 |
+| Paid DDoS tier | Cloud Armor Enterprise (Paygo / Annual) | AWS Shield Advanced ($3,000/mo, 1-yr) | DDoS Network Protection / IP Protection | Top tiers include cost protection. Module 12 |
 
-*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25.*
+*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26.*
