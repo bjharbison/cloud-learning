@@ -75,7 +75,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Network peering | VPC Network Peering | VPC peering | VNet peering (incl. global) | Non-transitive on all three. Module 10 |
 | Network hub | Network Connectivity Center (global; VPC + hybrid spokes) | Transit Gateway / Cloud WAN | Virtual WAN | Modules 10, 13 |
 | Custom routes | Static routes (optionally by network tag) | Route tables | User-defined routes (UDRs) | Module 10 |
-| Dynamic routing (BGP) | Cloud Router | Transit Gateway / virtual private gateway propagation | VPN/ExpressRoute gateways; Route Server ⚠️ | Module 13 |
+| Dynamic routing (BGP) | Cloud Router | Transit Gateway / virtual private gateway propagation | VPN/ExpressRoute gateways; Azure Route Server (BGP with NVAs) | Module 13 |
 | Outbound internet for private VMs | Cloud NAT | NAT gateway (hourly + per GB) | NAT Gateway (new VNets private by default after Mar 31, 2026 API versions) | Module 10–11 |
 | Per-workload stateful rules | VPC firewall rules / network firewall policies (target by SA or secure tag) | Security groups (allow-only) | NSGs + application security groups | Module 11 |
 | Subnet-level stateless rules | — | Network ACLs | — (NSGs are stateful) | Module 11 |
@@ -107,5 +107,9 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | "Why allowed/denied?" | Policy Troubleshooter | IAM policy simulator | Check access | Module 14 |
 | Excess-permission findings | Role recommendations; Policy Analyzer | Access Analyzer (unused/internal paid); last accessed info | Defender CSPM Permissions Management (CIEM) | Entra Permissions Management retired 2025. Module 14 |
 | Keyless use of a workload identity | Service account impersonation (Token Creator) | `sts:AssumeRole` | Managed identity token | Module 14 |
+| Human SSO from an external IdP | Cloud Identity/Workspace SSO; Workforce Identity Federation (sync-less) | IAM Identity Center (SAML 2.0 + SCIM) | Microsoft Entra ID (is the IdP) | Module 15 |
+| Workload federation (CI/CD, other clouds) | Workload Identity Federation (OIDC, SAML, AWS, Azure, X.509) | IAM OIDC/SAML providers; IAM Roles Anywhere (X.509) | Federated identity credentials (app registration / user-assigned MI) | Module 15 |
+| Sign-in policy engine | Context-Aware Access | IdP policies + IAM conditions | Conditional Access (Entra ID P1) | Module 15 |
+| Just-in-time privileged access | Privileged Access Manager | Partners / TEAM sample (no native JIT) | Privileged Identity Management (P2/Governance) | Module 15 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26.*

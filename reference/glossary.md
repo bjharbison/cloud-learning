@@ -8,11 +8,15 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Admission controller (Kubernetes)** — Code in the API server that inspects create/update requests after authentication and can reject or modify them before they're stored. Pod Security Admission, OPA Gatekeeper, Kyverno, and Binary Authorization work here. (Module 06)
 
+**AiTM (adversary-in-the-middle) phishing** — A proxy phishing site relays the real sign-in, including MFA, and steals the resulting session cookie; defeated by phishing-resistant MFA. ATT&CK T1557 / T1539. (Module 15)
+
 **Allow policy (Google Cloud)** — The IAM policy attached to a resource that binds roles to principals, optionally with conditions; inherited down the hierarchy and additive. (Module 14)
 
 **Antideficiency Act** — U.S. law (31 U.S.C. § 1341 and related sections) barring federal employees from obligating or spending more than an appropriation provides, or before funds are appropriated. Why elastic, bill-after-use cloud spend worries government comptrollers. (Module 04)
 
 **Anycast** — One IP address announced from many locations, so each user reaches the nearest one. Google's global external load balancers use a single anycast IP worldwide. (Module 12)
+
+**App registration vs enterprise application (Entra)** — The app registration is an application's global definition (client ID); the enterprise application is its service principal in a specific tenant, where assignment, consent, and Conditional Access apply. (Module 15)
 
 **Application Load Balancer** — A Layer 7 (HTTP/HTTPS) proxy load balancer that can route by host, path, or header. Google's family name for its L7 load balancers; AWS's ALB is the regional equivalent. (Module 12)
 
@@ -21,6 +25,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **ASN (autonomous system number)** — The number that identifies a network in BGP. Hybrid designs use private ASNs (64512–65534 or 4200000000–4294967294 on Google Cloud Router). (Module 13)
 
 **Assured Workloads (Google Cloud)** — A service that applies compliance control packages (data residency, personnel access, service restrictions) to folders, used for FedRAMP, DoD IL, CJIS, ITAR and similar needs on Google's commercial infrastructure. (Module 02; deep dive in 27)
+
+**Attribute condition (workload identity federation)** — A CEL expression on a Google workload/workforce identity provider that must be true for an external token to be accepted, e.g., restricting GitHub tokens to one owner ID, repo, and branch. (Module 15)
 
 **Authorized view (BigQuery)** — A view granted read access to a source dataset so its users can query a curated slice (selected columns or rows) without any access to the underlying data. (Module 09)
 
@@ -86,7 +92,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Committed use discount (CUD, Google Cloud)** — A discount for committing to use specific resources (resource-based) or to spend a minimum amount (spend-based) for one or three years. AWS analogs: Savings Plans and Reserved Instances; Azure: reservations and savings plan for compute. (Module 04)
 
+**Conditional Access (Microsoft Entra)** — Policy evaluated at sign-in using signals (user, location, device, app, risk) to block or require controls such as phishing-resistant MFA or a compliant device. Requires Entra ID P1. (Module 15)
+
 **Confidential VM** — A VM whose memory is encrypted by the CPU with keys the hypervisor can't read (AMD SEV/SEV-SNP, Intel TDX), with hardware attestation of its state. Protects data in use. Available on specific machine series on all three clouds. (Module 05)
+
+**Consent phishing** — Tricking users into granting a malicious OAuth app access to their data; the app then uses its tokens without the user's password. ATT&CK T1528. (Module 15)
 
 **Container** — A packaged app plus its libraries that runs as an isolated process on a shared host kernel, separated by Linux namespaces (what it can see) and cgroups (what it can use). Faster and denser than a VM; a weaker isolation boundary. Homelab equivalent: Docker or Proxmox LXC. (Module 01)
 
@@ -128,6 +138,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **ExpressRoute (Azure)** — Microsoft's private circuit service: redundant links to two Microsoft edge routers, private and Microsoft peering, Local/Standard/Premium SKUs, and ExpressRoute Direct ports. Not encrypted by default. (Module 13)
 
+**Federation** — One identity provider authenticates users and other systems trust its signed statements instead of keeping their own credentials. (Module 15)
+
 **FinOps** — The practice of making engineering, finance, and leadership jointly accountable for cloud spend. The FinOps Foundation describes three repeating phases: Inform, Optimize, Operate. (Module 04)
 
 **Flex Consumption plan (Azure Functions)** — Microsoft's recommended serverless hosting plan for new Azure Functions apps: event-driven scaling (including to zero), pay per execution, and VNet integration. Replaces the legacy Consumption plan. (Module 07)
@@ -166,6 +178,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **IAP TCP forwarding (Google Cloud)** — Identity-Aware Proxy feature that tunnels SSH/RDP to VMs without public IPs after checking the caller's Google identity and IAM role. The VM's firewall only needs to allow IAP's range (35.235.240.0/20). (Modules 01, 05)
 
+**Identity provider (IdP)** — The system that authenticates users and issues assertions or tokens (Entra ID, Okta, Ping, Cloud Identity). The service provider or relying party consumes them. (Module 15)
+
 **IMDSv2 (AWS)** — Version 2 of the EC2 Instance Metadata Service, which requires a session token before returning data (including role credentials). Blocks simple SSRF-based credential theft; default on Amazon Linux 2023. (Module 05)
 
 **Impersonation (service account)** — Minting short-lived tokens for a Google Cloud service account (requires Service Account Token Creator) instead of using a long-lived key. (Module 14)
@@ -179,6 +193,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Internet gateway (AWS)** — The VPC component that connects a VPC to the internet; a subnet is "public" when its route table sends `0.0.0.0/0` to one. Private subnets use a NAT gateway for outbound access instead. (Module 10)
 
 **Invoker IAM check (Cloud Run)** — Cloud Run's default requirement that callers present a Google-signed ID token for an identity holding `run.routes.invoke` (e.g., `roles/run.invoker`). Disabling it, or granting `allUsers`, makes a service public. (Module 07)
+
+**Just-in-time (JIT) access** — Time-bound elevation granted on request (often with justification and approval) and removed automatically, replacing standing privilege. Google PAM, Azure PIM, AWS TEAM/partners. (Module 15)
+
+**JWT (JSON Web Token)** — A signed, Base64-encoded token of JSON claims (issuer, subject, audience, expiry); the format of OIDC ID tokens. (Module 15)
 
 **kubelet** — The Kubernetes agent on every node that starts containers and reports status. An exposed kubelet API with anonymous access is a well-known initial-access path (e.g., Hildegard malware). (Module 06)
 
@@ -204,6 +222,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Metadata server / IMDS** — A link-local endpoint (169.254.169.254) inside every cloud VM that serves configuration and the VM identity's short-lived credentials. A prime target for SSRF and credential theft (ATT&CK T1552.005). (Module 05)
 
+**MFA fatigue (push bombing)** — Flooding a user with MFA prompts until one is approved. ATT&CK T1621. (Module 15)
+
+**Microsoft Entra ID** — Microsoft's cloud identity service (formerly Azure AD): the tenant directory behind Azure, Microsoft 365, and SaaS SSO, with Free, P1, P2, and Governance tiers. (Module 15)
+
 **Minimum storage duration** — The shortest time you're billed for in a colder storage class; deleting or moving an object earlier incurs an early-deletion charge for the remainder (e.g., Google Nearline 30 days, Coldline 90, Archive 365). (Module 08)
 
 **Multi-tenancy** — Many customers' workloads sharing the same physical infrastructure, kept apart by the hypervisor and hardware. NIST calls it resource pooling. (Module 01)
@@ -224,6 +246,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Nitro System (AWS)** — AWS's virtualization platform: Nitro Cards (networking, storage, management offload), the Nitro Security Chip, and the minimal Nitro Hypervisor. (Module 01)
 
+**OAuth 2.0** — An authorization framework for granting apps access tokens to call APIs on a user's or app's behalf. Not, by itself, a login protocol. (Module 15)
+
 **Object Lock (AWS S3)** — S3's WORM feature for object versions: governance mode (users with `s3:BypassGovernanceRetention` can override) or compliance mode (no one, including root, can delete before the retain-until date), plus open-ended legal holds. Requires versioning. (Module 08)
 
 **Object versioning** — Keeping prior copies of an object when it's overwritten or deleted; the current copy is live, older ones noncurrent. Off by default on Google, AWS, and Azure; every version is billed. (Module 08)
@@ -233,6 +257,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Offload card / processor** — Dedicated hardware that handles networking, storage, encryption, and management off the host CPU, keeping provider control software out of tenant reach. Google Titanium Offload Processors, AWS Nitro Cards, Azure Boost. (Module 01)
 
 **OLTP / OLAP** — Online transaction processing (many small reads/writes with transactions, e.g., Cloud SQL) vs online analytical processing (few huge scans and aggregations, e.g., BigQuery). (Module 09)
+
+**OpenID Connect (OIDC)** — An identity layer on OAuth 2.0 that issues signed JWT ID tokens; used for modern SSO and workload federation. (Module 15)
 
 **Organization (Google Cloud)** — The root of a Google Cloud resource hierarchy, normally tied to a Cloud Identity or Workspace domain; new Free Trial sign-ups may get a domainless standalone organization. (Module 03)
 
@@ -284,6 +310,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Private zone (DNS)** — A DNS zone answered only for specific VPCs/VNets — cloud split-horizon DNS. (Module 12)
 
+**Privileged Access Manager (PAM, Google Cloud)** — Google's JIT service: entitlements define who may request which roles for how long; grants are time-bound and auto-revoked. (Module 15)
+
+**Privileged Identity Management (PIM, Entra)** — Microsoft's JIT service: eligible vs active assignments for Entra roles, Azure resource roles, and groups, with activation requiring MFA, justification, or approval. Requires P2 or Governance. (Module 15)
+
 **Programmatic budget notification (Google Cloud)** — Budget status that Cloud Billing publishes to a Pub/Sub topic several times a day, so code can react to spend. The building block for any automated cost response on Google Cloud. (Module 04)
 
 **Public access prevention (Google Cloud)** — A bucket setting (or the `storage.publicAccessPrevention` org policy) that makes grants to `allUsers`/`allAuthenticatedUsers` fail and overrides any that already exist. AWS analog: S3 Block Public Access; Azure: `AllowBlobPublicAccess = false`. (Module 08)
@@ -318,11 +348,15 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **S3 Block Public Access** — Four account- and bucket-level settings that block public ACLs and public bucket policies. On by default for new buckets since April 2023, together with ACLs disabled. (Module 08)
 
+**SAML 2.0** — An XML-based standard where an IdP sends a signed assertion to a service provider for browser SSO. (Module 15)
+
 **SAS token (Azure)** — Shared access signature: a URL-embedded token granting scoped access to storage. A bearer credential — whoever has the URL has the access; account-key-signed SAS can be very broad. Microsoft recommends lifetimes of one hour or less. Google analog: signed URL; AWS: presigned URL. (Module 08)
 
 **Savings Plan (AWS)** — A one- or three-year commitment to a dollar-per-hour amount of usage in exchange for discounts; Compute Savings Plans apply across EC2 families, Regions, Fargate, and Lambda. (Module 04)
 
 **Scale to zero** — A serverless platform running no instances, and charging no compute on request-based billing, when there's no traffic. (Module 07)
+
+**SCIM** — A REST/JSON standard for automatically provisioning and deprovisioning users and groups between an IdP and applications. (Module 15)
 
 **Security admin rule (Azure Virtual Network Manager)** — A centrally managed rule applied to VNets and evaluated before NSGs, with Allow, Always allow, or Deny actions. (Module 11)
 
@@ -370,6 +404,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Spot capacity** — Spare provider capacity sold at a deep discount that the provider can reclaim on short notice: Google Spot VMs, AWS Spot Instances, Azure Spot VMs. Good for fault-tolerant batch work; bad for anything that must stay up. (Module 04)
 
+**SSO (single sign-on)** — Signing in once at an identity provider to reach many applications. (Module 15)
+
 **Standalone organization (Google Cloud)** — A Google Cloud organization created automatically, without a domain, for new Free Trial customers when they accept the console terms. Not available to existing accounts. (Module 03)
 
 **Storage class / access tier** — The price/access profile of stored objects: hot (Google Standard, S3 Standard, Azure Hot) through infrequent and cold to archive. Colder tiers cost less to store and more to read. (Module 08)
@@ -400,4 +436,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **WAF (web application firewall)** — A Layer 7 filter that inspects HTTP requests and blocks attack patterns (SQLi, XSS), mostly using OWASP Core Rule Set-derived managed rules plus custom rules. (Module 12)
 
-**Workload identity** — Giving a workload (pod, function, VM) short-lived cloud credentials based on its own identity instead of a stored key. In Kubernetes: GKE Workload Identity Federation, EKS Pod Identity/IRSA, Microsoft Entra Workload ID. (Module 06; deep dive in 15)
+**Workforce Identity Federation (Google Cloud)** — Sync-less federation letting users from an external SAML/OIDC IdP access Google Cloud without Google accounts; configured at the organization level. (Module 15)
+
+**Workload identity** — Giving a workload (pod, function, VM) short-lived cloud credentials based on its own identity instead of a stored key. In Kubernetes: GKE Workload Identity Federation, EKS Pod Identity/IRSA, Microsoft Entra Workload ID. Outside the cloud: workload identity federation. (Modules 06, 15)
+
+**Workload Identity Federation (Google Cloud)** — Exchanging an external workload's token (OIDC, SAML, AWS, Azure, X.509) at Google STS for short-lived Google credentials, removing service-account keys. (Module 15)
