@@ -14,6 +14,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Application security group (ASG, Azure)** — A label grouping VMs by role so NSG rules can reference "web" or "db" instead of IP addresses. AWS analog: referencing another security group. (Module 11)
 
+**ASN (autonomous system number)** — The number that identifies a network in BGP. Hybrid designs use private ASNs (64512–65534 or 4200000000–4294967294 on Google Cloud Router). (Module 13)
+
 **Assured Workloads (Google Cloud)** — A service that applies compliance control packages (data residency, personnel access, service restrictions) to folders, used for FedRAMP, DoD IL, CJIS, ITAR and similar needs on Google's commercial infrastructure. (Module 02; deep dive in 27)
 
 **Authorized view (BigQuery)** — A view granted read access to a source dataset so its users can query a curated slice (selected columns or rows) without any access to the underlying data. (Module 09)
@@ -33,6 +35,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Azure Policy** — Azure's guardrail service: rules about what resources may exist or how they must be configured, assigned at management group, subscription, or resource group scope and inherited downward. (Module 03)
 
 **Backend service (Google Cloud)** — The load balancer component that defines a pool of backends plus its health check, Cloud Armor policy, CDN, and logging settings. (Module 12)
+
+**BGP (Border Gateway Protocol)** — The routing protocol that lets two networks advertise reachable prefixes to each other and reroute automatically when a link fails. The basis of redundant VPN and interconnect designs. (Module 13)
 
 **BigQuery** — Google Cloud's serverless data warehouse: columnar storage separated from compute, billed by bytes scanned (on-demand; first 1 TiB/month free) or by slot capacity (editions). Data Access audit logs are always on. (Module 09)
 
@@ -55,6 +59,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Cloud Armor (Google Cloud)** — Google's WAF and DDoS-protection service: security policies with preconfigured OWASP CRS-based rules, custom rules, rate limiting, and (Enterprise tier) Adaptive Protection. (Module 12)
 
 **Cloud Identity** — Google's identity service for organizations, without Workspace email. Its free edition needs a domain you own and verify; it gives you a Google Cloud organization node. (Module 03)
+
+**Cloud Interconnect (Google Cloud)** — Private connectivity into Google: Dedicated Interconnect (10/100/400 Gbps circuits in a colocation facility), Partner Interconnect (via a service provider), and Cross-Cloud Interconnect (to other clouds). Not encrypted by default. (Module 13)
 
 **Cloud NGFW (Google Cloud)** — Google's firewall family: VPC firewall rules and network/hierarchical firewall policies. Tiers: Essentials (free IP/port rules), Standard (FQDN, geolocation, threat-intel matching), Enterprise (intrusion prevention, URL filtering). (Module 11)
 
@@ -94,6 +100,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Deployment (Kubernetes)** — An object declaring how many identical pods to run and how to roll out changes; a controller keeps reality matching it. Docker analog: `restart: always` plus "run N copies." (Module 06)
 
+**Direct Connect (AWS)** — AWS's private circuit service: dedicated 1/10/100/400 Gbps ports or partner-hosted connections, with private, public, or transit virtual interfaces. Not encrypted by default. (Module 13)
+
 **DNSSEC** — Digital signatures on DNS records so resolvers can detect forged answers. Authenticity, not encryption. (Module 12)
 
 **Edge location** — A small provider site near users, used for caching (CDN), DNS, and traffic entry rather than general compute. AWS also offers Local Zones (metro compute) and Wavelength Zones (inside 5G networks). (Module 02)
@@ -103,6 +111,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **etcd** — The key-value database where Kubernetes stores all cluster state, including Secrets. Managed services run it for you; whoever can read it can read everything. (Module 06)
 
 **Execution role (AWS Lambda)** — The IAM role a Lambda function runs as; it decides what AWS APIs the function's code can call. Google analog: the Cloud Run service account; Azure: a managed identity. (Module 07)
+
+**ExpressRoute (Azure)** — Microsoft's private circuit service: redundant links to two Microsoft edge routers, private and Microsoft peering, Local/Standard/Premium SKUs, and ExpressRoute Direct ports. Not encrypted by default. (Module 13)
 
 **FinOps** — The practice of making engineering, finance, and leadership jointly accountable for cloud spend. The FinOps Foundation describes three repeating phases: Inform, Optimize, Operate. (Module 04)
 
@@ -121,6 +131,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **GKE Autopilot** — GKE mode where Google manages nodes, scaling, and hardened defaults, and general-purpose pods are billed by their resource requests. Google recommends it for most workloads; the alternative is Standard mode with self-managed node pools. (Module 06)
 
 **Golden image** — A hardened, patched custom VM image used as the standard base for a fleet. Software supply chain: whatever is baked in ships to every VM (ATT&CK T1525 targets this). (Module 05)
+
+**HA VPN (Google Cloud)** — A Cloud VPN gateway with two interfaces and BGP routing; 99.99% SLA when tunnels use both interfaces. Replaces Classic VPN for new dynamic-routing designs. (Module 13)
 
 **Hardware root of trust** — A chip that verifies a server's firmware before the main CPU runs anything, so tampered hardware won't boot. Google: Titan (and Caliptra); AWS: Nitro Controller + Nitro Security Chip; Azure: Cerberus. (Module 01)
 
@@ -161,6 +173,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Lifecycle rule** — An automated policy that changes an object's storage class or deletes it based on conditions such as age or number of newer versions. Google Object Lifecycle Management, S3 Lifecycle, Azure lifecycle management. (Module 08)
 
 **Machine type / instance type / VM size** — The vCPU and memory shape of a VM. Google machine types (e.g., `e2-micro`), AWS instance types (`t3.micro`), Azure sizes (`Standard_B1s`). Shared-core/burstable types are what free tiers offer. (Module 05)
+
+**MACsec** — IEEE 802.1AE Layer 2 encryption between directly connected devices; on cloud circuits it protects only the hop between your router and the provider's edge router. (Module 13)
 
 **Managed instance group (MIG, Google Cloud)** — A group of identical VMs created from an instance template that Google keeps at a target size, autoheals, updates in rolling fashion, and autoscales. A regional MIG spreads VMs across zones. AWS: Auto Scaling group; Azure: Virtual Machine Scale Set. (Module 05)
 
@@ -300,6 +314,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Showback / chargeback** — Showback reports each team's share of cloud cost to them; chargeback actually bills their budget for it. Both depend on consistent labels/tags. (Module 04)
 
+**Site-to-site VPN** — IPsec tunnels between two networks' gateways across the internet, encrypted by design. (Module 13)
+
 **SKU (billing)** — The individual priced item a provider meters, such as a vCPU-hour of a machine family in a region. One resource usually generates several SKUs. (Module 04)
 
 **SLA (Service Level Agreement)** — A provider's contractual uptime commitment; if missed, you can claim a service credit. A refund policy, not an availability guarantee. (Module 02)
@@ -320,6 +336,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Sustained use discount (Google Cloud)** — An automatic discount on eligible Compute Engine machine series that grows as a resource runs more of the month (after 25%), up to 30% net for a full month. No equivalent on AWS or Azure. (Module 04)
 
+**TIC 3.0 (Trusted Internet Connections)** — CISA's federal network-security program; version 3.0 replaced forced routing through TIC access points with security capabilities applied at policy enforcement points, with use cases including Cloud, Branch Office, and Remote User. (Module 13)
+
 **Titanium (Google Cloud)** — Google's hardware security architecture: Titan root-of-trust chips, Caliptra, Titanium Offload Processors, and related components that verify boot integrity and offload I/O and encryption. (Module 01)
 
 **Transit Gateway (AWS)** — AWS's regional network hub for connecting many VPCs and on-prem networks, avoiding a full mesh of non-transitive peerings. (Module 10)
@@ -327,6 +345,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Uniform bucket-level access (UBLA, Google Cloud)** — Disables object ACLs so access to a bucket is controlled only by IAM. Required for IAM Conditions on buckets; can be turned off only within 90 days of enabling. Enforced by default org policy on organizations created since 2024. (Module 08)
 
 **Virtual WAN (Azure)** — Azure's managed hub-and-spoke networking service for connecting VNets, branches, and remote users, integrated with Azure Firewall. (Module 10)
+
+**VLAN attachment (Google Cloud)** — The logical link between an Interconnect connection and a Cloud Router in a VPC region. (Module 13)
 
 **VM escape** — Code inside a virtual machine breaking out to the hypervisor or host. Rare in public reporting and the provider's responsibility to prevent; container escape (ATT&CK T1611) is the customer-side analog. (Module 01)
 

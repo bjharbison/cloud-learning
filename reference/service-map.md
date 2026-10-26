@@ -73,7 +73,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Default network | `default` auto-mode VPC (permissive rules) | Default VPC per region (public subnets) | None | Block with `compute.skipDefaultNetworkCreation`. Module 10 |
 | Central multi-team network | Shared VPC (host + service projects) | VPC sharing (AWS RAM, same Organization) | Hub-and-spoke VNets | Module 10 |
 | Network peering | VPC Network Peering | VPC peering | VNet peering (incl. global) | Non-transitive on all three. Module 10 |
-| Network hub | Network Connectivity Center | Transit Gateway / Cloud WAN | Virtual WAN | Module 10; hybrid in 13 |
+| Network hub | Network Connectivity Center (global; VPC + hybrid spokes) | Transit Gateway / Cloud WAN | Virtual WAN | Modules 10, 13 |
 | Custom routes | Static routes (optionally by network tag) | Route tables | User-defined routes (UDRs) | Module 10 |
 | Dynamic routing (BGP) | Cloud Router | Transit Gateway / virtual private gateway propagation | VPN/ExpressRoute gateways; Route Server ⚠️ | Module 13 |
 | Outbound internet for private VMs | Cloud NAT | NAT gateway (hourly + per GB) | NAT Gateway (new VNets private by default after Mar 31, 2026 API versions) | Module 10–11 |
@@ -96,5 +96,11 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | WAF | Cloud Armor security policies (OWASP CRS 4.22 / 3.3 rules) | AWS WAF web ACLs + managed rule groups | Azure WAF (DRS 2.2 on App Gateway / Front Door) | Module 12 |
 | Free DDoS baseline | Always-on L3/L4 for global external and proxy load balancers | AWS Shield Standard | DDoS infrastructure protection | Module 12 |
 | Paid DDoS tier | Cloud Armor Enterprise (Paygo / Annual) | AWS Shield Advanced ($3,000/mo, 1-yr) | DDoS Network Protection / IP Protection | Top tiers include cost protection. Module 12 |
+| Site-to-site VPN | HA VPN (2 interfaces, BGP, 99.99%); Classic VPN static only | Site-to-Site VPN (2 tunnels/connection; 5 Gbps tunnels on TGW/Cloud WAN) | VPN Gateway (AZ SKUs; Basic not for production) | Module 13 |
+| Dedicated private circuit | Dedicated Interconnect (10/100/400 Gbps) | Direct Connect dedicated (1/10/100/400 Gbps) | ExpressRoute Direct (10/100/400 Gbps) | None encrypt by default. Module 13 |
+| Partner private circuit | Partner Interconnect (50 Mbps–50 Gbps) | Direct Connect hosted connections (50 Mbps–25 Gbps) | ExpressRoute via provider (50 Mbps–10 Gbps) | Module 13 |
+| Circuit encryption | MACsec; HA VPN over Cloud Interconnect | MACsec; VPN over Direct Connect | MACsec (Direct); IPsec over private peering | Module 13 |
+| Cloud-to-cloud private link | Cross-Cloud Interconnect; Partner Cross-Cloud Interconnect for AWS | AWS Interconnect – multicloud (GA Apr 2026) | (via partners / Google CCI) | Module 13 |
+| Global WAN over provider backbone | NCC site-to-site data transfer | Cloud WAN | ExpressRoute Global Reach; Virtual WAN | Module 13 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26.*

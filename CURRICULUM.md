@@ -58,7 +58,7 @@ Modules are built in numbered order, in batches of four or five by scheduled run
 | 10 | Virtual networks: VPC/VNet, subnets, CIDR, routes, how cloud SDN differs from on-prem | `modules/10-virtual-networks` | 🟦 |
 | 11 | Network security controls: firewall rules, security groups, NACLs, NSGs, private access/endpoints | `modules/11-network-security` | 🟦 |
 | 12 | Load balancing, DNS, CDN, WAF, and DDoS protection | `modules/12-load-balancing-edge` | 🟦 |
-| 13 | Hybrid and multi-cloud connectivity: VPN, Interconnect/Direct Connect/ExpressRoute, hub-and-spoke | `modules/13-hybrid-connectivity` | ⬜ |
+| 13 | Hybrid and multi-cloud connectivity: VPN, Interconnect/Direct Connect/ExpressRoute, hub-and-spoke | `modules/13-hybrid-connectivity` | 🟦 |
 
 ## Phase 4 — Identity and data protection
 
