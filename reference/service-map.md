@@ -12,7 +12,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Object storage | Cloud Storage | Amazon S3 | Azure Blob Storage | Azure adds a storage-account layer (keys, network settings) above containers. Module 08 |
 | Virtual network | VPC network | Amazon VPC | Azure Virtual Network (VNet) | GCP VPCs are global; AWS VPCs and Azure VNets are regional. Module 10 |
 | Key management | Cloud KMS | AWS KMS | Azure Key Vault | |
-| Identity & access | Cloud IAM | AWS IAM | Azure RBAC + Microsoft Entra ID | |
+| Identity & access | Cloud IAM (allow + deny policies on the hierarchy) | AWS IAM (identity + resource policies) | Azure RBAC (resources) + Microsoft Entra roles (directory) | Azure has two separate systems. Module 14 |
 | Audit logging | Cloud Audit Logs | AWS CloudTrail | Azure Activity Log | Module 18 |
 | Monitoring | Cloud Monitoring | Amazon CloudWatch | Azure Monitor | Module 19 |
 | Top-level identity | Google Account (2SV required) | Root user (MFA required) | Sign-up identity → Microsoft Entra ID tenant admin | Only AWS has a distinct "root user." Module 00 |
@@ -102,5 +102,10 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Circuit encryption | MACsec; HA VPN over Cloud Interconnect | MACsec; VPN over Direct Connect | MACsec (Direct); IPsec over private peering | Module 13 |
 | Cloud-to-cloud private link | Cross-Cloud Interconnect; Partner Cross-Cloud Interconnect for AWS | AWS Interconnect – multicloud (GA Apr 2026) | (via partners / Google CCI) | Module 13 |
 | Global WAN over provider backbone | NCC site-to-site data transfer | Cloud WAN | ExpressRoute Global Reach; Virtual WAN | Module 13 |
+| Explicit deny | IAM deny policies (org/folder/project) | `"Effect": "Deny"` in any policy type | Deny assignments (Azure-created only) | Module 14 |
+| Permission ceiling (doesn't grant) | Principal access boundary policies | Permissions boundaries, SCPs, RCPs, session policies | — (Azure Policy governs configuration) ⚠️ | Module 14 |
+| "Why allowed/denied?" | Policy Troubleshooter | IAM policy simulator | Check access | Module 14 |
+| Excess-permission findings | Role recommendations; Policy Analyzer | Access Analyzer (unused/internal paid); last accessed info | Defender CSPM Permissions Management (CIEM) | Entra Permissions Management retired 2025. Module 14 |
+| Keyless use of a workload identity | Service account impersonation (Token Creator) | `sts:AssumeRole` | Managed identity token | Module 14 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26.*

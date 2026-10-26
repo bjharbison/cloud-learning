@@ -4,7 +4,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Access level (Access Context Manager)** — A named condition (source IP ranges, device attributes, geography) that VPC Service Controls perimeters can use to admit requests from outside. (Module 11)
 
+**actAs (Google Cloud)** — The `iam.serviceAccounts.actAs` permission (in Service Account User) that lets a principal attach a service account to a resource and run code as it — a common privilege-escalation path. (Module 14)
+
 **Admission controller (Kubernetes)** — Code in the API server that inspects create/update requests after authentication and can reject or modify them before they're stored. Pod Security Admission, OPA Gatekeeper, Kyverno, and Binary Authorization work here. (Module 06)
+
+**Allow policy (Google Cloud)** — The IAM policy attached to a resource that binds roles to principals, optionally with conditions; inherited down the hierarchy and additive. (Module 14)
 
 **Antideficiency Act** — U.S. law (31 U.S.C. § 1341 and related sections) barring federal employees from obligating or spending more than an appropriation provides, or before funds are appropriated. Why elastic, bill-after-use cloud spend worries government comptrollers. (Module 04)
 
@@ -35,6 +39,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Azure Policy** — Azure's guardrail service: rules about what resources may exist or how they must be configured, assigned at management group, subscription, or resource group scope and inherited downward. (Module 03)
 
 **Backend service (Google Cloud)** — The load balancer component that defines a pool of backends plus its health check, Cloud Armor policy, CDN, and logging settings. (Module 12)
+
+**Basic roles (Google Cloud)** — The broad legacy Owner, Editor, and Viewer roles (plus newer Admin/Writer/Reader basic roles in Preview), each spanning thousands of permissions. Google advises against them in production. (Module 14)
 
 **BGP (Border Gateway Protocol)** — The routing protocol that lets two networks advertise reachable prefixes to each other and reroute automatically when a link fails. The basis of redundant VPN and interconnect designs. (Module 13)
 
@@ -88,6 +94,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cost allocation tag (AWS)** — A resource tag that AWS Billing uses to group costs. User-defined tags must be activated in the Billing console before they appear in cost reports. (Module 04)
 
+**Custom role** — A customer-defined bundle of permissions. Google Cloud: org or project level only; you maintain it as services change. (Module 14)
+
 **Dangling DNS / subdomain takeover** — A DNS record still pointing at a deleted cloud resource; an attacker who re-creates that resource name controls your subdomain. (Module 12)
 
 **Data perimeter (AWS)** — AWS's pattern for keeping your principals on your organization's resources, reached only from networks you expect, built from SCPs, RCPs, resource policies, and VPC endpoint policies with conditions like `aws:PrincipalOrgID`, `aws:ResourceOrgID`, `aws:SourceVpce`. (Module 11)
@@ -98,6 +106,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Default network (Google Cloud)** — The auto-mode VPC named `default` created in new projects unless org policy (`compute.skipDefaultNetworkCreation`) prevents it, with pre-populated rules including SSH and RDP from `0.0.0.0/0`. Don't use it. AWS analog: the default VPC with public subnets. (Module 10)
 
+**Deny policy (Google Cloud)** — An IAM policy at org, folder, or project level that denies specific permissions to principals regardless of allow policies; evaluated before allow. (Module 14)
+
 **Deployment (Kubernetes)** — An object declaring how many identical pods to run and how to roll out changes; a controller keeps reality matching it. Docker analog: `restart: always` plus "run N copies." (Module 06)
 
 **Direct Connect (AWS)** — AWS's private circuit service: dedicated 1/10/100/400 Gbps ports or partner-hosted connections, with private, public, or transit virtual interfaces. Not encrypted by default. (Module 13)
@@ -107,6 +117,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Edge location** — A small provider site near users, used for caching (CDN), DNS, and traffic entry rather than general compute. AWS also offers Local Zones (metro compute) and Wavelength Zones (inside 5G networks). (Module 02)
 
 **Egress control** — Restricting outbound traffic from workloads (no public IPs, central NAT, deny-by-default egress, FQDN filtering, API perimeters). Allow-all egress is the default on Google, AWS, and Azure. (Module 11)
+
+**Elevate access (Azure)** — A Global Administrator setting that grants User Access Administrator at root scope (all subscriptions); logged and meant to be removed after use. (Module 14)
+
+**Entra roles vs Azure roles** — Two separate Microsoft permission systems: Entra roles govern the directory (users, apps, tenant settings); Azure RBAC roles govern Azure resources at management group, subscription, resource group, or resource scope. (Module 14)
 
 **etcd** — The key-value database where Kubernetes stores all cluster state, including Secrets. Managed services run it for you; whoever can read it can read everything. (Module 06)
 
@@ -144,11 +158,17 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **IaaS / PaaS / SaaS** — How much of the stack the provider runs for you. IaaS: they run hardware and virtualization; you run the OS up. PaaS: they also run the OS and runtime; you bring code and data. SaaS: they run the whole application; you manage users and data. (Module 01)
 
+**IAM Access Analyzer (AWS)** — AWS tooling that finds resources shared outside your account or organization (free), internal access paths and unused access (paid), and validates policies. (Module 14)
+
+**IAM Conditions (Google Cloud)** — CEL expressions on an allow-policy binding (time, resource name/type, tags) that must be true for the grant to apply. (Module 14)
+
 **IAM Identity Center (AWS)** — AWS's service for human sign-in to AWS accounts and apps, using permission sets instead of long-lived IAM users. Its organization instance runs in an AWS Organizations management account — and joining Organizations automatically moves a free-plan account to the paid plan. (Module 00)
 
 **IAP TCP forwarding (Google Cloud)** — Identity-Aware Proxy feature that tunnels SSH/RDP to VMs without public IPs after checking the caller's Google identity and IAM role. The VM's firewall only needs to allow IAP's range (35.235.240.0/20). (Modules 01, 05)
 
 **IMDSv2 (AWS)** — Version 2 of the EC2 Instance Metadata Service, which requires a session token before returning data (including role credentials). Blocks simple SSRF-based credential theft; default on Amazon Linux 2023. (Module 05)
+
+**Impersonation (service account)** — Minting short-lived tokens for a Google Cloud service account (requires Service Account Token Creator) instead of using a long-lived key. (Module 14)
 
 **Ingress setting (Cloud Run)** — Network-level control over where requests may come from: `all`, `internal` (VPC and certain Google sources), or `internal-and-cloud-load-balancing`. Layers with, and doesn't replace, IAM invoker checks. (Module 07)
 
@@ -175,6 +195,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Machine type / instance type / VM size** — The vCPU and memory shape of a VM. Google machine types (e.g., `e2-micro`), AWS instance types (`t3.micro`), Azure sizes (`Standard_B1s`). Shared-core/burstable types are what free tiers offer. (Module 05)
 
 **MACsec** — IEEE 802.1AE Layer 2 encryption between directly connected devices; on cloud circuits it protects only the hop between your router and the provider's edge router. (Module 13)
+
+**Managed identity (Azure)** — A Microsoft-managed identity for an Azure resource (system-assigned or user-assigned) with no credentials for the customer to handle. (Module 14)
 
 **Managed instance group (MIG, Google Cloud)** — A group of identical VMs created from an instance template that Google keeps at a target size, autoheals, updates in rolling fashion, and autoscales. A regional MIG spreads VMs across zones. AWS: Auto Scaling group; Azure: Virtual Machine Scale Set. (Module 05)
 
@@ -230,6 +252,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Permission set (AWS)** — A reusable bundle of permissions in IAM Identity Center that you assign to a user or group for a specific AWS account. (Module 00)
 
+**Permissions boundary (AWS)** — A managed policy set on a user or role that caps the maximum permissions its identity policies can grant; it never grants by itself. (Module 14)
+
 **Phishing-resistant MFA** — A second factor cryptographically bound to the real website (passkeys, FIDO2 security keys), so a fake login page can't capture and replay it. SMS codes and push approvals are not phishing-resistant. (Module 00)
 
 **Pod** — The smallest unit Kubernetes schedules: one or more containers sharing a network namespace and volumes. (Module 06)
@@ -240,7 +264,17 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Policy Denied audit logs (Google Cloud)** — Always-on audit logs recording requests blocked by security policies such as VPC Service Controls, including dry-run violations (`dryRun: true`). (Module 11)
 
+**Policy evaluation logic (AWS)** — AWS's decision process: default implicit deny; any explicit Deny wins; RCPs/SCPs, boundaries, and session policies must allow; identity or resource policy must grant; cross-account requires both sides. (Module 14)
+
+**Policy Troubleshooter (Google Cloud)** — A free tool that explains whether a principal has a permission on a resource, checking allow and deny policies. (Module 14)
+
+**Predefined role (Google Cloud)** — A Google-maintained, service-specific role (e.g., Storage Object Viewer); the default choice for least privilege. (Module 14)
+
 **Preview mode (Cloud Armor)** — Running a security-policy rule in log-only mode to find false positives before enforcing it. (Module 12)
+
+**Principal** — The "who" in an access decision: a user, group, service account/role/managed identity, or federated identity. (Module 14)
+
+**Principal access boundary (PAB, Google Cloud)** — A policy attached to a set of principals defining which resources they're eligible to access; it only restricts, never grants. (Module 14)
 
 **Private Endpoint (Azure)** — A private IP in your VNet mapped to one specific PaaS resource via Azure Private Link; Microsoft's preferred private-access option. Disable the resource's public access afterward. (Module 11)
 
@@ -270,6 +304,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Resource scope (zonal / regional / multi-regional / global)** — Where a resource lives and therefore what failure takes it down. On Google Cloud the API path shows it: `/zones/`, `/regions/`, or `/global/`. (Module 02)
 
+**Role (IAM)** — A named collection of permissions granted to principals at a scope. (Module 14)
+
+**Role recommendations (Google Cloud)** — IAM recommender suggestions to remove or replace roles based on up to 90 days of permission usage. (Module 14)
+
 **Root user (AWS)** — The identity created with an AWS account, with unrestricted access including billing and account closure. AWS requires MFA on it; best practice is no access keys and rare use. Google Cloud has no direct equivalent. (Module 00)
 
 **Route table** — The set of rules deciding where a network sends traffic by destination: subnet/local routes (automatic), a default route, static/user-defined routes, dynamic (BGP) routes, and peering routes. (Module 10)
@@ -294,9 +332,13 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Serverless** — A model where the provider runs, scales, and patches the infrastructure for code or containers you supply, typically scaling to zero and billing per use. Security shifts to invocation permissions and the workload's identity. (Module 07)
 
+**Service account (Google Cloud)** — An identity for a workload rather than a person: user-managed, default (created by services), or Google-managed service agents. (Modules 05, 14)
+
 **Service control policy (SCP, AWS)** — An AWS Organizations guardrail that sets the maximum permissions available to principals in member accounts. Doesn't grant anything and doesn't apply to the management account. (Module 03)
 
 **Service (Kubernetes)** — A stable virtual IP and DNS name in front of a changing set of pods, selected by labels. Type `LoadBalancer` creates a cloud load balancer — a public endpoint and a bill. (Module 06)
+
+**Service-account key** — A long-lived JSON credential for a Google Cloud service account; a frequent leak source, blocked by default in organizations created on or after May 3, 2024. (Module 14)
 
 **ServiceAccount (Kubernetes)** — An identity for workloads inside a cluster. With workload identity (GKE Workload Identity Federation, EKS Pod Identity, Entra Workload ID) it can be exchanged for short-lived cloud credentials. (Module 06)
 
