@@ -29,7 +29,7 @@ gcloud services enable iam.googleapis.com sts.googleapis.com iamcredentials.goog
 echo "$B"
 ```
 
-The numeric owner ID matters: names can be changed and later re-registered by someone else; IDs can't. Google recommends conditioning on IDs.
+The numeric owner ID matters: names can be changed and later re-registered by someone else; IDs can't. Google recommends conditioning on IDs. Type `GH_OWNER` with the **exact letter case** GitHub shows for your username — the repository comparison in the condition is case-sensitive.
 
 ---
 
@@ -74,6 +74,8 @@ AUD="https://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/worklo
 echo; echo "Paste these into the workflow:"; echo "  PROVIDER_AUD: $AUD"; echo "  BUCKET: $B"
 ```
 
+(Google prefers the numeric `repository_id`; this lab binds on the name because a private repo's ID isn't available without authenticating to GitHub — the owner-ID check in the provider condition covers the re-registration risk. You'll see `repository_id` in step 1's output and could switch to it.)
+
 No service account was created. The grant goes to "any workload from this repository that passed the provider's condition" — Google's recommended **direct resource access** pattern. (Some products still need **service-account impersonation**; then you'd grant the principalSet `roles/iam.workloadIdentityUser` on an SA.)
 
 ### A4. The workflow (GitHub web UI)
@@ -100,7 +102,7 @@ jobs:
           echo "::add-mask::$GH_TOKEN"
           echo "GH_TOKEN=$GH_TOKEN" >> "$GITHUB_ENV"
           echo "Claims in the token (signature not shown):"
-          python3 -c 'import sys,base64,json; p=sys.argv[1].split(".")[1]; p+="="*(-len(p)%4); c=json.loads(base64.urlsafe_b64decode(p)); print(json.dumps({k:c.get(k) for k in ["iss","aud","sub","repository","repository_owner_id","ref","exp"]},indent=1))' "$GH_TOKEN"
+          python3 -c 'import sys,base64,json; p=sys.argv[1].split(".")[1]; p+="="*(-len(p)%4); c=json.loads(base64.urlsafe_b64decode(p)); print(json.dumps({k:c.get(k) for k in ["iss","aud","sub","repository","repository_id","repository_owner_id","ref","exp"]},indent=1))' "$GH_TOKEN"
       - name: 2. Exchange it at Google STS for a federated access token
         run: |
           AUDIENCE="${PROVIDER_AUD#https:}"
@@ -130,7 +132,8 @@ Every line is plain `curl` and `jq` (both on GitHub's Ubuntu runners), so you ca
 ### A5. Run it from main — then from another branch
 
 1. **Actions → wif-lab → Run workflow → Branch: main → Run.** Open the run.
-   **What you should see:** step 1 prints claims including `"iss": "https://token.actions.githubusercontent.com"`, your `repository`, `repository_owner_id`, and `"ref": "refs/heads/main"`; step 2 gets a token; step 3 prints `deployed by a pipeline with no stored secrets`.
+   **What you should see:** step 1 prints claims including `"iss": "https://token.actions.githubusercontent.com"`, your `repository`, `repository_id`, `repository_owner_id`, `"ref": "refs/heads/main"`, and a `sub`; step 2 gets a token; step 3 prints `deployed by a pipeline with no stored secrets`.
+   **Copy the `sub` value** into a note — Parts B and C need it. For repositories created since July 15, 2026, GitHub issues **immutable** subjects that embed numeric IDs, like `repo:owner@123456/wif-lab@789012:ref:refs/heads/main`, rather than the older `repo:owner/wif-lab:ref:refs/heads/main`.
 2. Create a branch: **Code → main ▾ → type `dev` → Create branch.** Then **Run workflow → Branch: dev → Run.**
    **What you should see:** step 1 shows `"ref": "refs/heads/dev"`; step 2 fails with an STS error (an `unauthorized_client`/`invalid_grant`-style message saying the credential is rejected by the attribute condition ⚠️ exact wording may differ). The token was genuine — GitHub signed it — but **your condition** refused it.
 
@@ -153,7 +156,7 @@ gcloud logging read 'protoPayload.serviceName="sts.googleapis.com"' --limit=5 --
 CloudShell, as `labadmin`.
 
 ```bash
-GH_OWNER=your-github-username; GH_REPO=wif-lab     # <-- edit
+GH_SUB='repo:...:ref:refs/heads/main'   # <-- paste the exact sub printed by step 1 of your main-branch run
 ACCT=$(aws sts get-caller-identity --query Account --output text)
 aws iam create-open-id-connect-provider --url https://token.actions.githubusercontent.com \
   --client-id-list sts.amazonaws.com --tags Key=lab,Value=15
@@ -164,7 +167,7 @@ cat > gh-trust.json <<EOF
  "Action":"sts:AssumeRoleWithWebIdentity",
  "Condition":{"StringEquals":{
    "token.actions.githubusercontent.com:aud":"sts.amazonaws.com",
-   "token.actions.githubusercontent.com:sub":"repo:$GH_OWNER/$GH_REPO:ref:refs/heads/main"}}}]}
+   "token.actions.githubusercontent.com:sub":"$GH_SUB"}}}]}
 EOF
 aws iam create-role --role-name lab15-gh-role --assume-role-policy-document file://gh-trust.json \
   --max-session-duration 3600 --tags Key=lab,Value=15 --query Role.Arn --output text
@@ -184,28 +187,28 @@ No thumbprint was supplied: AWS validates providers with publicly trusted certif
             "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" | jq -r .value)
           echo "::add-mask::$T"
           aws sts assume-role-with-web-identity --role-arn arn:aws:iam::ACCOUNT_ID:role/lab15-gh-role \
-            --role-session-name gh-lab15 --web-identity-token "$T" \
+            --role-session-name gh-lab15 --web-identity-token "$T" --region us-east-1 \
             --query "AssumedRoleUser.Arn" --output text
 ```
 
-**What you should see:** on `main`, an assumed-role ARN ending in `lab15-gh-role/gh-lab15`; on `dev`, `AccessDenied`. **Spot the classic mistake:** changing the `sub` condition to `StringLike` with `repo:*` would let any GitHub repository assume your role. ⚠️ If your repository uses GitHub's newer immutable subject format (`repo:owner@ID/repo@ID:...`, applied automatically to repos created after July 15, 2026), copy the exact `sub` shown in step 1's claims into the trust policy.
+**What you should see:** on `main`, an assumed-role ARN ending in `lab15-gh-role/gh-lab15`; on `dev`, `AccessDenied`. **Spot the classic mistake:** changing the `sub` condition to `StringLike` with `repo:*` would let any GitHub repository assume your role. Using the exact `sub` from the token — not one typed from memory — is why this works for both GitHub's older and newer (immutable, ID-based) subject formats; a mismatch fails on `main` too.
 
 ## Part C — Azure / Entra (optional, $0): federated credential and consent settings
 
-Azure Cloud Shell (Bash).
+Azure Cloud Shell (Bash). **Which account:** `labadmin` (module 00) has Owner on the subscription but no Entra directory role. Creating an app registration works if your tenant still allows "Users can register applications" (the default); if it's refused, use your tenant's original sign-up (break-glass) identity for Part C only, and sign out afterward. Viewing consent settings and starting a trial may also need that admin identity ⚠️ (role requirements not re-verified).
 
 ```bash
-GH_OWNER=your-github-username; GH_REPO=wif-lab     # <-- edit
+GH_SUB='repo:...:ref:refs/heads/main'   # <-- paste the exact sub from step 1
 APP_ID=$(az ad app create --display-name lab15-gh-app --query appId -o tsv)
 cat > fic.json <<EOF
 {"name":"lab15-main","issuer":"https://token.actions.githubusercontent.com",
- "subject":"repo:$GH_OWNER/$GH_REPO:ref:refs/heads/main","audiences":["api://AzureADTokenExchange"]}
+ "subject":"$GH_SUB","audiences":["api://AzureADTokenExchange"]}
 EOF
 az ad app federated-credential create --id $APP_ID --parameters fic.json
 az ad app federated-credential list --id $APP_ID --query "[].{name:name,subject:subject,aud:audiences[0]}" -o table
 ```
 
-**What you should see:** an app registration with **no client secret** and one federated credential bound to exactly one repo and branch (no wildcards allowed). You haven't granted it any Azure role, so it can't do anything yet — deliberately.
+**What you should see:** an app registration with **no client secret** and one federated credential bound to exactly one repo and branch (standard credentials allow no wildcards; flexible, expression-based credentials are in Preview). You haven't granted it any Azure role, so it can't do anything yet — deliberately.
 
 Then, in the **Entra admin center** (portal, read-only):
 
@@ -232,7 +235,7 @@ Then, in the **Entra admin center** (portal, read-only):
 1. The `dev` run carried a genuine, GitHub-signed token. Which *one* line of configuration stopped it — and what would have happened without it?
 2. Why condition on `repository_owner_id` rather than only the owner's name?
 3. Compare where the trust decision lives: Google provider attribute condition, AWS role trust policy, Entra federated credential subject. Which is easiest to get dangerously wrong?
-4. If an attacker compromised a maintainer's GitHub account and pushed to `main`, what would this design *not* stop? What GitHub-side controls (branch protection, environments with reviewers) would you add? (Google's H1 2026 Threat Horizons UNC6426 case is the real-world version.)
+4. If an attacker compromised a maintainer's GitHub account and pushed to `main`, what would this design *not* stop? What GitHub-side controls (branch protection, environments with reviewers) would you add? (Google's H1 2026 Threat Horizons UNC6426 case — a stolen GitHub token abusing a GitHub-to-AWS OIDC trust — is the real-world version.)
 5. Map consent phishing (T1528) to the Entra setting you reviewed in Part C.
 
 ## Cleanup

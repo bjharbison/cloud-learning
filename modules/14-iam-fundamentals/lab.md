@@ -231,6 +231,8 @@ aws iam get-service-last-accessed-details --job-id $JOB \
   --query "ServicesLastAccessed[?TotalAuthenticatedEntities>\`0\`].[ServiceNamespace,LastAuthenticated]" --output table
 ```
 
+If `get-service-last-accessed-details` shows `JobStatus: IN_PROGRESS`, wait a few seconds and rerun that command.
+
 **What you should see:** the external access analyzer lists any resource shared outside your account (possibly none — that's good); last-accessed data shows which services `labadmin` actually used — the evidence you'd use to shrink `AdministratorAccess` to something smaller.
 
 ## Part C — Azure (optional, $0): RBAC at resource-group scope

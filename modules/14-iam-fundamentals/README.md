@@ -16,7 +16,7 @@
 ## Why this matters for the target roles
 
 - **Customer engineer / architect:** IAM design is the first security question in every landing zone. Explaining Google's hierarchy-based model next to AWS's and Azure's — accurately — is a credibility test.
-- **Cloud security:** Google's Cloud Threat Horizons reporting for H1 2025 attributed **47.1%** of observed initial access to weak or absent credentials; Mandiant's H2 2025 incident data found identity issues enabled initial access in **83%** of cloud/SaaS cases. IAM is where cloud breaches start and spread.
+- **Cloud security:** Google's Cloud Threat Horizons reports attributed **47.1%** of observed initial access in H1 2025 to weak or absent credentials; the H1 2026 edition (covering H2 2025) found identity issues underpinned **83%** of the cloud and SaaS incidents it examined, even as software exploitation overtook weak credentials as the top entry vector. IAM is where cloud breaches start and spread.
 - **CTI:** cloud intrusions are identity intrusions. Reading an attacker's path means reading permissions.
 
 ---
@@ -145,7 +145,7 @@ Workloads need identities too (module 05 introduced them):
 
 **Two privilege-escalation paths to know:**
 
-- **`iam.serviceAccounts.actAs`** (in `roles/iam.serviceAccountUser`) lets you attach a service account to a VM, function, or job — and then run code with that SA's permissions. Granting it on a powerful SA is granting that SA's power.
+- **`iam.serviceAccounts.actAs`** (in `roles/iam.serviceAccountUser`) lets you attach a service account to a VM, function, or job — and then run code with that SA's permissions. Granting it on a powerful SA is granting that SA's power. AWS's analog is **`iam:PassRole`** — permission to hand a role to a service (an EC2 instance, a Lambda function), which then acts with that role's permissions.
 - **Token Creator** on a powerful SA is equivalent to holding its permissions. MITRE lists this pattern under **T1548.005 Temporary Elevated Cloud Access**.
 
 ### Finding excess permissions
@@ -217,12 +217,12 @@ The best standing permission is none. All three clouds offer time-bound elevatio
 
 ## Threat intel angle
 
-- **T1078.004 Valid Accounts: Cloud Accounts** — the front door. Weak/absent credentials led Google's H1 2025 initial-access data at 47.1%.
+- **T1078.004 Valid Accounts: Cloud Accounts** — the front door. Weak/absent credentials were 47.1% of initial access in Google's H1 2025 data and 27.2% in H2 2025, when third-party software exploitation (44.5%) took the top spot — but identity still underpinned 83% of incidents in the H1 2026 report.
 - **T1552.001 Credentials In Files** and **T1552.005 Cloud Instance Metadata API** — harvested keys and metadata tokens (module 05).
 - **T1087.004 Account Discovery: Cloud Account**, **T1069.003 Permission Groups Discovery: Cloud Groups**, **T1580 Cloud Infrastructure Discovery** — enumeration after access; noisy `List`/`Get`/`testIamPermissions` bursts.
 - **T1098.001 Additional Cloud Credentials** and **T1098.003 Additional Cloud Roles** — persistence: a new SA key or access key, a new Owner binding.
 - **T1548.005 Temporary Elevated Cloud Access** — abusing impersonation, PassRole, or JIT mechanisms.
-- **Public case:** Google's Cloud Threat Horizons H1 2026 report describes **UNC6426** abusing a stolen GitHub token and an over-permissive GitHub-to-AWS OIDC trust to reach a role, then attaching AdministratorAccess — token to admin in under 72 hours. Its recommendations: Workload Identity Federation instead of keys, no `iam.serviceAccounts.create`/`iam.roles.create` for deployment identities, and JIT for risky IAM actions.
+- **Public case:** Google's Cloud Threat Horizons H1 2026 report describes **UNC6426**: a trojanized npm package stole a developer's GitHub personal access token; the actor then abused the organization's GitHub-to-AWS OIDC trust to get temporary credentials for an over-permissive CloudFormation deployment role, and deployed a stack that **created a new role with AdministratorAccess** — token to admin in under 72 hours. Google's recommendations include federated identities that impersonate a minimal downstream service account, no `iam.serviceAccounts.create`/`iam.roles.create` for deployment identities, and JIT for risky IAM actions.
 
 **Detection ideas:** new SA keys or access keys; new bindings of Owner/Editor/admin roles; `actAs`/`getAccessToken` by unusual principals; Entra elevate access events; enumeration bursts from a new IP or token.
 

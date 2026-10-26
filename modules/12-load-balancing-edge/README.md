@@ -175,7 +175,7 @@ Most managed WAF rule sets derive from the **OWASP ModSecurity Core Rule Set (CR
 | Global L7 load balancer | Global external **Application LB** (one anycast IP) | CloudFront / Global Accelerator in front of regional ALBs | **Front Door** Standard/Premium | Google's is a single global service |
 | Regional L7 | Regional external / internal Application LB | **ALB** | **Application Gateway v2** | |
 | L4 | Network LB (proxy or passthrough) | **NLB** | **Azure Load Balancer** | Passthrough preserves client IP |
-| Appliance insertion | (Packet mirroring / NGFW endpoints — module 11) | **Gateway LB** | Gateway Load Balancer SKU | |
+| Appliance insertion | (no direct equivalent; Cloud NGFW Enterprise endpoints, module 11) | **Gateway LB** | Gateway Load Balancer SKU | |
 | DNS | Cloud DNS (100% SLO) | Route 53 | Azure DNS + Traffic Manager | Route 53 zones aren't prorated |
 | CDN | Cloud CDN, Media CDN | CloudFront (incl. flat-rate plans) | Front Door | |
 | WAF | Cloud Armor policies (CRS 4.22/3.3) | AWS WAF web ACLs + managed rule groups | Azure WAF (DRS 2.2 = CRS 3.3.4) | |
@@ -209,7 +209,7 @@ Most managed WAF rule sets derive from the **OWASP ModSecurity Core Rule Set (CR
 - **Subdomain takeover** via dangling DNS — Microsoft documents the pattern and mitigations (alias records, domain verification, cleanup on decommission).
 - **T1090.004 Proxy: Domain Fronting** — adversaries hiding C2 behind CDN domains; a reminder that "traffic to a big CDN" isn't automatically benign.
 
-**Detection ideas:** sudden spikes in requests per client IP or JA3/JA4 fingerprint; Cloud Armor deny counts by rule; DNS record changes outside change windows; new CNAMEs to provider domains; Certificate Transparency entries for your domains that you didn't request.
+**Detection ideas:** sudden spikes in requests per client IP or per **JA3/JA4 fingerprint** (a hash of how a client negotiates TLS — it identifies the client software even when IPs rotate); Cloud Armor deny counts by rule; DNS record changes outside change windows; new CNAMEs to provider domains; Certificate Transparency entries for your domains that you didn't request.
 
 **Bridge to your CTI work:** WAF logs are a running census of who's scanning you and with what. Correlate rule hits with threat-actor tooling the way you'd correlate SIGINT externals — the noise floor matters, and the anomaly is the story.
 

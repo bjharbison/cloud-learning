@@ -61,13 +61,13 @@
 |---|---|---|
 | **Dedicated Interconnect** | Your router cross-connected to Google in a colocation facility | 10, 100, or 400 Gbps circuits (400G GA March 2026), up to 8 per connection |
 | **Partner Interconnect** | A service provider carries you to Google | 50 Mbps – 50 Gbps per VLAN attachment |
-| **Cross-Cloud Interconnect** | Google-provisioned links between Google and **AWS, Azure, OCI, or Alibaba Cloud** | 10/100 Gbps (400G for AWS and OCI) |
+| **Cross-Cloud Interconnect** | Google-provisioned links between Google and **AWS, Azure, OCI, or Alibaba Cloud** | 10/100 Gbps; 400 Gbps GA since March 2026 ⚠️ (check per-cloud availability) |
 
 - **VLAN attachments** connect a circuit to a Cloud Router in your VPC.
 - **SLA topologies:** **99.9%** = two connections in one metro, different edge availability domains. **99.99%** = four connections, two in each of two metros. Redundancy is the customer's design choice.
 - **Encryption:** Google states Cloud Interconnect **doesn't encrypt by default**. Options: **MACsec** (Layer 2, protects only the hop from your router to Google's edge router) or **HA VPN over Cloud Interconnect** (IPsec across the circuit; must be chosen when the VLAN attachment is created). Google recommends layering IPsec or TLS on top of MACsec.
 
-**Multi-cloud news worth knowing:** AWS and Google announced a jointly engineered link in December 2025 — AWS calls it **AWS Interconnect – multicloud**; Google calls it **Partner Cross-Cloud Interconnect for AWS**. It reached GA on both sides on April 14, 2026, provisions in minutes at 1–100 Gbps, and uses MACsec between the providers' edge routers. It's built on an open API specification other clouds are expected to adopt.
+**Multi-cloud news worth knowing:** AWS and Google announced a jointly engineered link in December 2025 — AWS calls it **AWS Interconnect – multicloud**; Google calls it **Partner Cross-Cloud Interconnect for AWS**. AWS declared it GA on April 14, 2026; on Google's side the VPC Network Peering path went GA that day and the Network Connectivity Center path went GA on September 29, 2026. It provisions in minutes at 1–100 Gbps, and uses MACsec between the providers' edge routers. It's built on an open API specification other clouds are expected to adopt.
 
 ### AWS
 

@@ -63,7 +63,7 @@ ED 24-01 (Jan 2024, Ivanti Connect Secure/Policy Secure) and ED 25-03 (Sept 2025
 11. What is Cross-Cloud Interconnect, and what changed with AWS in 2026?
 <details><summary>Answer</summary>
 
-Google-provisioned dedicated links between Google Cloud and AWS, Azure, OCI, or Alibaba Cloud. In April 2026 the jointly engineered Google–AWS service (AWS Interconnect – multicloud / Partner Cross-Cloud Interconnect for AWS) reached GA: minutes to provision, 1–100 Gbps, MACsec between provider edges.
+Google-provisioned dedicated links between Google Cloud and AWS, Azure, OCI, or Alibaba Cloud. In 2026 the jointly engineered Google–AWS service (AWS Interconnect – multicloud / Partner Cross-Cloud Interconnect for AWS) reached GA — April 14 on AWS and for Google's VPC peering path, September 29 for Google's NCC path: minutes to provision, 1–100 Gbps, MACsec between provider edges.
 </details>
 
 12. An agency wants to start hybrid connectivity next month but a Dedicated Interconnect will take a quarter. What do you recommend?

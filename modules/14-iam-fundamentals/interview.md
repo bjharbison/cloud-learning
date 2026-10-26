@@ -47,7 +47,7 @@
 - Discover (T1087.004, T1069.003, T1580) — list roles, policies, SAs.
 - Escalate — actAs/Token Creator/PassRole (T1548.005), attach admin policies.
 - Persist — new keys (T1098.001), new bindings (T1098.003), new federated trusts.
-- Public example: Google's H1 2026 Cloud Threat Horizons case UNC6426 — stolen GitHub token → over-permissive OIDC trust → role → AdministratorAccess in under 72 hours.
+- Public example: Google's H1 2026 Cloud Threat Horizons case UNC6426 — trojanized npm package steals a GitHub token → over-permissive GitHub-to-AWS OIDC trust → CloudFormation role → new admin role created, in under 72 hours.
 - Detection: alert on key creation, privileged bindings, elevate access, enumeration bursts.
 
 ## 60-second executive explanation
