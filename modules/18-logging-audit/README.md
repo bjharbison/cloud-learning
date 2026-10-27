@@ -135,12 +135,12 @@ The log names you'll filter on: `cloudaudit.googleapis.com%2Factivity`, `%2Fdata
 ```
  Org agency.gov ── Audit config: Data Access ON for IAM, IAP, KMS, Secret Manager, Resource Manager
    ├─ Folder Prod ── projects …┐
-   ├─ Folder Dev  ── projects …├─► Aggregated sink (org, include-children)
-   └─ Folder Sec               │      filter: logName:"cloudaudit.googleapis.com" OR VPC/firewall logs
-                               ▼
-   Project sec-logging ── log bucket "audit-central" (locked, 400+ days, Observability Analytics → SQL)
-                       ├─ Pub/Sub sink ──► SIEM (Google SecOps / Splunk / Sentinel)   [module 22]
-                       └─ Cloud Storage (Bucket Lock, Archive class) for 18-month cold tier
+   ├─ Folder Dev  ── projects …├─► Org Log Router: aggregated sinks (include-children)
+   └─ Folder Sec               │     filter: logName:"cloudaudit.googleapis.com" OR VPC/firewall logs
+                               ├─ sink 1 ─► Project sec-logging: log bucket "audit-central"
+                               │             (locked, 400+ days, Observability Analytics → SQL)
+                               ├─ sink 2 ─► Pub/Sub topic ──► SIEM (Google SecOps / Splunk / Sentinel) [module 22]
+                               └─ sink 3 ─► Cloud Storage (Bucket Lock, Archive class) — 18-month cold tier
    Every project still keeps its own _Required (400 d, free, undeletable) — the tamper backstop
    Alerts: DeleteSink / UpdateSink / audit-config change → log-based alert (module 19)
 ```
@@ -177,7 +177,7 @@ The log names you'll filter on: `cloudaudit.googleapis.com%2Factivity`, `%2Fdata
 
 ## Threat intel angle
 
-**ATT&CK changed in April 2026.** Version 19 split **Defense Evasion** into **Stealth** (TA0005) and **Defense Impairment** (TA0112), and revoked **T1562 Impair Defenses**. Cloud log tampering is now **T1685.002 Disable or Modify Tools: Disable or Modify Cloud Log** (formerly T1562.008); firewall tampering moved to **T1686** (modules 10–11 cite the older T1562.007 — read them with that in mind). Older vendor reports will use the old IDs.
+**ATT&CK changed in April 2026.** Version 19 (still current in substance after v20, October 2026) split **Defense Evasion** into **Stealth** (TA0005) and **Defense Impairment** (TA0112), and revoked **T1562 Impair Defenses**. Cloud log tampering is now **T1685.002 Disable or Modify Tools: Disable or Modify Cloud Log**, which MITRE says revoked the old "Disable or Modify Cloud Logs" sub-technique (T1562.008 — the ID mapping is by name ⚠️); firewall tampering moved to **T1686** (modules 10–11 cite the older T1562.007 — read them with that in mind). Older vendor reports will use the old IDs.
 
 | Technique | ATT&CK | What it looks like in logs |
 |---|---|---|

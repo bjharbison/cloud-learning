@@ -1,6 +1,6 @@
 # 19 Lab — Watch a service like SRE and SOC at once: uptime check, alerts, a dashboard, and an SLO on paper
 
-**Cost:** $0 expected on Google Cloud. Uptime checks get **1 million executions free per project per month** (this lab uses a few thousand); **alerting policies aren't charged** before September 2027; email notifications are free; dashboards are free; one log-based metric produces a few KB against the 150 MiB/month free chargeable-metric allotment; the Cloud Run sample service stays inside Cloud Run's free tier. AWS (optional): one custom metric, one alarm, and one SNS email subscription — all inside CloudWatch's free tier (10 custom metrics, 10 alarm metrics). Azure (optional): one action group and one activity log alert ⚠️ (Azure lists activity log alerts as billable; expect $0 or cents for an hour — current price not confirmed). · **Time:** 90 min · **Clouds:** GCP (required), AWS and Azure (optional)
+**Cost:** $0 expected on Google Cloud. Uptime checks get **1 million executions free per project per month** (this lab uses a few thousand); **alerting policies aren't charged** before September 2027; email notifications are free; dashboards are free; one log-based metric produces a few KB against the 150 MiB/month free chargeable-metric allotment; the Cloud Run sample service stays inside Cloud Run's free tier. AWS (optional): one custom metric, one alarm, and one SNS email subscription — all inside CloudWatch's free tier (10 custom metrics, 10 alarm metrics). Azure (optional): one action group and one activity log alert — Microsoft lists alerting on the Activity log as a no-cost feature; a handful of email notifications fall within free notification allowances ⚠️ (notification allowance not re-verified). · **Time:** 90 min · **Clouds:** GCP (required), AWS and Azure (optional)
 
 ## Goal
 
@@ -38,7 +38,7 @@ HOST=${URL#https://}; echo $HOST
 for i in $(seq 1 50); do curl -s -o /dev/null $URL; done
 ```
 
-**Why public here?** An uptime check is a **black-box** probe from the internet, so the target must be reachable. This is Google's static sample page with no data and a two-instance ceiling, and you'll delete it at the end. (For private services, Google offers **private uptime checks** — and for Assured Workloads/IL4 boundaries, Google says not to use public uptime checks at all.)
+**Why public here?** An uptime check is a **black-box** probe from the internet, so the target must be reachable. This is Google's static sample page with no data and a two-instance ceiling, and you'll delete it at the end. (For private services, Google offers **private uptime checks** — but for Assured Workloads data-residency/IL4 boundaries, Google says not to use uptime checks or synthetic monitors at all.)
 
 ### A2. Uptime check (console tour, then CLI)
 
@@ -191,7 +191,7 @@ Now, on paper:
 1. **SLI definition:** "proportion of requests that did *not* return 5xx." (Why exclude 4xx? Those are usually the client's fault — decide deliberately.)
 2. **Your SLI value** = non-5xx ÷ total for the hour.
 3. **SLO:** 99.5% over 28 days. If the service handled 2,000,000 requests in 28 days, the **error budget** is `0.005 × 2,000,000 = 10,000` bad requests.
-4. **Burn rate:** if A6 had caused 5xx (it caused 403s — client errors, which this SLI ignores) at 50% of 1,000 requests/hour for 2 hours, how much budget is gone? (1,000 bad requests = 10% of the month's budget in 2 hours ≈ a **fast burn** worth paging on.)
+4. **Burn rate:** keep the 2,000,000-requests-per-28-days service from step 3 (about 2,976 requests/hour). Suppose an outage made **17%** of requests fail with 5xx for 2 hours: about 1,000 bad requests — **10% of the 28-day budget** in 2 of the window's 672 hours. Burn rate = (10% ÷ 2 h) ÷ (100% ÷ 672 h) ≈ **34×** normal — a **fast burn** worth paging on (Google's fast-burn guidance starts around 10×).
 5. Notice: A6 made users fail with **403**, which your 5xx-based SLI **didn't count**. The uptime check caught it. That's why black-box checks complement request-based SLIs — and why SLI definitions are a design decision.
 
 (Cloud Monitoring's **Services → Define service** builds SLOs and burn-rate alerts on custom or supported services ⚠️ automatic Cloud Run support wasn't confirmed this run; the arithmetic is the skill.)
@@ -254,7 +254,7 @@ az role assignment create --assignee $(az ad signed-in-user show --query id -o t
 2. Your 5xx-based SLI didn't notice the 403 outage. Rewrite the SLI so it would, and explain the trade-off.
 3. If an attacker deleted your alerting policies, where would that show up? (Hint: module 18.) What would catch it if nobody looked at that log?
 4. Cryptomining would show up on which of today's signals, and on which billing signal from module 04?
-5. Google warns against public uptime checks for Assured Workloads/IL4 boundaries. How would you monitor availability for a service inside one?
+5. Google says not to use uptime checks at all with Assured Workloads data-residency/IL4 requirements. How would you monitor availability for a service inside such a boundary?
 
 ## Cleanup
 

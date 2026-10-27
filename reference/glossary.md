@@ -304,6 +304,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Minimum storage duration** — The shortest time you're billed for in a colder storage class; deleting or moving an object earlier incurs an early-deletion charge for the remainder (e.g., Google Nearline 30 days, Coldline 90, Archive 365). (Module 08)
 
+**Monarch** — Google's internal, planet-scale time-series database; the backend for Cloud Monitoring and Managed Service for Prometheus. (Module 19)
+
 **Multi-tenancy** — Many customers' workloads sharing the same physical infrastructure, kept apart by the hypervisor and hardware. NIST calls it resource pooling. (Module 01)
 
 **Namespace (Kubernetes)** — A named scope inside a cluster for objects, RBAC permissions, quotas, and Pod Security labels. Roughly a Compose project; not a hard security boundary by itself. (Module 06)
@@ -466,7 +468,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Service control policy (SCP, AWS)** — An AWS Organizations guardrail that sets the maximum permissions available to principals in member accounts. Doesn't grant anything and doesn't apply to the management account. (Module 03)
 
+**Service Directory (Google Cloud)** — A managed registry of service names and endpoints; private uptime checks use it to reach internal IPs. (Module 19)
+
 **Service (Kubernetes)** — A stable virtual IP and DNS name in front of a changing set of pods, selected by labels. Type `LoadBalancer` creates a cloud load balancer — a public endpoint and a bill. (Module 06)
+
+**Service mesh** — A layer of sidecar or proxy components that handles service-to-service traffic, security, and telemetry (e.g., Istio, Cloud Service Mesh). (Module 19)
 
 **Service-account key** — A long-lived JSON credential for a Google Cloud service account; a frequent leak source, blocked by default in organizations created on or after May 3, 2024. (Module 14)
 

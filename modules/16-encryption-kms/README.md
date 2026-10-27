@@ -80,7 +80,7 @@ Notes that matter in a customer conversation:
 - **Location matters:** a CMEK key must be in the same location as the resource it protects (e.g., a `us-central1` bucket needs a `us-central1` key ring). That doubles as a **data-residency** control.
 - **Rotation** creates a new primary version; it does **not** re-encrypt existing data.
 - **Disable vs destroy:** disable is reversible; destroy is **scheduled** (default 30 days, configurable 24 hours to 120 days) and then permanent. Data under a destroyed version is unrecoverable — **crypto-shredding**.
-- **Deletion:** since 2026, Google lets you delete destroyed key versions, then empty keys, then empty key rings (until then, key rings and keys lived forever). Check `gcloud kms keyrings delete --help` — older SDKs lack it.
+- **Deletion:** Google now lets you delete destroyed key versions and then empty keys (GA March 2, 2026), and empty key rings (GA August 24, 2026); before that, key rings and keys lived forever. Check `gcloud kms keyrings delete --help` — older SDKs lack it.
 - **Autokey** creates key rings, keys, and the service-agent grants automatically when a resource needs CMEK — the fix for "CMEK is too much toil." Autokey keys get a free tier (100 active key versions and 10,000 operations per month per billing account).
 - **Who needs permission:** for CMEK, the **service agent** of the consuming service (e.g., the Cloud Storage service agent `service-PROJECT_NUMBER@gs-project-accounts.iam.gserviceaccount.com`) needs `roles/cloudkms.cryptoKeyEncrypterDecrypter` on the key. That grant *is* the switch: remove it or disable the version and the service can no longer read.
 

@@ -155,7 +155,7 @@ The "BeyondCorp" name survives in some APIs and `gcloud beta beyondcorp` command
 
 | Capability | Google Cloud | AWS | Azure | Notable difference |
 |---|---|---|---|---|
-| Identity-aware web access | **IAP** (free for Google Cloud resources) | **Verified Access** (per app-hour) | **Entra application proxy** / **Entra Private Access** | Only IAP has no hourly charge |
+| Identity-aware web access | **IAP** (free for Google Cloud resources) | **Verified Access** (per app-hour) | **Entra application proxy** / **Entra Private Access** | Only Verified Access bills per app-hour; IAP core is free; Entra is per-user licensing |
 | Admin access without inbound ports | IAP TCP forwarding (needs firewall rule from IAP range) | Session Manager (no inbound rule) | Azure Bastion; Entra Private Access | Module 05 |
 | Policy engine | IAM + Access Context Manager | Cedar policies + trust providers | **Conditional Access** (P1) | Microsoft's is the most featureful sign-in engine |
 | Device signal | Endpoint Verification (Chrome Enterprise Premium) | Third-party device trust providers | Intune compliance | |
@@ -191,7 +191,7 @@ The "BeyondCorp" name survives in some APIs and `gcloud beta beyondcorp` command
 
 **Why this matters for zero trust:** a VPN concentrator is a single, internet-facing, high-value box that, once owned, puts the attacker "inside." Identity-aware proxies shift the exposed surface to a provider-run service and make every request carry identity and device context. It doesn't eliminate risk — the proxy and IdP become the crown jewels — but it removes the flat network behind them.
 
-**Note on ATT&CK versions:** ATT&CK v19 (April 2026) split the old Defense Evasion tactic into **Stealth** and **Defense Impairment** and renumbered the old "Impair Defenses" techniques (module 18 has details). Check versions when you read older reports.
+**Note on ATT&CK versions:** ATT&CK v19 (April 2026) split the old Defense Evasion tactic into **Stealth** and **Defense Impairment** and renumbered the old "Impair Defenses" techniques (module 18 has details; unchanged in v20, October 2026). Check versions when you read older reports.
 
 **Bridge to your CTI and OT work:** the edge-device campaigns read like the OT pattern you know — long-lived appliances, weak visibility, vendor patch cycles. The April 2026 OT zero-trust guide and its use of zones and conduits will look familiar from IEC 62443 ⚠️ (62443 linkage stated from the guide's description, not re-read).
 

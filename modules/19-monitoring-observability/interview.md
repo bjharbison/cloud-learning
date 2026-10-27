@@ -7,7 +7,7 @@
 **Answer outline:**
 - Start from users: define SLIs (availability, latency) and SLOs with the mission owner; error budget and burn-rate alerts.
 - Golden signals from free platform metrics; Ops Agent or OpenTelemetry for guest and app telemetry; Cloud Trace for latency breakdown.
-- Black-box checks: uptime checks (private ones inside regulated boundaries).
+- Black-box checks: uptime checks for ordinary workloads — but not inside Assured Workloads data-residency/IL4 boundaries, where Google says not to use them; there, rely on request-based SLIs and in-boundary probes.
 - Alert routing: two channel types, owned by teams; Pub/Sub for automation.
 - Security overlap: log-based alerts on IAM and logging changes routed to the SOC; metric-absence alerts on telemetry.
 - Dashboards and policies as code.

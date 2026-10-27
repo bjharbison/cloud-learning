@@ -1,6 +1,6 @@
 # 16 Lab — Hold the key: envelope encryption by hand, a CMEK bucket you can switch off, and a secret instead of a password
 
-**Cost:** about **$0.01** on Google Cloud if you clean up the same day. One software key version bills ~$0.06/month while enabled, disabled, **or scheduled for destruction**, so a second version and a 1-day destroy schedule add fractions of a cent; crypto operations are $0.03 per 10,000 (you'll make a few dozen). The bucket fits the always-free 5 GB-month in `us-central1`; Secret Manager stays inside its free 6 versions / 10,000 accesses. AWS (optional): one customer managed key at **$1/month** (⚠️ hourly proration not confirmed — you'll schedule deletion within the hour, and AWS doesn't bill keys pending deletion); a few requests inside the 20,000/month free tier. Azure (optional): a Key Vault Standard with a handful of secret operations — fractions of a cent ⚠️ (current per-operation price not confirmed). · **Time:** 75–90 min, plus a 2-minute follow-up the next day · **Clouds:** GCP (required), AWS and Azure (optional)
+**Cost:** about **$0.01** on Google Cloud if you clean up the same day. One software key version bills ~$0.06/month while enabled, disabled, **or scheduled for destruction**, so a second version and a 1-day destroy schedule add fractions of a cent; crypto operations are $0.03 per 10,000 (you'll make a few dozen). The bucket fits the always-free 5 GB-month in `us-central1`; Secret Manager stays inside its free 6 versions / 10,000 accesses. AWS (optional): one customer managed key at **$1/month, prorated hourly** (you'll schedule deletion within the hour, and AWS doesn't bill keys pending deletion); a few requests inside the 20,000/month free tier. Azure (optional): a Key Vault Standard with a handful of secret operations — fractions of a cent ⚠️ (current per-operation price not confirmed). · **Time:** 75–90 min, plus a 2-minute follow-up the next day · **Clouds:** GCP (required), AWS and Azure (optional)
 
 ## Goal
 
@@ -85,7 +85,7 @@ cmp bigfile.bin bigfile.out && echo "round trip OK"
 shred -u dek.unwrapped
 ```
 
-**What you just proved:** 2 MB never touched KMS — only the 65-byte DEK file did. Anyone holding `bigfile.bin.enc` and `dek.wrapped` still needs **KMS permission** to read it. (This lab uses `openssl` for clarity; real applications use Google's **Tink** library or the cloud SDKs, which use authenticated modes such as AES-GCM ⚠️ Tink details not re-verified this run.)
+**What you just proved:** 2 MB never touched KMS — only the 65-byte DEK file did. (A nuance for the precise: `openssl enc -pass` treats the hex string as a passphrase and derives the actual AES key from it with PBKDF2. The envelope pattern is identical; production code feeds the random key bytes in directly.) Anyone holding `bigfile.bin.enc` and `dek.wrapped` still needs **KMS permission** to read it. (This lab uses `openssl` for clarity; real applications use Google's **Tink** library or the cloud SDKs, which use authenticated modes such as AES-GCM ⚠️ Tink details not re-verified this run.)
 
 ### A4. A CMEK bucket — and the kill switch (CLI)
 
@@ -245,7 +245,7 @@ gcloud kms keys delete $KEY --keyring=$KR --location=$LOC --quiet
 gcloud kms keyrings delete $KR --location=$LOC --quiet || echo "keyrings delete not in this gcloud — use the console (Key Management → key ring → Delete) or leave it; an empty key ring costs nothing"
 ```
 
-(Re-set `PROJECT_ID`, `LOC`, `KR`, `KEY` from Prerequisites in the new Cloud Shell session first.) Deleted names can't be reused.
+(Re-set `PROJECT_ID`, `LOC`, `KR`, `KEY` from Prerequisites in the new Cloud Shell session first.) Deleted key names can't be reused; a deleted key ring's name becomes available again after about 5–10 minutes.
 
 **AWS**
 

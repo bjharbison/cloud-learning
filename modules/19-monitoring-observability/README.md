@@ -47,11 +47,11 @@
 The umbrella name is **Google Cloud Observability**: **Cloud Monitoring**, **Cloud Logging**, **Cloud Trace**, **Error Reporting**, **Cloud Profiler**, and **Managed Service for Prometheus**.
 
 - **Metrics scope:** one **scoping project** can view metrics from many projects (375 officially supported); alerting policies, dashboards, and uptime checks live there. Most Google Cloud and custom metrics are kept **24 months**; some (including log-based metrics) six weeks.
-- **Uptime checks:** HTTP, HTTPS, or TCP probes from at least three checker regions every 1, 5, 10, or 15 minutes; **private uptime checks** reach internal IPs via Service Directory. Limit 100 per metrics scope. Google warns not to use public uptime checks where Assured Workloads data-residency or IL4 controls apply. **1 million executions free per project per month**, then $0.30 per 1,000.
+- **Uptime checks:** HTTP, HTTPS, or TCP probes from at least three checker regions every 1, 5, 10, or 15 minutes; **private uptime checks** reach internal IPs via **Service Directory** (Google's registry of service endpoints). Limit 100 per metrics scope. Google says **not to use uptime checks or synthetic monitors at all** where Assured Workloads data-residency or IL4 controls apply. **1 million executions free per project per month**, then $0.30 per 1,000.
 - **Alerting policies:** conditions on **metric threshold**, **metric absence**, **forecast**, **PromQL**, **log match** (log-based alerts), or SQL (Preview). Up to 6 conditions per metric policy. **Notification channels:** email, SMS (Google says not fully reliable — pair it), mobile app, Slack, PagerDuty, webhooks, **Pub/Sub** (for automation), Google Chat (Preview).
 - **Log-based metrics:** counter or distribution metrics from a log filter — not backfilled; charged as custom metrics.
 - **Dashboards:** predefined per service, custom, or JSON-defined (`gcloud monitoring dashboards create --config-from-file`).
-- **Managed Service for Prometheus:** Prometheus-compatible collection (managed collectors on by default for new GKE clusters) stored in **Monarch**, the same backend as Cloud Monitoring; query with **PromQL**; 24-month retention included.
+- **Managed Service for Prometheus:** Prometheus-compatible collection (managed collectors on by default for new GKE clusters) stored in **Monarch** (Google's internal planet-scale time-series database), the same backend as Cloud Monitoring; query with **PromQL**; 24-month retention included.
 
 **Pricing to know (October 2026):** Google Cloud system metrics free; chargeable metrics **$0.258/MiB** after **150 MiB free per billing account**; Prometheus **$0.06 per million samples**, no free allotment; Trace **2.5 million spans free**, then $0.20 per million. **Alerting is still free** — Google has announced charges ($0.35/month per metric referenced in a policy plus query charges) starting **no sooner than September 1, 2027**.
 
@@ -68,7 +68,7 @@ The umbrella name is **Google Cloud Observability**: **Cloud Monitoring**, **Clo
 - **Platform metrics** (free, 1-minute, 93 days), **Log Analytics** (module 18), **Application Insights** (APM; workspace-based — Microsoft has been migrating classic resources), **managed Prometheus** (18-month retention), and Grafana (free built-in Azure Monitor dashboards with Grafana, or paid **Azure Managed Grafana**).
 - **Alert rules:** metric, log search, Prometheus, **activity log** (incl. Service Health), smart detection; **action groups** define who/what is notified.
 - **Availability tests:** **standard tests** are current; the older URL ping tests now retire **September 30, 2028** (extended from 2026).
-- Metric alerts bill per monitored time series; log search and activity log alerts are also listed as billable ⚠️ (current dollar amounts not confirmed).
+- Metric alerts bill per monitored time series and log search alerts are billed ⚠️ (current dollar amounts not confirmed); **activity log alerts are free**.
 
 ### SLIs, SLOs, and error budgets — plainly
 
@@ -83,7 +83,7 @@ From Google's **Site Reliability Engineering** book:
 
 **Burn-rate alerting:** instead of "alert when SLO is breached" (too late), alert when you're spending budget too fast. Google's guidance: a **fast-burn** alert (around 10× normal over 1–2 hours) and a **slow-burn** alert (around 2× over about 24 hours).
 
-**In Cloud Monitoring:** **service monitoring** supports SLOs automatically for App Engine and Cloud Service Mesh/Istio on GKE, and for **custom services** you define; SLIs are **request-based** or **windows-based**, over rolling or calendar periods ⚠️ (automatic Cloud Run support not confirmed this run). AWS has SLOs in **Application Signals**; Azure has SLO capabilities ⚠️ not verified this run — Azure teams often compute them from Application Insights data.
+**In Cloud Monitoring:** **service monitoring** supports SLOs automatically for App Engine and **Cloud Service Mesh**/Istio on GKE (a service mesh is a sidecar or proxy layer that handles service-to-service traffic and telemetry), and for **custom services** you define; SLIs are **request-based** or **windows-based**, over rolling or calendar periods ⚠️ (automatic Cloud Run support not confirmed this run). AWS has SLOs in **Application Signals**; Azure has SLO capabilities ⚠️ not verified this run — Azure teams often compute them from Application Insights data.
 
 **Bridge to your intel background:** an SLO is a readiness standard. "Ninety-five percent of tasked collection delivered within 24 hours" is an SLI with an SLO. The error budget is the agreed tolerance for misses — spend it knowingly, and stop new tasking when it's gone.
 
@@ -133,7 +133,7 @@ From Google's **Site Reliability Engineering** book:
 | Free platform metrics | Google Cloud system metrics | Basic monitoring (5-min EC2) | Platform metrics (1-min, 93 d) | |
 | Guest agent | Ops Agent | CloudWatch agent | Azure Monitor Agent | Memory needs an agent on all three |
 | Uptime / synthetic checks | Uptime checks (1M free/project/month); synthetic monitors | CloudWatch Synthetics canaries (100 free runs) | Standard availability tests (billed) | |
-| Alerting | Alerting policies (free until ≥ Sept 2027) | CloudWatch alarms (10 free) | Alert rules + action groups (billed) | Google is the only one not yet charging |
+| Alerting | Alerting policies (free until ≥ Sept 2027) | CloudWatch alarms (10 free) | Alert rules + action groups (activity log alerts free; metric and log search alerts billed) | Google charges nothing for alerting until at least Sept 2027 |
 | Notifications | Notification channels (email, Slack, PagerDuty, Pub/Sub, webhook…) | SNS topics | Action groups | |
 | Log-based alerting | Log-based alerts / metrics | Metric filters + alarms; log alarms | Log search alerts | |
 | Dashboards | Custom/JSON dashboards (free) | 3 free, then $3/month | Workbooks; Grafana dashboards (free built-in) | |
@@ -156,7 +156,7 @@ From Google's **Site Reliability Engineering** book:
 3. **Ops-only routing** of security-relevant alerts (IAM changes, logging disabled).
 4. **No absence alerting** — an attacker disables an agent or sink and dashboards quietly flatline.
 5. **Over-broad Monitoring Editor** — someone can mute or delete the alerts that would catch them.
-6. **Public uptime checks** against systems with residency constraints (Google's IL4/Assured Workloads warning).
+6. **Uptime checks** against systems with residency constraints — Google says not to use them with Assured Workloads data-residency or IL4 requirements.
 
 ## Threat intel angle
 
@@ -173,7 +173,7 @@ Google's **Threat Horizons** reports have repeatedly found that compromised clou
 
 ## Public sector notes
 
-- Google warns against **public uptime checks** with Assured Workloads data-residency or **IL4** requirements — use private uptime checks or in-boundary probes.
+- Google says **not to use uptime checks or synthetic monitors** where Assured Workloads data-residency or **IL4** requirements apply — measure availability from request-based SLIs on platform metrics and probes run inside the boundary.
 - Federal SLAs and **mission SLOs** often come from operational requirements (availability for a 24×7 watch floor); translate them into SLIs you can measure.
 - Monitoring and alerting configurations are evidence for **continuous monitoring** in an ATO (module 26).
 

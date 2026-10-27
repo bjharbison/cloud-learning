@@ -40,6 +40,8 @@
 
 ### Q5. "What's an attack you've seen against cloud encryption or keys?"
 
+**Framing:** answer with "one I've studied in public reporting is…" — don't imply you worked the incident.
+
 **Answer outline:**
 - Attackers rarely break crypto; they abuse access. Secrets-store reads (T1555.006), credentials in files (T1552.001).
 - The 2025 S3 SSE-C ransomware: stolen credentials + a legitimate encryption feature (T1486). AWS's mitigations and the April 2026 default block.

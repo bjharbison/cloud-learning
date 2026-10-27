@@ -195,7 +195,7 @@ gcloud run services list --region=$REGION --filter="metadata.name~lab17" || true
 
 **AWS / Azure:** nothing created.
 
-**Final check — nothing billable or exposed remains:** no `lab17-app` Cloud Run service; IAP Data Access logging back to default; no lab OAuth client; no AWS Verified Access instance. (Logs already written stay in `_Default` for 30 days at no charge within the free allotment.)
+**Final check — nothing billable or exposed remains:** no `lab17-app` Cloud Run service; IAP Data Access logging back to default; lab OAuth client deleted or intentionally kept; no AWS Verified Access instance. (Logs already written stay in `_Default` for 30 days at no charge within the free allotment.)
 
 ## Write-up prompt
 

@@ -39,7 +39,7 @@ Guest-OS metrics such as memory and disk usage. Google Ops Agent, Amazon CloudWa
 7. As of October 2026, which cloud doesn't yet charge for alerting policies, and when might that change?
 <details><summary>Answer</summary>
 
-Google Cloud. Announced charges ($0.35/month per metric referenced plus query charges) begin no sooner than September 1, 2027. AWS bills alarms beyond 10 free alarm metrics; Azure bills alert rules.
+Google Cloud. Announced charges ($0.35/month per metric referenced plus query charges) begin no sooner than September 1, 2027. AWS bills alarms beyond 10 free alarm metrics; Azure bills metric and log search alert rules (activity log alerts are free).
 </details>
 
 8. Spot the problem: a production alerting policy's only notification channel is an SMS number belonging to an engineer who left last month.
@@ -54,10 +54,10 @@ Alerts go nowhere. Use at least two channel types (e.g., email/Pub/Sub plus pagi
 Any three: log-based alerts on audit events (IAM changes, human secret access) built in ops tools; AWS Security Hub CloudWatch.1–14 metric-filter alarms on CloudTrail events; resource hijacking (T1496.001) showing as CPU/instance/cost spikes; DoS (T1499) showing as SLO burn; metric-absence alerts catching disabled telemetry (T1685.002); access changes causing outages.
 </details>
 
-10. Scenario: an agency workload sits inside an Assured Workloads boundary with IL4 requirements. Can you use a public uptime check? What would you do instead?
+10. Scenario: an agency workload sits inside an Assured Workloads boundary with IL4 requirements. Can you use an uptime check? What would you do instead?
 <details><summary>Answer</summary>
 
-Google advises against public uptime checks with Assured Workloads data-residency or IL4 requirements. Use private uptime checks (via Service Directory, internal IPs) or in-boundary probes, plus request-based SLIs from platform metrics.
+No — Google says not to use uptime checks or synthetic monitors (public or private) where Assured Workloads data-residency or IL4 requirements apply. Measure availability with request-based SLIs from platform metrics and with probes or synthetic traffic run inside the boundary.
 </details>
 
 11. Compare the "notify someone" building block on each cloud.

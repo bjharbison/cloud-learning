@@ -39,7 +39,7 @@ No separation of duties: the people (or a stolen credential) that could compromi
 7. What is ATT&CK T1685.002, and what was it called before April 2026?
 <details><summary>Answer</summary>
 
-Disable or Modify Tools: Disable or Modify Cloud Log, under the new Defense Impairment tactic (TA0112). It replaced T1562.008 Impair Defenses: Disable or Modify Cloud Logs when ATT&CK v19 revoked T1562 and split Defense Evasion into Stealth and Defense Impairment.
+Disable or Modify Tools: Disable or Modify Cloud Log, under the new Defense Impairment tactic (TA0112). It replaced T1562.008 Impair Defenses: Disable or Modify Cloud Logs when ATT&CK v19 (April 2026) revoked T1562 and split Defense Evasion into Stealth and Defense Impairment (MITRE's notes match the two by name; unchanged in v20, October 2026).
 </details>
 
 8. Give one log event per cloud you'd alert on for T1685.002.
