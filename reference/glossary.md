@@ -50,6 +50,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Basic roles (Google Cloud)** — The broad legacy Owner, Editor, and Viewer roles (plus newer Admin/Writer/Reader basic roles in Preview), each spanning thousands of permissions. Google advises against them in production. (Module 14)
 
+**BeyondCorp** — Google's internal zero-trust program, begun after the 2009 Aurora intrusion and described from 2014: no privileged intranet; every app behind an access proxy that checks user and device. Its commercial successor is Chrome Enterprise Premium. (Module 17)
+
 **BGP (Border Gateway Protocol)** — The routing protocol that lets two networks advertise reachable prefixes to each other and reroute automatically when a link fails. The basis of redundant VPN and interconnect designs. (Module 13)
 
 **BigQuery** — Google Cloud's serverless data warehouse: columnar storage separated from compute, billed by bytes scanned (on-demand; first 1 TiB/month free) or by slot capacity (editions). Data Access audit logs are always on. (Module 09)
@@ -68,7 +70,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **CDN (content delivery network)** — Edge caches that serve copies of content close to users, cutting latency and origin load. Cloud CDN / Media CDN, CloudFront, Azure Front Door. (Module 12)
 
+**Chrome Enterprise Premium** — Google's commercial zero-trust offering (formerly BeyondCorp Enterprise): context-aware access, device signals, and threat and data protection in the Chrome browser. (Module 17)
+
 **CIDR (Classless Inter-Domain Routing)** — Notation for an IP range as address plus prefix length (`10.10.0.0/16`). Cloud network planning is mostly CIDR planning: non-overlapping ranges for everything that might ever connect. (Module 10)
+
+**CISA Zero Trust Maturity Model (ZTMM)** — CISA's framework (v2.0, April 2023): five pillars (Identity, Devices, Networks, Applications and Workloads, Data), three cross-cutting capabilities, and four stages from Traditional to Optimal. (Module 17)
 
 **Cloud Armor (Google Cloud)** — Google's WAF and DDoS-protection service: security policies with preconfigured OWASP CRS-based rules, custom rules, rate limiting, and (Enterprise tier) Adaptive Protection. (Module 12)
 
@@ -134,6 +140,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **DNSSEC** — Digital signatures on DNS records so resolvers can detect forged answers. Authenticity, not encryption. (Module 12)
 
+**DoD Zero Trust Strategy** — The 2022 defense strategy with seven pillars and 152 activities; the 91 Target Level activities are required by the end of FY2027. (Module 17)
+
 **Edge location** — A small provider site near users, used for caching (CDN), DNS, and traffic entry rather than general compute. AWS also offers Local Zones (metro compute) and Wavelength Zones (inside 5G networks). (Module 02)
 
 **Egress control** — Restricting outbound traffic from workloads (no public IPs, central NAT, deny-by-default egress, FQDN filtering, API perimeters). Allow-all egress is the default on Google, AWS, and Azure. (Module 11)
@@ -172,6 +180,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **GKE Autopilot** — GKE mode where Google manages nodes, scaling, and hardened defaults, and general-purpose pods are billed by their resource requests. Google recommends it for most workloads; the alternative is Standard mode with self-managed node pools. (Module 06)
 
+**Global Secure Access (Microsoft)** — Microsoft's Security Service Edge: Entra Private Access (per-app VPN replacement) and Entra Internet Access (identity-aware web gateway). (Module 17)
+
 **Golden image** — A hardened, patched custom VM image used as the standard base for a fleet. Software supply chain: whatever is baked in ships to every VM (ATT&CK T1525 targets this). (Module 05)
 
 **HA VPN (Google Cloud)** — A Cloud VPN gateway with two interfaces and BGP routing; 99.99% SLA when tunnels use both interfaces. Replaces Classic VPN for new dynamic-routing designs. (Module 13)
@@ -197,6 +207,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **IAP TCP forwarding (Google Cloud)** — Identity-Aware Proxy feature that tunnels SSH/RDP to VMs without public IPs after checking the caller's Google identity and IAM role. The VM's firewall only needs to allow IAP's range (35.235.240.0/20). (Modules 01, 05)
 
 **Identity provider (IdP)** — The system that authenticates users and issues assertions or tokens (Entra ID, Okta, Ping, Cloud Identity). The service provider or relying party consumes them. (Module 15)
+
+**Identity-Aware Proxy (IAP, Google Cloud)** — A Google-run proxy that authenticates users and checks IAM (and optional access levels) on every request before forwarding to an app or VM, with signed identity headers and logged decisions. (Modules 05, 17)
 
 **IMDSv2 (AWS)** — Version 2 of the EC2 Instance Metadata Service, which requires a session token before returning data (including role credentials). Blocks simple SSRF-based credential theft; default on Amazon Linux 2023. (Module 05)
 
@@ -280,6 +292,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **OLTP / OLAP** — Online transaction processing (many small reads/writes with transactions, e.g., Cloud SQL) vs online analytical processing (few huge scans and aggregations, e.g., BigQuery). (Module 09)
 
+**OMB M-22-09** — The January 2022 federal zero-trust strategy memo: phishing-resistant MFA, device inventory and EDR, encrypted DNS/HTTPS, internet-accessible apps, data categorization; goals by end of FY2024. (Modules 15, 17)
+
 **OpenID Connect (OIDC)** — An identity layer on OAuth 2.0 that issues signed JWT ID tokens; used for modern SSO and workload federation. (Module 15)
 
 **Organization (Google Cloud)** — The root of a Google Cloud resource hierarchy, normally tied to a Cloud Identity or Workspace domain; new Free Trial sign-ups may get a domainless standalone organization. (Module 03)
@@ -309,6 +323,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Pod Security Admission** — Kubernetes' built-in admission controller (stable since v1.25) that enforces the Pod Security Standards — `privileged`, `baseline`, `restricted` — per namespace via labels, in `enforce`, `audit`, or `warn` mode. (Module 06)
 
 **Point-in-time recovery (PITR)** — Restoring a database to any moment within a retention window. DynamoDB PITR is off until enabled (1–35 days); managed SQL services offer it with configurable retention. (Module 09)
+
+**Policy decision point / policy enforcement point (PDP / PEP)** — NIST SP 800-207 terms: the PDP (policy engine + policy administrator) decides whether a request is allowed; the PEP sits in the data path and enforces that decision. (Module 17)
 
 **Policy Denied audit logs (Google Cloud)** — Always-on audit logs recording requests blocked by security policies such as VPC Service Controls, including dry-run violations (`dryRun: true`). (Module 11)
 
@@ -450,6 +466,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Uniform bucket-level access (UBLA, Google Cloud)** — Disables object ACLs so access to a bucket is controlled only by IAM. Required for IAM Conditions on buckets; can be turned off only within 90 days of enabling. Enforced by default org policy on organizations created since 2024. (Module 08)
 
+**Verified Access (AWS)** — AWS's VPN-less application access service that evaluates each request against identity and device trust providers using Cedar policies. Billed per app-hour. (Module 17)
+
 **Virtual WAN (Azure)** — Azure's managed hub-and-spoke networking service for connecting VNets, branches, and remote users, integrated with Azure Firewall. (Module 10)
 
 **VLAN attachment (Google Cloud)** — The logical link between an Interconnect connection and a Cloud Router in a VPC region. (Module 13)
@@ -469,3 +487,5 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Workload identity** — Giving a workload (pod, function, VM) short-lived cloud credentials based on its own identity instead of a stored key. In Kubernetes: GKE Workload Identity Federation, EKS Pod Identity/IRSA, Microsoft Entra Workload ID. Outside the cloud: workload identity federation. (Modules 06, 15)
 
 **Workload Identity Federation (Google Cloud)** — Exchanging an external workload's token (OIDC, SAML, AWS, Azure, X.509) at Google STS for short-lived Google credentials, removing service-account keys. (Module 15)
+
+**Zero trust** — A security model that grants access per request based on identity, device, and context, assuming the network is hostile; defined for U.S. government use in NIST SP 800-207. (Module 17)

@@ -119,5 +119,9 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Approve provider use of keys / data | Key Access Justifications (Assured Workloads); Access Approval | — ⚠️ | Customer Lockbox (Developer support plan or higher) | Module 16; Access Transparency in 18 |
 | Secrets manager | Secret Manager (rotation = notifications) | AWS Secrets Manager (native rotation); SSM Parameter Store | Key Vault secrets (RBAC default for new vaults) | Module 16 |
 | Key deletion safety net | Scheduled destroy 24 h–120 d (default 30), then delete | Pending deletion 7–30 d (not billed) | Soft delete 7–90 d + optional purge protection | Module 16 |
+| Identity-aware web access (zero-trust PEP) | Identity-Aware Proxy (free core; direct on Cloud Run since Mar 2026) | AWS Verified Access (~$0.27/app-hour, no free tier) | Entra application proxy; Entra Private Access | Module 17 |
+| Zero-trust policy engine | IAM + Access Context Manager access levels | Verified Access Cedar policies + trust providers | Conditional Access (Entra ID P1) | Module 17 |
+| Enterprise zero-trust suite / SSE | Chrome Enterprise Premium (formerly BeyondCorp Enterprise) | — (building blocks + partners) | Global Secure Access (Entra Internet + Private Access; Entra Suite) | Google's App Connector shut down Jul 31, 2026. Module 17 |
+| Device trust signal | Endpoint Verification (paid CEP feature) | Third-party device trust providers | Intune device compliance | Module 17 |
 
-*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16 rows verified 2026-10-27.*
+*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16 rows verified 2026-10-27; Module 17 rows verified 2026-10-27.*
