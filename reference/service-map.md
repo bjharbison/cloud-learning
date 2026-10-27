@@ -11,7 +11,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Managed Kubernetes | Google Kubernetes Engine (GKE) | Amazon EKS | Azure Kubernetes Service (AKS) | Kubernetes originated at Google. Module 06 |
 | Object storage | Cloud Storage | Amazon S3 | Azure Blob Storage | Azure adds a storage-account layer (keys, network settings) above containers. Module 08 |
 | Virtual network | VPC network | Amazon VPC | Azure Virtual Network (VNet) | GCP VPCs are global; AWS VPCs and Azure VNets are regional. Module 10 |
-| Key management | Cloud KMS | AWS KMS | Azure Key Vault | |
+| Key management | Cloud KMS (key ring → key → versions) | AWS KMS | Azure Key Vault (Standard/Premium); Managed HSM | Key Vault also holds secrets and certificates. Module 16 |
 | Identity & access | Cloud IAM (allow + deny policies on the hierarchy) | AWS IAM (identity + resource policies) | Azure RBAC (resources) + Microsoft Entra roles (directory) | Azure has two separate systems. Module 14 |
 | Audit logging | Cloud Audit Logs | AWS CloudTrail | Azure Activity Log | Module 18 |
 | Monitoring | Cloud Monitoring | Amazon CloudWatch | Azure Monitor | Module 19 |
@@ -111,5 +111,13 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Workload federation (CI/CD, other clouds) | Workload Identity Federation (OIDC, SAML, AWS, Azure, X.509) | IAM OIDC/SAML providers; IAM Roles Anywhere (X.509) | Federated identity credentials (app registration / user-assigned MI) | Module 15 |
 | Sign-in policy engine | Context-Aware Access | IdP policies + IAM conditions | Conditional Access (Entra ID P1) | Module 15 |
 | Just-in-time privileged access | Privileged Access Manager | Partners / TEAM sample (no native JIT) | Privileged Identity Management (P2/Governance) | Module 15 |
+| Customer-managed encryption key | CMEK (Cloud KMS key on the resource; service agent needs encrypter/decrypter) | Customer managed key (AWS managed keys are legacy) | Customer-managed key in Key Vault / Managed HSM | Disable = kill switch; destroy = crypto-shred. Module 16 |
+| Automated CMEK provisioning | Cloud KMS Autokey | — | — | Module 16 |
+| Customer-supplied key per request | CSEK (Cloud Storage, Compute Engine) | SSE-C (blocked by default on new S3 buckets since Apr 2026) | Customer-provided keys (Blob) | Abused for ransomware in 2025. Module 16 |
+| Single-tenant HSM | Single-tenant Cloud HSM (GA Dec 2025) | AWS CloudHSM (hsm2m.medium, FIPS 140-3 L3) | Managed HSM; Azure Cloud HSM (Dedicated HSM retiring Jul 2028) | Module 16 |
+| Externally held keys | Cloud External Key Manager (Fortanix, Futurex, Thales) | KMS external key store (XKS) | Managed HSM external keys ⚠️ preview | Your key manager's uptime becomes the cloud's. Module 16 |
+| Approve provider use of keys / data | Key Access Justifications (Assured Workloads); Access Approval | — ⚠️ | Customer Lockbox (Developer support plan or higher) | Module 16; Access Transparency in 18 |
+| Secrets manager | Secret Manager (rotation = notifications) | AWS Secrets Manager (native rotation); SSM Parameter Store | Key Vault secrets (RBAC default for new vaults) | Module 16 |
+| Key deletion safety net | Scheduled destroy 24 h–120 d (default 30), then delete | Pending deletion 7–30 d (not billed) | Soft delete 7–90 d + optional purge protection | Module 16 |
 
-*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26.*
+*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16 rows verified 2026-10-27.*

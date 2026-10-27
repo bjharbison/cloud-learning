@@ -66,7 +66,7 @@ Modules are built in numbered order, in batches of four or five by scheduled run
 |---|---|---|---|
 | 14 | IAM fundamentals: principals, roles, policies, least privilege across all three clouds | `modules/14-iam-fundamentals` | 🟦 |
 | 15 | Federation, SSO, workload identity, Microsoft Entra ID, privileged access | `modules/15-identity-federation` | 🟦 |
-| 16 | Encryption and key management: KMS, customer-managed keys, HSMs, secrets managers | `modules/16-encryption-kms` | ⬜ |
+| 16 | Encryption and key management: KMS, customer-managed keys, HSMs, secrets managers | `modules/16-encryption-kms` | 🟦 |
 | 17 | Zero trust: BeyondCorp, identity-aware access, federal zero-trust strategy | `modules/17-zero-trust` | ⬜ |
 
 ## Phase 5 — Administration, monitoring, and governance

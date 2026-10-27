@@ -32,6 +32,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Auto mode / custom mode VPC (Google Cloud)** — Auto mode creates one subnet per region from predefined ranges in `10.128.0.0/9`; custom mode starts with no subnets and you choose regions and ranges. Auto can convert to custom, not back. Google recommends custom mode for production. (Module 10)
 
+**Autokey (Cloud KMS)** — A Cloud KMS feature that creates key rings, keys, and service-agent permissions automatically when a resource needs CMEK, removing most manual key setup. Has a small free tier. (Module 16)
+
 **Autoscaling** — Automatically adding or removing VMs (or containers) based on a signal such as CPU, load-balancer capacity, a custom metric, or a schedule, within a minimum and maximum you set. The maximum is a cost and blast-radius control. (Module 05)
 
 **AWS GovCloud (US)** — Isolated AWS Regions (US-East and US-West) for sensitive U.S. government workloads, administered by U.S. citizens per AWS. (Module 02; deep dive in 27)
@@ -84,6 +86,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cloud shell** — A free, temporary Linux environment in the browser, pre-authenticated and preloaded with the provider's CLI: Google Cloud Shell, AWS CloudShell, Azure Cloud Shell. Keeps credentials off your laptop. (Module 00)
 
+**CMEK (customer-managed encryption key)** — Encryption where the provider's service wraps your data keys with a key you create and control in the provider's KMS; you can rotate, disable, or destroy it, and its use is logged. (Module 16)
+
 **CNI (Container Network Interface)** — The plugin that gives Kubernetes pods their network. Whether NetworkPolicy is actually enforced depends on it: GKE Dataplane V2 (default on Autopilot) and AKS Automatic's Cilium enforce by default; EKS's VPC CNI, GKE Standard, and Standard AKS need it enabled or chosen. (Module 06)
 
 **Cold start** — The extra latency when a serverless request arrives and a new instance must start first. Reduced with minimum instances, at the cost of paying for idle capacity. (Module 07)
@@ -104,6 +108,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cost allocation tag (AWS)** — A resource tag that AWS Billing uses to group costs. User-defined tags must be activated in the Billing console before they appear in cost reports. (Module 04)
 
+**Crypto-shredding** — Making data permanently unreadable by destroying the key that encrypts it, rather than deleting every copy of the data. (Module 16)
+
+**CSEK / SSE-C (customer-supplied keys)** — You send the raw encryption key with each request; the provider uses it and keeps only a hash. Lose the key, lose the data. (Module 16)
+
 **Custom role** — A customer-defined bundle of permissions. Google Cloud: org or project level only; you maintain it as services change. (Module 14)
 
 **Dangling DNS / subdomain takeover** — A DNS record still pointing at a deleted cloud resource; an attacker who re-creates that resource name controls your subdomain. (Module 12)
@@ -115,6 +123,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Dataplane V2 (GKE)** — GKE's eBPF-based networking layer, which always enforces Kubernetes NetworkPolicy and offers network policy logging; enabled by default on new Autopilot clusters. (Module 06)
 
 **Default network (Google Cloud)** — The auto-mode VPC named `default` created in new projects unless org policy (`compute.skipDefaultNetworkCreation`) prevents it, with pre-populated rules including SSH and RDP from `0.0.0.0/0`. Don't use it. AWS analog: the default VPC with public subnets. (Module 10)
+
+**DEK / KEK** — Data encryption key (encrypts the data, stored only in wrapped form) and key encryption key (held in KMS, wraps DEKs). The two halves of envelope encryption. (Module 16)
 
 **Deny policy (Google Cloud)** — An IAM policy at org, folder, or project level that denies specific permissions to principals regardless of allow policies; evaluated before allow. (Module 14)
 
@@ -132,15 +142,21 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Entra roles vs Azure roles** — Two separate Microsoft permission systems: Entra roles govern the directory (users, apps, tenant settings); Azure RBAC roles govern Azure resources at management group, subscription, resource group, or resource scope. (Module 14)
 
+**Envelope encryption** — Encrypting data with a local data key, then encrypting that data key with a master key held in a key management service; only the small wrapped key travels to KMS. (Module 16)
+
 **etcd** — The key-value database where Kubernetes stores all cluster state, including Secrets. Managed services run it for you; whoever can read it can read everything. (Module 06)
 
 **Execution role (AWS Lambda)** — The IAM role a Lambda function runs as; it decides what AWS APIs the function's code can call. Google analog: the Cloud Run service account; Azure: a managed identity. (Module 07)
 
 **ExpressRoute (Azure)** — Microsoft's private circuit service: redundant links to two Microsoft edge routers, private and Microsoft peering, Local/Standard/Premium SKUs, and ExpressRoute Direct ports. Not encrypted by default. (Module 13)
 
+**External key manager (EKM / XKS)** — Keys kept in a key manager outside the cloud provider, which the provider must call for every cryptographic operation (Google Cloud EKM, AWS KMS external key store). (Module 16)
+
 **Federation** — One identity provider authenticates users and other systems trust its signed statements instead of keeping their own credentials. (Module 15)
 
 **FinOps** — The practice of making engineering, finance, and leadership jointly accountable for cloud spend. The FinOps Foundation describes three repeating phases: Inform, Optimize, Operate. (Module 04)
+
+**FIPS 140-3** — The current U.S. standard for validating cryptographic modules (Levels 1–4). FIPS 140-2 certificates moved to NIST's Historical List in September 2026. (Module 16)
 
 **Flex Consumption plan (Azure Functions)** — Microsoft's recommended serverless hosting plan for new Azure Functions apps: event-driven scaling (including to zero), pay per execution, and VNet integration. Replaces the legacy Consumption plan. (Module 07)
 
@@ -165,6 +181,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Health check** — Periodic probes a load balancer sends to backends; failing backends stop receiving traffic. Firewalls must allow the provider's probe ranges. (Module 12)
 
 **Hierarchical firewall policy (Google Cloud)** — Firewall rules attached to the organization or folders, evaluated before project-level rules; lower levels can't override them, only receive traffic delegated with `goto_next`. (Module 11)
+
+**HSM (hardware security module)** — Tamper-resistant hardware that generates and uses keys without exposing key material. Offered multi-tenant (Cloud HSM, AWS KMS, Key Vault Premium) or single-tenant (Single-tenant Cloud HSM, CloudHSM, Managed HSM/Cloud HSM). (Module 16)
 
 **Hypervisor** — Software that runs multiple isolated virtual machines on one physical server. Type 1 runs on bare metal (KVM, Hyper-V, Nitro Hypervisor); Type 2 runs as an app on a normal OS. (Module 01)
 
@@ -197,6 +215,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Just-in-time (JIT) access** — Time-bound elevation granted on request (often with justification and approval) and removed automatically, replacing standing privilege. Google PAM, Azure PIM, AWS TEAM/partners. (Module 15)
 
 **JWT (JSON Web Token)** — A signed, Base64-encoded token of JSON claims (issuer, subject, audience, expiry); the format of OIDC ID tokens. (Module 15)
+
+**Key Access Justifications (KAJ, Google Cloud)** — Attaches a reason code to every request to use a key so the customer's policy can approve or deny it; available with Assured Workloads. (Module 16)
+
+**Key rotation** — Creating a new primary key version for future encryption. Doesn't re-encrypt existing data; older versions must stay enabled to read it. (Module 16)
 
 **kubelet** — The Kubernetes agent on every node that starts containers and reports status. An exposed kubelet API with anonymous access is a well-known initial-access path (e.g., Hildegard malware). (Module 06)
 
@@ -358,6 +380,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **SCIM** — A REST/JSON standard for automatically provisioning and deprovisioning users and groups between an IdP and applications. (Module 15)
 
+**Secrets manager** — A service that stores credentials (passwords, API keys, certificates) with versioning, per-secret access control, and audit logs: Secret Manager, AWS Secrets Manager, Azure Key Vault. (Module 16)
+
 **Security admin rule (Azure Virtual Network Manager)** — A centrally managed rule applied to VNets and evaluated before NSGs, with Allow, Always allow, or Deny actions. (Module 11)
 
 **Security data lake** — Centralized, long-retention storage of security telemetry queried with SQL or analytics tools, cheaper than a SIEM's hot tier. BigQuery with aggregated log sinks, Amazon Security Lake, Microsoft Sentinel data lake. (Module 09)
@@ -367,6 +391,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Serverless** — A model where the provider runs, scales, and patches the infrastructure for code or containers you supply, typically scaling to zero and billing per use. Security shifts to invocation permissions and the workload's identity. (Module 07)
 
 **Service account (Google Cloud)** — An identity for a workload rather than a person: user-managed, default (created by services), or Google-managed service agents. (Modules 05, 14)
+
+**Service agent (Google Cloud)** — A Google-managed service account that a Google service uses to act in your project, e.g., the Cloud Storage service agent that needs permission on a CMEK key. (Module 16)
 
 **Service control policy (SCP, AWS)** — An AWS Organizations guardrail that sets the maximum permissions available to principals in member accounts. Doesn't grant anything and doesn't apply to the management account. (Module 03)
 
@@ -399,6 +425,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Slot (BigQuery)** — A unit of BigQuery compute capacity. Editions (Standard, Enterprise, Enterprise Plus) bill by slot-hours instead of bytes scanned. (Module 09)
 
 **Soft delete** — A recovery window during which deleted data can be restored. On by default for Google Cloud Storage (7 days, configurable 7–90 or off; billed while retained); Azure offers blob and container soft delete; S3 relies on versioning instead. (Module 08)
+
+**Soft delete (Key Vault) / purge protection** — Key Vault keeps deleted vaults and objects recoverable for 7–90 days; purge protection, once enabled, can't be turned off and blocks permanent deletion until retention ends. (Module 16)
 
 **Spanner (Google Cloud)** — Google's globally distributed relational database offering strong consistency, horizontal scale, and up to a 99.999% availability SLA. (Module 09)
 
