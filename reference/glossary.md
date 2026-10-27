@@ -18,6 +18,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **AiTM (adversary-in-the-middle) phishing** — A proxy phishing site relays the real sign-in, including MFA, and steals the resulting session cookie; defeated by phishing-resistant MFA. ATT&CK T1557 / T1539. (Module 15)
 
+**Alerting policy (Google Cloud)** — A Cloud Monitoring rule with conditions (metric threshold, absence, PromQL, log match) and notification channels; AWS calls the equivalent an alarm, Azure an alert rule. (Module 19)
+
 **Allow policy (Google Cloud)** — The IAM policy attached to a resource that binds roles to principals, optionally with conditions; inherited down the hierarchy and additive. (Module 14)
 
 **Antideficiency Act** — U.S. law (31 U.S.C. § 1341 and related sections) barring federal employees from obligating or spending more than an appropriation provides, or before funds are appropriated. Why elastic, bill-after-use cloud spend worries government comptrollers. (Module 04)
@@ -75,6 +77,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Budget action (AWS)** — An AWS Budgets feature that responds to a threshold automatically or after approval: apply an IAM policy or SCP, or stop specific EC2/RDS instances. The closest thing to a native cost brake on the three clouds — still not a hard cap. (Module 04)
 
 **Budget (cloud billing)** — A spending threshold that sends alerts as actual or forecasted cost crosses percentages you set. On all three clouds, budgets notify; they don't stop resources. (Module 00)
+
+**Burn rate** — How fast a service is consuming its error budget relative to plan; burn-rate alerts page on fast spending instead of waiting for an SLO breach. (Module 19)
 
 **CDN (content delivery network)** — Edge caches that serve copies of content close to users, cutting latency and origin load. Cloud CDN / Media CDN, CloudFront, Azure Front Door. (Module 12)
 
@@ -166,6 +170,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Envelope encryption** — Encrypting data with a local data key, then encrypting that data key with a master key held in a key management service; only the small wrapped key travels to KMS. (Module 16)
 
+**Error budget** — The allowed amount of unreliability, 1 − SLO; e.g., 99.5% of 2 million requests leaves 10,000 failures to "spend" on change. (Module 19)
+
 **etcd** — The key-value database where Kubernetes stores all cluster state, including Secrets. Managed services run it for you; whoever can read it can read everything. (Module 06)
 
 **Event history (CloudTrail)** — The free, per-Region, 90-day view of AWS management events, searchable one attribute at a time. (Module 18)
@@ -187,6 +193,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Folder (Google Cloud)** — A grouping node between the organization and projects, nestable up to 10 levels. IAM and organization policies set on a folder apply to everything under it. (Module 03)
 
 **Forwarding rule (Google Cloud)** — A load balancer's frontend: IP address, protocol, and port. Billed hourly even when idle. (Module 12)
+
+**Four golden signals** — Latency, traffic, errors, and saturation: the Google SRE book's core metrics for any user-facing service. (Module 19)
 
 **Free trial vs free tier** — A free trial is time-limited credit you can spend broadly (Google $300/90 days; AWS up to $200 on a 6-month free plan; Azure $200/30 days, as of 2026). A free tier is specific services with monthly limits that stay free. (Module 00)
 
@@ -268,6 +276,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Log Router / sink (Google Cloud)** — The Cloud Logging component that evaluates every entry against sinks; each sink has an inclusion filter, exclusions, and a destination (log bucket, BigQuery, Cloud Storage, Pub/Sub). (Module 18)
 
+**Log-based metric / log-based alert (Google Cloud)** — A metric counting log entries that match a filter, or an alert that fires directly on a matching log entry; how audit-log detections are built in Cloud Monitoring. (Module 19)
+
 **Machine type / instance type / VM size** — The vCPU and memory shape of a VM. Google machine types (e.g., `e2-micro`), AWS instance types (`t3.micro`), Azure sizes (`Standard_B1s`). Shared-core/burstable types are what free tiers offer. (Module 05)
 
 **MACsec** — IEEE 802.1AE Layer 2 encryption between directly connected devices; on cloud circuits it protects only the hop between your router and the provider's edge router. (Module 13)
@@ -276,11 +286,17 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Managed instance group (MIG, Google Cloud)** — A group of identical VMs created from an instance template that Google keeps at a target size, autoheals, updates in rolling fashion, and autoscales. A regional MIG spreads VMs across zones. AWS: Auto Scaling group; Azure: Virtual Machine Scale Set. (Module 05)
 
+**Managed Service for Prometheus (Google Cloud)** — Prometheus-compatible metric collection stored in Google's Monarch backend and queried with PromQL; managed collection is on by default for new GKE clusters. (Module 19)
+
 **Management events vs data events (CloudTrail)** — Management events are control-plane actions (logged by default); data events are high-volume resource operations like S3 object reads (opt-in, charged). (Module 18)
 
 **Management group (Azure)** — A container above subscriptions for applying Azure RBAC and Azure Policy at scale; up to six levels deep under the tenant root group. (Module 03)
 
 **Metadata server / IMDS** — A link-local endpoint (169.254.169.254) inside every cloud VM that serves configuration and the VM identity's short-lived credentials. A prime target for SSRF and credential theft (ATT&CK T1552.005). (Module 05)
+
+**Metric-absence alert** — An alert that fires when expected data stops arriving; catches failed or disabled agents, pipelines, and log sources. (Module 19)
+
+**Metrics scope (Google Cloud)** — The set of projects whose metrics a scoping project can view and alert on; dashboards, uptime checks, and alerting policies live in the scoping project. (Module 19)
 
 **MFA fatigue (push bombing)** — Flooding a user with MFA prompts until one is approved. ATT&CK T1621. (Module 15)
 
@@ -306,11 +322,15 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Nitro System (AWS)** — AWS's virtualization platform: Nitro Cards (networking, storage, management offload), the Nitro Security Chip, and the minimal Nitro Hypervisor. (Module 01)
 
+**Notification channel / action group / SNS topic** — Where alerts are sent on Google Cloud, Azure, and AWS respectively. (Module 19)
+
 **OAuth 2.0** — An authorization framework for granting apps access tokens to call APIs on a user's or app's behalf. Not, by itself, a login protocol. (Module 15)
 
 **Object Lock (AWS S3)** — S3's WORM feature for object versions: governance mode (users with `s3:BypassGovernanceRetention` can override) or compliance mode (no one, including root, can delete before the retain-until date), plus open-ended legal holds. Requires versioning. (Module 08)
 
 **Object versioning** — Keeping prior copies of an object when it's overwritten or deleted; the current copy is live, older ones noncurrent. Off by default on Google, AWS, and Azure; every version is billed. (Module 08)
+
+**Observability** — The ability to understand a system's internal state from its telemetry (metrics, logs, traces), including for failures nobody predicted; broader than monitoring known conditions. (Module 19)
 
 **Observability Analytics (Google Cloud)** — Formerly Log Analytics: an upgrade to a log bucket that enables SQL queries over logs, with an optional linked read-only BigQuery dataset. (Modules 09, 18)
 
@@ -325,6 +345,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **OMB M-22-09** — The January 2022 federal zero-trust strategy memo: phishing-resistant MFA, device inventory and EDR, encrypted DNS/HTTPS, internet-accessible apps, data categorization; goals by end of FY2024. (Modules 15, 17)
 
 **OpenID Connect (OIDC)** — An identity layer on OAuth 2.0 that issues signed JWT ID tokens; used for modern SSO and workload federation. (Module 15)
+
+**OpenTelemetry (OTel)** — The vendor-neutral CNCF standard (graduated 2026) for generating and exporting traces, metrics, and logs over the OTLP protocol. (Module 19)
+
+**Ops Agent (Google Cloud)** — Google's single agent for VM guest metrics and logs, built on Fluent Bit and the OpenTelemetry Collector. (Module 19)
 
 **Organization (Google Cloud)** — The root of a Google Cloud resource hierarchy, normally tied to a Cloud Identity or Workspace domain; new Free Trial sign-ups may get a domainless standalone organization. (Module 03)
 
@@ -468,6 +492,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **SLA (Service Level Agreement)** — A provider's contractual uptime commitment; if missed, you can claim a service credit. A refund policy, not an availability guarantee. (Module 02)
 
+**SLI / SLO** — Service level indicator (a measured ratio of good events to total) and service level objective (the target for that SLI over a window); an SLA is the external promise with consequences. (Modules 02, 19)
+
 **Slot (BigQuery)** — A unit of BigQuery compute capacity. Editions (Standard, Enterprise, Enterprise Plus) bill by slot-hours instead of bytes scanned. (Module 09)
 
 **Soft delete** — A recovery window during which deleted data can be restored. On by default for Google Cloud Storage (7 days, configurable 7–90 or off; billed while retained); Azure offers blob and container soft delete; S3 relies on versioning instead. (Module 08)
@@ -492,9 +518,13 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Titanium (Google Cloud)** — Google's hardware security architecture: Titan root-of-trust chips, Caliptra, Titanium Offload Processors, and related components that verify boot integrity and offload I/O and encryption. (Module 01)
 
+**Trace / span** — A trace follows one request across services; each span is one timed step within it. (Module 19)
+
 **Transit Gateway (AWS)** — AWS's regional network hub for connecting many VPCs and on-prem networks, avoiding a full mesh of non-transitive peerings. (Module 10)
 
 **Uniform bucket-level access (UBLA, Google Cloud)** — Disables object ACLs so access to a bucket is controlled only by IAM. Required for IAM Conditions on buckets; can be turned off only within 90 days of enabling. Enforced by default org policy on organizations created since 2024. (Module 08)
+
+**Uptime check (Google Cloud)** — A black-box HTTP/HTTPS/TCP probe from three or more Google regions on a 1–15 minute schedule; private uptime checks reach internal endpoints. (Module 19)
 
 **Verified Access (AWS)** — AWS's VPN-less application access service that evaluates each request against identity and device trust providers using Cedar policies. Billed per app-hour. (Module 17)
 

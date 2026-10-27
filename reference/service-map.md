@@ -14,7 +14,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Key management | Cloud KMS (key ring → key → versions) | AWS KMS | Azure Key Vault (Standard/Premium); Managed HSM | Key Vault also holds secrets and certificates. Module 16 |
 | Identity & access | Cloud IAM (allow + deny policies on the hierarchy) | AWS IAM (identity + resource policies) | Azure RBAC (resources) + Microsoft Entra roles (directory) | Azure has two separate systems. Module 14 |
 | Audit logging | Cloud Audit Logs (Admin Activity 400 d free; Data Access off) | AWS CloudTrail (Event history 90 d; data events off) | Azure Activity Log (90 d) + resource logs via diagnostic settings | Data-plane audit is opt-in on all three. Module 18 |
-| Monitoring | Cloud Monitoring | Amazon CloudWatch | Azure Monitor | Module 19 |
+| Monitoring | Cloud Monitoring (Google Cloud Observability) | Amazon CloudWatch | Azure Monitor | Module 19 |
 | Top-level identity | Google Account (2SV required) | Root user (MFA required) | Sign-up identity → Microsoft Entra ID tenant admin | Only AWS has a distinct "root user." Module 00 |
 | Human admin sign-in | Google Account / Cloud Identity user with IAM roles | IAM Identity Center (permission sets) | Microsoft Entra ID user + Azure RBAC role | AWS's org instance of Identity Center needs AWS Organizations, which ends the AWS free plan; use an MFA-protected IAM user until then. Module 00 |
 | Budgets and alerts | Cloud Billing budgets | AWS Budgets | Microsoft Cost Management budgets | All alert-only; none stop spend by default. Module 00 |
@@ -130,5 +130,13 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Log integrity / immutability | `_Required` (undeletable); locked log buckets | Log file integrity validation (signed digests); S3 Object Lock | Immutable storage | Module 18 |
 | Provider-staff access logs | Access Transparency (+ Access Approval) | — ⚠️ | Customer Lockbox | Module 18 |
 | SaaS/productivity audit | Workspace audit logs ⚠️ | — | Microsoft Purview Audit (Standard expanded after Storm-0558) | Module 18 |
+| Uptime / synthetic checks | Uptime checks (1M executions free/project/month); private uptime checks | CloudWatch Synthetics canaries | Application Insights standard availability tests (URL ping retires Sept 30, 2028) | Google warns against public checks for IL4/Assured Workloads. Module 19 |
+| Alert notification target | Notification channels (email, Slack, PagerDuty, Pub/Sub, webhook) | SNS topics | Action groups | Module 19 |
+| Alerting | Alerting policies (no charge before Sept 2027) | CloudWatch alarms (10 free; static, anomaly, composite) | Alert rules (metric, log search, activity log) | Module 19 |
+| Guest OS telemetry agent | Ops Agent | CloudWatch agent | Azure Monitor Agent | Memory metrics need it on all three. Module 19 |
+| Managed Prometheus | Managed Service for Prometheus (Monarch, 24-mo retention) | Amazon Managed Service for Prometheus | Azure Monitor managed Prometheus (18 mo) | Module 19 |
+| Distributed tracing / APM | Cloud Trace (OTel) | X-Ray (SDKs in maintenance → OpenTelemetry); Application Signals | Application Insights | Module 19 |
+| SLO tooling | Service monitoring SLOs + burn-rate alerts | Application Signals SLOs | ⚠️ not verified | Module 19 |
+| Grafana | — (PromQL/Grafana-compatible querying) | Amazon Managed Grafana | Azure Managed Grafana; built-in Grafana dashboards | Module 19 |
 
-*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–18 rows verified 2026-10-27.*
+*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–19 rows verified 2026-10-27.*
