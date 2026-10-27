@@ -13,7 +13,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Virtual network | VPC network | Amazon VPC | Azure Virtual Network (VNet) | GCP VPCs are global; AWS VPCs and Azure VNets are regional. Module 10 |
 | Key management | Cloud KMS (key ring → key → versions) | AWS KMS | Azure Key Vault (Standard/Premium); Managed HSM | Key Vault also holds secrets and certificates. Module 16 |
 | Identity & access | Cloud IAM (allow + deny policies on the hierarchy) | AWS IAM (identity + resource policies) | Azure RBAC (resources) + Microsoft Entra roles (directory) | Azure has two separate systems. Module 14 |
-| Audit logging | Cloud Audit Logs | AWS CloudTrail | Azure Activity Log | Module 18 |
+| Audit logging | Cloud Audit Logs (Admin Activity 400 d free; Data Access off) | AWS CloudTrail (Event history 90 d; data events off) | Azure Activity Log (90 d) + resource logs via diagnostic settings | Data-plane audit is opt-in on all three. Module 18 |
 | Monitoring | Cloud Monitoring | Amazon CloudWatch | Azure Monitor | Module 19 |
 | Top-level identity | Google Account (2SV required) | Root user (MFA required) | Sign-up identity → Microsoft Entra ID tenant admin | Only AWS has a distinct "root user." Module 00 |
 | Human admin sign-in | Google Account / Cloud Identity user with IAM roles | IAM Identity Center (permission sets) | Microsoft Entra ID user + Azure RBAC role | AWS's org instance of Identity Center needs AWS Organizations, which ends the AWS free plan; use an MFA-protected IAM user until then. Module 00 |
@@ -123,5 +123,12 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Zero-trust policy engine | IAM + Access Context Manager access levels | Verified Access Cedar policies + trust providers | Conditional Access (Entra ID P1) | Module 17 |
 | Enterprise zero-trust suite / SSE | Chrome Enterprise Premium (formerly BeyondCorp Enterprise) | — (building blocks + partners) | Global Secure Access (Entra Internet + Private Access; Entra Suite) | Google's App Connector shut down Jul 31, 2026. Module 17 |
 | Device trust signal | Endpoint Verification (paid CEP feature) | Third-party device trust providers | Intune device compliance | Module 17 |
+| Data-plane audit | Data Access audit logs (BigQuery always on) | CloudTrail data events ($0.10/100k) | Resource logs (diagnostic settings) | Module 18 |
+| Org-wide log collection | Aggregated sink (org/folder, `--include-children`) | Organization trail → log archive account | Diagnostic settings deployed by Azure Policy | Module 18 |
+| Log store + query language | Log buckets; Logging query language; Observability Analytics (SQL) | CloudWatch Logs + Logs Insights; Athena; CloudTrail Lake (closed to new customers May 2026) | Log Analytics workspace (KQL) | Module 18 |
+| Identity sign-in logs | Cloud Identity / Workspace login audit | `ConsoleLogin` + Identity Center events in CloudTrail | Entra sign-in logs (7 d Free / 30 d P1+; export needs P1/P2) | Module 18 |
+| Log integrity / immutability | `_Required` (undeletable); locked log buckets | Log file integrity validation (signed digests); S3 Object Lock | Immutable storage | Module 18 |
+| Provider-staff access logs | Access Transparency (+ Access Approval) | — ⚠️ | Customer Lockbox | Module 18 |
+| SaaS/productivity audit | Workspace audit logs ⚠️ | — | Microsoft Purview Audit (Standard expanded after Storm-0558) | Module 18 |
 
-*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16 rows verified 2026-10-27; Module 17 rows verified 2026-10-27.*
+*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–18 rows verified 2026-10-27.*

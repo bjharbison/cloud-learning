@@ -73,7 +73,7 @@ Modules are built in numbered order, in batches of four or five by scheduled run
 
 | # | Module | Folder | Build |
 |---|---|---|---|
-| 18 | Logging and audit trails: Cloud Audit Logs, CloudTrail, Azure Activity/Entra logs; centralizing logs | `modules/18-logging-audit` | ⬜ |
+| 18 | Logging and audit trails: Cloud Audit Logs, CloudTrail, Azure Activity/Entra logs; centralizing logs | `modules/18-logging-audit` | 🟦 |
 | 19 | Monitoring and observability: metrics, alerting, dashboards, SLOs (Cloud Monitoring, CloudWatch, Azure Monitor) | `modules/19-monitoring-observability` | ⬜ |
 | 20 | Infrastructure as code and admin automation: Terraform, CLIs, policy as code (Org Policy, SCPs, Azure Policy) | `modules/20-iac-policy-as-code` | ⬜ |
 | 21 | Security posture management: Security Command Center, Security Hub/GuardDuty, Defender for Cloud; CSPM/CNAPP; CIS benchmarks | `modules/21-security-posture` | ⬜ |

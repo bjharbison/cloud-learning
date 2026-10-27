@@ -4,9 +4,17 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Access level (Access Context Manager)** — A named condition (source IP ranges, device attributes, geography) that VPC Service Controls perimeters can use to admit requests from outside. (Module 11)
 
+**Access Transparency (Google Cloud)** — Logs of actions Google personnel take on customer content, with justification; Access Approval lets customers approve or deny such access in advance. (Module 18)
+
 **actAs (Google Cloud)** — The `iam.serviceAccounts.actAs` permission (in Service Account User) that lets a principal attach a service account to a resource and run code as it — a common privilege-escalation path. (Module 14)
 
+**Activity Log (Azure)** — Subscription-level record of control-plane write operations, kept 90 days and collected automatically. (Module 18)
+
+**Admin Activity / Data Access audit logs (Google Cloud)** — Admin Activity records configuration changes (always on, 400 days, free); Data Access records reads of configuration and reads/writes of user data (off by default except BigQuery, charged). (Modules 08, 18)
+
 **Admission controller (Kubernetes)** — Code in the API server that inspects create/update requests after authentication and can reject or modify them before they're stored. Pod Security Admission, OPA Gatekeeper, Kyverno, and Binary Authorization work here. (Module 06)
+
+**Aggregated sink (Google Cloud)** — A Log Router sink at the organization or folder that collects logs from all child projects; intercepting sinks also stop them flowing to child sinks. (Modules 09, 18)
 
 **AiTM (adversary-in-the-middle) phishing** — A proxy phishing site relays the real sign-in, including MFA, and steals the resulting session cookie; defeated by phishing-resistant MFA. ATT&CK T1557 / T1539. (Module 15)
 
@@ -92,6 +100,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Cloud shell** — A free, temporary Linux environment in the browser, pre-authenticated and preloaded with the provider's CLI: Google Cloud Shell, AWS CloudShell, Azure Cloud Shell. Keeps credentials off your laptop. (Module 00)
 
+**CloudTrail (AWS)** — AWS's API audit service: Event history (90 days of management events, free) plus trails that deliver management, data, network activity, and Insights events to S3. (Module 18)
+
 **CMEK (customer-managed encryption key)** — Encryption where the provider's service wraps your data keys with a key you create and control in the provider's KMS; you can rotate, disable, or destroy it, and its use is logged. (Module 16)
 
 **CNI (Container Network Interface)** — The plugin that gives Kubernetes pods their network. Whether NetworkPolicy is actually enforced depends on it: GKE Dataplane V2 (default on Autopilot) and AKS Automatic's Cilium enforce by default; EKS's VPC CNI, GKE Standard, and Standard AKS need it enabled or chosen. (Module 06)
@@ -136,6 +146,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Deployment (Kubernetes)** — An object declaring how many identical pods to run and how to roll out changes; a controller keeps reality matching it. Docker analog: `restart: always` plus "run N copies." (Module 06)
 
+**Diagnostic setting (Azure)** — Configuration that sends a resource's (or subscription's) logs and metrics to a Log Analytics workspace, storage account, or Event Hubs; resource logs aren't collected without one. (Module 18)
+
 **Direct Connect (AWS)** — AWS's private circuit service: dedicated 1/10/100/400 Gbps ports or partner-hosted connections, with private, public, or transit virtual interfaces. Not encrypted by default. (Module 13)
 
 **DNSSEC** — Digital signatures on DNS records so resolvers can detect forged answers. Authenticity, not encryption. (Module 12)
@@ -150,9 +162,13 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Entra roles vs Azure roles** — Two separate Microsoft permission systems: Entra roles govern the directory (users, apps, tenant settings); Azure RBAC roles govern Azure resources at management group, subscription, resource group, or resource scope. (Module 14)
 
+**Entra sign-in logs** — Microsoft Entra records of interactive, non-interactive, service-principal, and managed-identity sign-ins, retained 7 days (Free) or 30 days (P1/P2). (Modules 15, 18)
+
 **Envelope encryption** — Encrypting data with a local data key, then encrypting that data key with a master key held in a key management service; only the small wrapped key travels to KMS. (Module 16)
 
 **etcd** — The key-value database where Kubernetes stores all cluster state, including Secrets. Managed services run it for you; whoever can read it can read everything. (Module 06)
+
+**Event history (CloudTrail)** — The free, per-Region, 90-day view of AWS management events, searchable one attribute at a time. (Module 18)
 
 **Execution role (AWS Lambda)** — The IAM role a Lambda function runs as; it decides what AWS APIs the function's code can call. Google analog: the Cloud Run service account; Azure: a managed identity. (Module 07)
 
@@ -232,6 +248,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Key rotation** — Creating a new primary key version for future encryption. Doesn't re-encrypt existing data; older versions must stay enabled to read it. (Module 16)
 
+**KQL (Kusto Query Language)** — The query language for Azure Monitor Log Analytics, Microsoft Sentinel, and Defender; pipe-based, familiar to Splunk SPL users. (Module 18)
+
 **kubelet** — The Kubernetes agent on every node that starts containers and reports status. An exposed kubelet API with anonymous access is a well-known initial-access path (e.g., Hildegard malware). (Module 06)
 
 **Kubernetes control plane** — The API server, etcd, scheduler, and controller managers that store desired state and reconcile the cluster toward it. Managed by the provider on GKE, EKS, and AKS. (Module 06)
@@ -244,6 +262,12 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Lifecycle rule** — An automated policy that changes an object's storage class or deletes it based on conditions such as age or number of newer versions. Google Object Lifecycle Management, S3 Lifecycle, Azure lifecycle management. (Module 08)
 
+**Log bucket (Google Cloud)** — Storage container for log entries in Cloud Logging: `_Required` (400 days, fixed, free), `_Default` (30 days default), or user-defined, optionally locked. (Module 18)
+
+**Log file integrity validation (CloudTrail)** — Hourly signed digest files with SHA-256 hashes of each log file, chained together, so you can prove logs weren't altered. (Module 18)
+
+**Log Router / sink (Google Cloud)** — The Cloud Logging component that evaluates every entry against sinks; each sink has an inclusion filter, exclusions, and a destination (log bucket, BigQuery, Cloud Storage, Pub/Sub). (Module 18)
+
 **Machine type / instance type / VM size** — The vCPU and memory shape of a VM. Google machine types (e.g., `e2-micro`), AWS instance types (`t3.micro`), Azure sizes (`Standard_B1s`). Shared-core/burstable types are what free tiers offer. (Module 05)
 
 **MACsec** — IEEE 802.1AE Layer 2 encryption between directly connected devices; on cloud circuits it protects only the hop between your router and the provider's edge router. (Module 13)
@@ -251,6 +275,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Managed identity (Azure)** — A Microsoft-managed identity for an Azure resource (system-assigned or user-assigned) with no credentials for the customer to handle. (Module 14)
 
 **Managed instance group (MIG, Google Cloud)** — A group of identical VMs created from an instance template that Google keeps at a target size, autoheals, updates in rolling fashion, and autoscales. A regional MIG spreads VMs across zones. AWS: Auto Scaling group; Azure: Virtual Machine Scale Set. (Module 05)
+
+**Management events vs data events (CloudTrail)** — Management events are control-plane actions (logged by default); data events are high-volume resource operations like S3 object reads (opt-in, charged). (Module 18)
 
 **Management group (Azure)** — A container above subscriptions for applying Azure RBAC and Azure Policy at scale; up to six levels deep under the tenant root group. (Module 03)
 
@@ -286,11 +312,15 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Object versioning** — Keeping prior copies of an object when it's overwritten or deleted; the current copy is live, older ones noncurrent. Off by default on Google, AWS, and Azure; every version is billed. (Module 08)
 
+**Observability Analytics (Google Cloud)** — Formerly Log Analytics: an upgrade to a log bucket that enables SQL queries over logs, with an optional linked read-only BigQuery dataset. (Modules 09, 18)
+
 **OCSF (Open Cybersecurity Schema Framework)** — An open schema for normalizing security events from different sources; Amazon Security Lake stores data in OCSF. (Module 09)
 
 **Offload card / processor** — Dedicated hardware that handles networking, storage, encryption, and management off the host CPU, keeping provider control software out of tenant reach. Google Titanium Offload Processors, AWS Nitro Cards, Azure Boost. (Module 01)
 
 **OLTP / OLAP** — Online transaction processing (many small reads/writes with transactions, e.g., Cloud SQL) vs online analytical processing (few huge scans and aggregations, e.g., BigQuery). (Module 09)
+
+**OMB M-21-31** — 2021 federal memo defining event-logging maturity tiers (EL0–EL3) and calling for 12 months active plus 18 months cold retention for key logs. (Module 18)
 
 **OMB M-22-09** — The January 2022 federal zero-trust strategy memo: phishing-resistant MFA, device inventory and EDR, encrypted DNS/HTTPS, internet-accessible apps, data categorization; goals by end of FY2024. (Modules 15, 17)
 
