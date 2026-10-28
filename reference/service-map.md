@@ -154,5 +154,11 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Cross-source schema | UDM | OCSF | ASIM ⚠️ (not covered) | Module 22 |
 | Cloud audit logs in the other SIEM | — | Sentinel `AWSCloudTrail` via S3 + SQS connector | Sentinel `GCPAuditLogs` via Pub/Sub connector (workload identity federation) | Module 22 |
 | Lightweight native alerting on audit logs | Log-based alerting policies | Metric filters + alarms; EventBridge rules | Activity log alerts (free); log search alerts (billed) | Module 19, 22 |
+| Disable a leaked workload credential | `gcloud iam service-accounts keys disable` | `aws iam update-access-key --status Inactive` | Remove app secret/certificate ⚠️ | Then deal with tokens already issued. Module 23 |
+| Kill issued sessions/tokens | Disable SA or IAM deny policy (tokens live ≤ 1 h) | Revoke active sessions (`AWSRevokeOlderSessions`); deny policy | `revokeSignInSessions` + CAE (≤ ~15 min) | Module 23 |
+| Provider action on publicly leaked keys | Auto-disable (`iam.serviceAccountKeyExposureResponse`, default since June 2024) | `AWSCompromisedKeyQuarantineV3` attached | ⚠️ not verified | Module 23 |
+| Forensic disk copy | `gcloud compute snapshots create` | `aws ec2 create-snapshot` | `az snapshot create` | Snapshot before stopping/deleting. Module 23 |
+| Evidence isolation pattern | Separate forensics project ⚠️ (pattern) | SRA forensics account | SOC subscription + immutable blob (legal hold) + Key Vault hashes | Module 23 |
+| Provider IR service | Mandiant Incident Response | AWS Security Incident Response (metered, free tier) | Microsoft Incident Response | Module 23 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–19 rows verified 2026-10-27; Module 20–23 rows verified 2026-10-28.*

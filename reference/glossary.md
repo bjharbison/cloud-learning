@@ -54,6 +54,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **AWS GovCloud (US)** — Isolated AWS Regions (US-East and US-West) for sensitive U.S. government workloads, administered by U.S. citizens per AWS. (Module 02; deep dive in 27)
 
+**AWS Security Incident Response** — AWS's incident response service (Dec 2024): triages GuardDuty and Security Hub findings, offers 24/7 CIRT engagement, metered per finding with a monthly free allotment. (Module 23)
+
+**AWSCompromisedKeyQuarantineV3** — An AWS managed policy AWS attaches to an IAM user whose keys are exposed, denying high-risk actions (e.g., creating users and keys, launching instances); not to be removed. (Module 23)
+
 **AZ ID (AWS)** — A consistent identifier for an Availability Zone (e.g., `use1-az1`) that means the same physical location in every account, unlike AZ names (`us-east-1a`), which can map differently per account in some older Regions. (Module 02)
 
 **Azure Bastion** — Azure's managed service for RDP/SSH to VMs over their private IPs from the portal (or native client on higher SKUs), so VMs need no public IP. The Developer SKU is free for dev/test with tight limits. (Module 05)
@@ -89,6 +93,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Burn rate** — How fast a service is consuming its error budget relative to plan; burn-rate alerts page on fast spending instead of waiting for an SLO breach. (Module 19)
 
 **CDN (content delivery network)** — Edge caches that serve copies of content close to users, cutting latency and origin load. Cloud CDN / Media CDN, CloudFront, Azure Front Door. (Module 12)
+
+**Chain of custody** — The documented, tamper-evident handling of evidence from collection to use; in cloud: export to a separate forensics project/account, hash, store immutably, restrict access, log every action. (Module 23)
 
 **Chrome Enterprise Premium** — Google's commercial zero-trust offering (formerly BeyondCorp Enterprise): context-aware access, device signals, and threat and data protection in the Chrome browser. (Module 17)
 
@@ -137,6 +143,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Consent phishing** — Tricking users into granting a malicious OAuth app access to their data; the app then uses its tokens without the user's password. ATT&CK T1528. (Module 15)
 
 **Container** — A packaged app plus its libraries that runs as an isolated process on a shared host kernel, separated by Linux namespaces (what it can see) and cgroups (what it can use). Faster and denser than a VM; a weaker isolation boundary. Homelab equivalent: Docker or Proxmox LXC. (Module 01)
+
+**Containment** — Stopping an incident from spreading while preserving evidence — in cloud, disabling keys and identities, revoking sessions, denying permissions, and isolating networks rather than deleting resources. (Module 23)
+
+**Continuous Access Evaluation (CAE)** — Microsoft Entra feature that pushes critical events (account disabled, password reset, sessions revoked, high risk) to supporting apps for near-real-time enforcement, typically within about 15 minutes. (Module 23)
 
 **Control plane / data plane** — The control plane is where you *manage* resources (create a VM, change a policy) — almost always API calls. The data plane is where the resource *does its work* (traffic through a VM, reads from a bucket). Logging and permissions often differ between the two.
 
@@ -223,6 +233,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Flex Consumption plan (Azure Functions)** — Microsoft's recommended serverless hosting plan for new Azure Functions apps: event-driven scaling (including to zero), pay per execution, and VNet integration. Replaces the legacy Consumption plan. (Module 07)
 
 **Folder (Google Cloud)** — A grouping node between the organization and projects, nestable up to 10 levels. IAM and organization policies set on a folder apply to everything under it. (Module 03)
+
+**Forensic snapshot** — A point-in-time copy of a VM disk taken via API before the instance is stopped or deleted, examined later in an isolated forensics environment. (Module 23)
+
+**Forensics account / project** — A separate, tightly controlled account, project, or subscription that holds evidence copies and analysis tools, isolated from the environment under investigation. (Module 23)
 
 **Forwarding rule (Google Cloud)** — A load balancer's frontend: IP address, protocol, and port. Billed hourly even when idle. (Module 12)
 
@@ -364,6 +378,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **NIST SP 800-145** — The U.S. government's definition of cloud computing: five essential characteristics (on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service), three service models, four deployment models. Citing it signals fluency with government customers. (Module 01)
 
+**NIST SP 800-61 Rev. 3** — NIST's incident response guidance (April 2025), framed as a CSF 2.0 Community Profile: Govern/Identify/Protect for preparation, Detect/Respond/Recover for response, with continuous improvement. Replaces the withdrawn Rev. 2. (Module 23)
+
 **Nitro System (AWS)** — AWS's virtualization platform: Nitro Cards (networking, storage, management offload), the Nitro Security Chip, and the minimal Nitro Hypervisor. (Module 01)
 
 **Notification channel / action group / SNS topic** — Where alerts are sent on Google Cloud, Azure, and AWS respectively. (Module 19)
@@ -417,6 +433,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Permissions boundary (AWS)** — A managed policy set on a user or role that caps the maximum permissions its identity policies can grant; it never grants by itself. (Module 14)
 
 **Phishing-resistant MFA** — A second factor cryptographically bound to the real website (passkeys, FIDO2 security keys), so a fake login page can't capture and replay it. SMS codes and push approvals are not phishing-resistant. (Module 00)
+
+**Playbook (incident response)** — A pre-written, rehearsed procedure for a specific incident type, e.g., leaked access key or compromised admin, with steps, owners, and decision points. (Module 23)
 
 **POA&M (plan of action and milestones)** — A federal record of known weaknesses with remediation plans and dates; posture findings and accepted exceptions feed it. (Modules 21, 26)
 
@@ -589,6 +607,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **TIC 3.0 (Trusted Internet Connections)** — CISA's federal network-security program; version 3.0 replaced forced routing through TIC access points with security capabilities applied at policy enforcement points, with use cases including Cloud, Branch Office, and Remote User. (Module 13)
 
 **Titanium (Google Cloud)** — Google's hardware security architecture: Titan root-of-trust chips, Caliptra, Titanium Offload Processors, and related components that verify boot integrity and offload I/O and encryption. (Module 01)
+
+**Token revocation** — Invalidating already-issued sessions or tokens (Entra `revokeSignInSessions`, AWS `AWSRevokeOlderSessions`, disabling a Google SA); needed because password resets and key deactivation don't end existing sessions. (Module 23)
 
 **Toxic combination / attack path** — Several individually moderate issues that together give an attacker a route to a critical asset; used to prioritize posture findings. (Module 21)
 
