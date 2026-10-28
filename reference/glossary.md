@@ -64,6 +64,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **BGP (Border Gateway Protocol)** — The routing protocol that lets two networks advertise reachable prefixes to each other and reroute automatically when a link fails. The basis of redundant VPN and interconnect designs. (Module 13)
 
+**Bicep** — Microsoft's declarative language that compiles to ARM templates; Azure holds deployment state, so there's no state file. (Module 20)
+
 **BigQuery** — Google Cloud's serverless data warehouse: columnar storage separated from compute, billed by bytes scanned (on-demand; first 1 TiB/month free) or by slot capacity (editions). Data Access audit logs are always on. (Module 09)
 
 **BigQuery sandbox** — A way to use BigQuery with no billing account: 10 GiB lifetime storage, 1 TiB of queries per month, 60-day table expiration, no streaming or DML. (Module 09)
@@ -142,6 +144,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Dataplane V2 (GKE)** — GKE's eBPF-based networking layer, which always enforces Kubernetes NetworkPolicy and offers network policy logging; enabled by default on new Autopilot clusters. (Module 06)
 
+**Declarative policy (AWS)** — An AWS Organizations policy that sets a service configuration baseline org-wide (e.g., EC2 IMDSv2 defaults, block public AMIs/snapshots) and, unlike SCPs, also applies to the management account. (Module 20)
+
 **Default network (Google Cloud)** — The auto-mode VPC named `default` created in new projects unless org policy (`compute.skipDefaultNetworkCreation`) prevents it, with pre-populated rules including SSH and RDP from `0.0.0.0/0`. Don't use it. AWS analog: the default VPC with public subnets. (Module 10)
 
 **DEK / KEK** — Data encryption key (encrypts the data, stored only in wrapped form) and key encryption key (held in KMS, wraps DEKs). The two halves of envelope encryption. (Module 16)
@@ -157,6 +161,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **DNSSEC** — Digital signatures on DNS records so resolvers can detect forged answers. Authenticity, not encryption. (Module 12)
 
 **DoD Zero Trust Strategy** — The 2022 defense strategy with seven pillars and 152 activities; the 91 Target Level activities are required by the end of FY2027. (Module 17)
+
+**DoNotEnforce (Azure Policy)** — An assignment's enforcement mode that evaluates and reports compliance without denying requests — Azure's dry run. (Module 20)
+
+**Drift** — When deployed infrastructure no longer matches its code, usually from manual console changes; found by `terraform plan`, CloudFormation drift detection, or posture scans. (Modules 20, 21)
 
 **Edge location** — A small provider site near users, used for caching (CDN), DNS, and traffic entry rather than general compute. AWS also offers Local Zones (metro compute) and Wavelength Zones (inside 5G networks). (Module 02)
 
@@ -237,6 +245,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **IMDSv2 (AWS)** — Version 2 of the EC2 Instance Metadata Service, which requires a session token before returning data (including role credentials). Blocks simple SSRF-based credential theft; default on Amazon Linux 2023. (Module 05)
 
 **Impersonation (service account)** — Minting short-lived tokens for a Google Cloud service account (requires Service Account Token Creator) instead of using a long-lived key. (Module 14)
+
+**Infrastructure as code (IaC)** — Defining cloud infrastructure in version-controlled files that a tool deploys, so changes are reviewed, repeatable, and auditable. Terraform, CloudFormation, and Bicep are examples. (Module 20)
+
+**Infrastructure Manager (Google Cloud)** — Google's managed Terraform service: runs deployments in Cloud Build and stores state, logs, and revisions; the migration target for the retiring Deployment Manager. (Module 20)
 
 **Ingress setting (Cloud Run)** — Network-level control over where requests may come from: `all`, `internal` (VPC and certain Google sources), or `internal-and-cloud-load-balancing`. Layers with, and doesn't replace, IAM invoker checks. (Module 07)
 
@@ -354,6 +366,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Organization (Google Cloud)** — The root of a Google Cloud resource hierarchy, normally tied to a Cloud Identity or Workspace domain; new Free Trial sign-ups may get a domainless standalone organization. (Module 03)
 
+**Organization Policy constraint (Google Cloud)** — A rule restricting what may be configured under an org/folder/project: managed (`service.managed.name`), managed legacy (e.g., `storage.publicAccessPrevention`), or custom (CEL). Supports dry run. (Modules 03, 20)
+
 **Organization Policy (Google Cloud)** — Google's guardrail service: constraints on what can be configured (e.g., allowed resource locations), set on an org, folder, or project and inherited. IAM is "who"; org policy is "what." (Module 03)
 
 **Organizational unit (OU, AWS)** — A grouping of AWS accounts within AWS Organizations, nestable up to five levels under the root; policies attached to an OU apply to accounts inside it. (Module 03)
@@ -379,6 +393,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Pod Security Admission** — Kubernetes' built-in admission controller (stable since v1.25) that enforces the Pod Security Standards — `privileged`, `baseline`, `restricted` — per namespace via labels, in `enforce`, `audit`, or `warn` mode. (Module 06)
 
 **Point-in-time recovery (PITR)** — Restoring a database to any moment within a retention window. DynamoDB PITR is off until enabled (1–35 days); managed SQL services offer it with configurable retention. (Module 09)
+
+**Policy as code** — Guardrails and compliance rules written as files, reviewed, and deployed like code — e.g., org policy YAML, SCP JSON, Azure Policy definitions, OPA/Rego, Sentinel. (Module 20)
 
 **Policy decision point / policy enforcement point (PDP / PEP)** — NIST SP 800-207 terms: the PDP (policy engine + policy administrator) decides whether a request is allowed; the PEP sits in the data path and enforces that decision. (Module 17)
 
@@ -490,6 +506,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Shielded VM / Trusted Launch** — Boot-integrity protections for VMs: Secure Boot (signed boot components only), a virtual TPM, and integrity monitoring. Google calls it Shielded VM; Azure calls it Trusted Launch. (Modules 01, 05)
 
+**Shift left** — Moving security checks earlier in delivery — scanning IaC in the pull request (Checkov, Trivy, Conftest) instead of finding misconfigurations in production. (Module 20)
+
 **Showback / chargeback** — Showback reports each team's share of cloud cost to them; chargeback actually bills their budget for it. Both depend on consistent labels/tags. (Module 04)
 
 **Site-to-site VPN** — IPsec tunnels between two networks' gateways across the internet, encrypted by design. (Module 13)
@@ -519,6 +537,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Subnet** — A range of a virtual network's address space. Regional on Google and Azure (Azure subnets span zones); tied to one Availability Zone on AWS. Providers reserve addresses in each (Google 4, AWS and Azure 5). (Module 10)
 
 **Sustained use discount (Google Cloud)** — An automatic discount on eligible Compute Engine machine series that grows as a resource runs more of the month (after 25%), up to 30% net for a full month. No equivalent on AWS or Azure. (Module 04)
+
+**Terraform** — HashiCorp's (now IBM's) declarative, multi-cloud IaC tool; providers talk to each cloud's API, and a state file records what was built. BSL-licensed since 2023; OpenTofu is the community fork. (Module 20)
+
+**Terraform state** — Terraform's record mapping code to real resource IDs and attributes — including secrets in plain text. Keep it in an encrypted, versioned, locked, access-controlled remote backend; never in git. (Module 20)
 
 **TIC 3.0 (Trusted Internet Connections)** — CISA's federal network-security program; version 3.0 replaced forced routing through TIC access points with security capabilities applied at policy enforcement points, with use cases including Cloud, Branch Office, and Remote User. (Module 13)
 

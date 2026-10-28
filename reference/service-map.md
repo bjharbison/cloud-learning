@@ -138,5 +138,11 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Distributed tracing / APM | Cloud Trace (OTel) | X-Ray (SDKs in maintenance → OpenTelemetry); Application Signals | Application Insights | Module 19 |
 | SLO tooling | Service monitoring SLOs + burn-rate alerts | Application Signals SLOs | ⚠️ not verified | Module 19 |
 | Grafana | — (PromQL/Grafana-compatible querying) | Amazon Managed Grafana | Azure Managed Grafana; built-in Grafana dashboards | Module 19 |
+| Native infrastructure as code | Infrastructure Manager (managed Terraform); Deployment Manager shuts down after June 30, 2027 | CloudFormation; AWS CDK | ARM templates / Bicep; deployment stacks (Blueprints retire Jan 31, 2027) | Google standardizes on Terraform. Module 20 |
+| Terraform remote state backend | `gcs` (native locking) | `s3` (`use_lockfile`; DynamoDB locking deprecated) | `azurerm` (Blob Storage, native locking) | State holds secrets in plain text. Module 20 |
+| Service-configuration baseline policy | Org policy managed constraints; security baseline (orgs created on/after May 3, 2024) | Declarative policies (EC2, VPC, EBS…) | Azure Policy `modify` / `deployIfNotExists` | AWS declarative policies also bind the management account. Module 20 |
+| Guardrail dry run | Org policy `dryRunSpec`; Policy Simulator | — (test in a sandbox OU) ⚠️ | Assignment enforcement mode `DoNotEnforce` | Module 20 |
+| Pre-deployment template/plan checks | `gcloud beta terraform vet` (Preview) | CloudFormation Guard; Control Tower proactive controls | Bicep linter; `what-if` | Third-party: Checkov, Trivy, Conftest. Module 20 |
+| Cloud Shell Terraform | Not included since June 20, 2026 (install to `$HOME`) | Not included (CDK and SAM CLIs are) | Preinstalled, auth preconfigured | Module 20 |
 
-*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–19 rows verified 2026-10-27.*
+*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–19 rows verified 2026-10-27; Module 20–23 rows verified 2026-10-28.*
