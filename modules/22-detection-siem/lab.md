@@ -73,7 +73,7 @@ IAM_FILTER="logName=\"projects/$PROJECT_ID/logs/cloudaudit.googleapis.com%2Facti
 SINK_FILTER="logName=\"projects/$PROJECT_ID/logs/cloudaudit.googleapis.com%2Factivity\" AND protoPayload.serviceName=\"logging.googleapis.com\" AND (protoPayload.methodName:\"DeleteSink\" OR protoPayload.methodName:\"UpdateSink\")"
 
 gcloud logging read "$IAM_FILTER" --freshness=30d --limit=10 \
-  --format="table(timestamp,protoPayload.authenticationInfo.principalEmail,protoPayload.requestMetadata.callerSuppliedUserAgent.slice(0:40))"
+  --format="table(timestamp,protoPayload.authenticationInfo.principalEmail,protoPayload.requestMetadata.callerSuppliedUserAgent)"
 gcloud logging read "$SINK_FILTER" --freshness=30d --limit=10 \
   --format="table(timestamp,protoPayload.methodName,protoPayload.authenticationInfo.principalEmail)"
 ```
@@ -265,7 +265,7 @@ Keep `~/lab22/detections` and `translations.md` — download them (Cloud Shell *
 **Azure**
 
 ```bash
-az role assignment delete --assignee "$UPN" --role Reader --scope "$RG_ID"
+# Deleting the resource group also removes the RG-scoped Reader assignment.
 az group delete -n lab22-rg --yes --no-wait
 ```
 

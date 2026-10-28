@@ -48,7 +48,7 @@
 
 | Tier | Status | What it adds |
 |---|---|---|
-| **Standard** | Free | Basic posture. Since **May 11, 2026**, new **organization-level** Standard activations get enhanced features, including **Compliance Manager's "Security Essentials"** controls and vulnerability assessment; new **project-level** activations get the older ("Standard-legacy") feature set. |
+| **Standard** / **Standard-legacy** | Free | Basic posture. **Standard** (organization-level, the new feature set since 2026) includes **Compliance Manager's "Security Essentials"** controls and vulnerability assessment; **Standard-legacy** is the older feature set that existing activations are being migrated from ⚠️ (Google's pages describe project-level Standard activations inconsistently; check the current tier page). |
 | **Premium** | Paid (subscription or pay-as-you-go at org level; pay-as-you-go only at project level) | **Event Threat Detection** (log-based threats), **Container Threat Detection**, **VM Threat Detection**, full **Security Health Analytics**, **Web Security Scanner**, vulnerability assessment; at **org level**: **attack path simulations**, **security posture** service, compliance reporting |
 | **Enterprise** | **Deprecated May 21, 2026**; shuts down on or after May 21, 2027, moving customers to Premium | Was the "multi-cloud CNAPP" tier (AWS/Azure collection, Google SecOps integration, CIEM) |
 

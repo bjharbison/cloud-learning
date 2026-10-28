@@ -71,6 +71,8 @@ terraform apply     → make the changes (asks "yes" unless -auto-approve)
 terraform destroy   → delete everything this state tracks
 ```
 
+**Getting Terraform:** Google Cloud Shell stopped shipping the Terraform CLI on June 20, 2026 (install it into `$HOME`, as the lab does); Azure Cloud Shell still preinstalls it; AWS CloudShell doesn't include it.
+
 **The plan is the security artifact.** It's the exact diff a reviewer approves. HashiCorp warns against `-auto-approve` outside of a pipeline that already shows a reviewed plan.
 
 **Licensing note:** HashiCorp moved Terraform from an open-source license to the **Business Source License (BSL 1.1)** in August 2023. The community fork **OpenTofu** (a Linux Foundation project, accepted into the CNCF Sandbox in April 2025; v1.13 current) keeps a compatible language under an open-source license ⚠️ (license name not re-verified this run). Agencies and vendors ask about this; know both exist. **HCP Terraform** (renamed from Terraform Cloud in 2024) is HashiCorp's hosted runner, with a free tier of 500 managed resources.
@@ -109,7 +111,7 @@ Module 03 introduced guardrails — controls on **what may exist**, not **who** 
 **Google Cloud — Organization Policy**
 
 - **Constraints** in three flavors: **managed** (named `service.managed.name`, e.g., `iam.managed.disableServiceAccountKeyCreation`), **managed (legacy)** (formerly "predefined," e.g., `storage.publicAccessPrevention`, `gcp.resourceLocations`), and **custom** constraints you write in CEL for ~100 supported services (Cloud Storage, Compute Engine, GKE, IAM, Cloud SQL…).
-- **Dry run**: logs would-be violations without blocking (`gcloud org-policies set-policy FILE --update-mask=dryRunSpec`), then enforce with `--update-mask=spec`. **Policy Simulator** tests custom and managed constraints against your existing resources before you enforce.
+- **Dry run**: logs would-be violations without blocking (support depends on constraint type — Google documents it for managed constraints ⚠️; check before relying on it for a legacy constraint) (`gcloud org-policies set-policy FILE --update-mask=dryRunSpec`), then enforce with `--update-mask=spec`. **Policy Simulator** tests custom and managed constraints against your existing resources before you enforce.
 - **Google Cloud security baseline** (formerly called "secure by default"): organizations created on or after May 3, 2024 start with constraints enforced, including blocking service-account key creation and upload, disabling automatic Editor grants to default service accounts, domain-restricted sharing, and uniform bucket-level access.
 - Setting policies needs **Organization Policy Administrator** at the org (module 03). **Projects without an organization can't use org policies** — they rely on resource-level settings instead.
 - Changes can take up to 15 minutes to take effect.
@@ -118,7 +120,7 @@ Module 03 introduced guardrails — controls on **what may exist**, not **who** 
 
 - **SCPs** cap what principals in member accounts can do. Since **September 2025** they support the full IAM policy language (conditions, resource ARNs, `NotResource`).
 - **RCPs** (November 2024) cap what can be done *to* resources — now around 60 services, including S3, STS, KMS, Secrets Manager, and SQS. Both are ceilings; neither grants.
-- **Declarative policies** (December 2024) set a service configuration org-wide — e.g., EC2: block public AMIs and EBS snapshots, require IMDSv2 defaults, VPC Block Public Access. Unlike SCPs, they **do** apply to the management account.
+- **Declarative policies** — now a category of Organizations policy types; the first, **Amazon EC2 policies** (December 2024), set a service configuration org-wide — e.g., block public AMIs and EBS snapshots, require IMDSv2 defaults, VPC Block Public Access. Unlike SCPs, they **do** apply to the management account.
 - **Detective** side: **AWS Config rules** and **conformance packs**; **AWS Control Tower** packages controls as **preventive** (SCP/RCP/declarative), **detective** (Config), and **proactive** (CloudFormation hooks that check templates before deployment). **CloudFormation Guard** is the open-source rule engine for templates.
 
 **Azure — Azure Policy**

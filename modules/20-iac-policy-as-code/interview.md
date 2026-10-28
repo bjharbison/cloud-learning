@@ -17,7 +17,7 @@
 **Answer outline:**
 - State files hold secrets in plain text; `sensitive` only hides output. Remote, encrypted, versioned, locked, least-privilege state; never in git.
 - Pipeline identity is effectively an admin — use workload identity federation, not keys; scope it per environment.
-- Supply chain: pin providers, modules, and CI actions (the 2026 Trivy action compromise).
+- Supply chain: pin providers, modules, and CI actions (the March 2026 Trivy compromise, per its published advisory ⚠️).
 - Emergency console fixes that aren't written back get reverted on the next apply.
 
 ### Q3. "How would you stop anyone in an agency from creating resources outside approved U.S. regions or making storage public?"

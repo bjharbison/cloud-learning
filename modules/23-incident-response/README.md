@@ -52,7 +52,7 @@
 - **Logging that exists before the incident** (module 18): Data Access / data events where it matters, centralized, retained 12+ months, Entra sign-in export.
 - **IR access ready in advance:** a pre-approved responder role (read audit logs, snapshot, disable identities) and **break-glass accounts** (module 15), tested.
 - **A forensics landing place:** a separate project/account/subscription where evidence copies go, with tight access and immutability — AWS's Security Reference Architecture describes a dedicated **forensics account**; Microsoft's **chain-of-custody** reference architecture uses a separate SOC subscription with immutable blob storage under **legal hold** and hashes stored in Key Vault.
-- **Contacts:** Google **Essential Contacts**, AWS account security contacts, Microsoft tenant notification settings — so provider notices reach a human.
+- **Contacts:** Google **Essential Contacts** (the setting that decides who receives Google's security, billing, and technical notices for an org, folder, or project), AWS account security contacts, Microsoft tenant notification settings — so provider notices reach a human.
 - **Playbooks and retainers:** written, exercised playbooks; optional retainers (Mandiant via Google Cloud; **AWS Security Incident Response**; **Microsoft Incident Response**, formerly DART).
 
 ### Evidence: what to collect and how to keep it

@@ -221,7 +221,7 @@ AzureActivity
 | project TimeGenerated, Caller, CallerIpAddress, _ResourceId, Properties
 ```
 
-**Bonus — password spray against Entra ID (T1110.003 Password Spraying ⚠️ name not re-checked this run; Identity Provider matrix)**, on `SigninLogs` (needs Entra P1/P2 export, module 18):
+**Bonus — password spray against Entra ID (T1110.003 Brute Force: Password Spraying; Identity Provider matrix)**, on `SigninLogs` (needs Entra P1/P2 export, module 18):
 
 ```kusto
 SigninLogs

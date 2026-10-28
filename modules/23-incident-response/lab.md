@@ -50,7 +50,7 @@ gcloud iam service-accounts add-iam-policy-binding $SA --member=user:$ME --role=
 
 The last line lets *you* mint tokens for the SA — standing in for an attacker who stole its credentials.
 
-**Console:** turn on Data Access logs for Cloud Storage (**IAM & Admin → Audit Logs → Google Cloud Storage → Data Read + Data Write → Save**), as in module 18. Without this, the most important question — *what did they read?* — has no answer.
+**Console:** turn on Data Access logs (**IAM & Admin → Audit Logs**): for **Google Cloud Storage** check **Admin Read, Data Read, Data Write**; for **Compute Engine** check **Admin Read** → **Save**. (Module 18 enabled only Data Read/Write; list calls like `storage.buckets.list` and `compute.instances.list` are **Admin Read** operations, logged only if that sub-type is on.) Without this, the most important question — *what did they read?* — has no answer.
 
 ### A2. Emulate the attacker (CLI)
 
@@ -85,7 +85,7 @@ gcloud logging read "protoPayload.authenticationInfo.principalEmail=\"$SA\"" --f
   | jq '.[0].protoPayload.authenticationInfo'
 ```
 
-**What you should see:** `storage.objects.get` on `payroll.csv` (succeeded, in the `data_access` log), denied `storage.buckets.list` and compute list calls (status code 7 = permission denied), and the key-creation attempt if your setup logs denied admin calls ⚠️ (whether a denied `CreateServiceAccountKey` appears depends on where it was blocked — IAM vs org policy). The `serviceAccountDelegationInfo` block names **your user** as the principal who impersonated the SA. In a real case, that field is how you go from "the app account did it" to "this human or workload credential did it."
+**What you should see:** `storage.objects.get` on `payroll.csv` (succeeded, in the `data_access` log), denied `storage.buckets.list` and compute list calls (status code 7 = permission denied — visible because you turned on **Admin Read**; without it, failed discovery leaves no trace, another collection gap), and the key-creation attempt if your setup logs denied admin calls ⚠️ (whether a denied `CreateServiceAccountKey` appears depends on where it was blocked — IAM vs org policy). The `serviceAccountDelegationInfo` block names **your user** as the principal who impersonated the SA. In a real case, that field is how you go from "the app account did it" to "this human or workload credential did it."
 
 Write the timeline as you go (UTC, from the log timestamps) in `~/lab23/timeline.md`: first activity, each discovery attempt, the data read, the persistence attempt.
 
@@ -275,7 +275,7 @@ gcloud compute instances delete lab23-suspect --zone=$ZONE --quiet 2>/dev/null |
 gcloud compute snapshots delete lab23-suspect-snap --quiet 2>/dev/null || echo "no snapshot (A6 skipped)"
 ```
 
-Console → **IAM & Admin → Audit Logs → Google Cloud Storage** → uncheck **Data Read** and **Data Write** → Save. Verify and sweep:
+Console → **IAM & Admin → Audit Logs** → for **Google Cloud Storage** uncheck **Admin Read, Data Read, Data Write**, and for **Compute Engine** uncheck **Admin Read** → Save. Verify and sweep:
 
 ```bash
 gcloud projects get-iam-policy $PROJECT_ID --format=json | jq '.auditConfigs // "none"'

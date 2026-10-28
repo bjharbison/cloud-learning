@@ -145,7 +145,7 @@ gcloud scc findings list projects/$PROJECT_ID --location=global \
   --format="table(finding.category,finding.severity,finding.resourceName.basename())"
 ```
 
-**What to notice:** scans run on a schedule (Standard roughly every 48 hours; first findings can take up to 72), so your seeded issues may not appear before you clean them up — a real-world lesson in why posture tools miss short-lived misconfigurations, and why audit-log alerts (module 19) complement them. If you're on Path 2 (no organization), SCC isn't available; Prowler was your CSPM today.
+**What to notice:** scans run on a schedule (Standard roughly every 48 hours; first findings can take up to 72 ⚠️ timing from Google's Security Health Analytics page, not re-checked against the current tier page), so your seeded issues may not appear before you clean them up — a real-world lesson in why posture tools miss short-lived misconfigurations, and why audit-log alerts (module 19) complement them. If you're on Path 2 (no organization), SCC isn't available; Prowler was your CSPM today.
 
 ---
 
@@ -154,6 +154,8 @@ gcloud scc findings list projects/$PROJECT_ID --location=global \
 ### B1. Prowler on AWS (works on the Free plan)
 
 AWS CloudShell, as `labadmin`. Install into `$HOME` (it persists):
+
+⚠️ Prowler needs Python 3.10–3.13; check `python3 --version` first, and if CloudShell's default is older, use Prowler's documented `pipx` method or a newer `python3.x` if installed. The install is large relative to CloudShell's 1 GB `$HOME` — check `df -h ~` and remove the venv afterward (Cleanup does).
 
 ```bash
 python3 -m venv ~/venv-prowler && ~/venv-prowler/bin/pip install -q prowler

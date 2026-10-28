@@ -51,7 +51,7 @@ Enforce the `storage.publicAccessPrevention` org policy at the production folder
 9. What did the March 2026 Trivy compromise target, and which ATT&CK techniques fit?
 <details><summary>Answer</summary>
 
-CI/CD pipelines: a malicious release and repointed `trivy-action` tags ran credential-stealing code in build jobs. T1195.001 (Compromise Software Dependencies and Development Tools) / T1195.002, leading to T1552.001-style credential theft. Mitigate by pinning actions to commit SHAs and using short-lived federated CI credentials.
+CI/CD pipelines: per the published advisory, a malicious release and repointed `trivy-action` tags ran credential-stealing code in build jobs ⚠️ (details relayed second-hand; read GHSA-69fq-xp46-6x23). T1195.001 (Compromise Software Dependencies and Development Tools) / T1195.002, leading to T1552.001-style credential theft. Mitigate by pinning actions to commit SHAs and using short-lived federated CI credentials.
 </details>
 
 10. Google Cloud Shell no longer includes Terraform. Where does that leave you, and what security step should accompany the install?

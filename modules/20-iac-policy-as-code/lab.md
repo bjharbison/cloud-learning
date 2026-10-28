@@ -42,6 +42,7 @@ grep "linux_amd64.zip" terraform_${TFV}_SHA256SUMS | sha256sum -c -
 unzip -o terraform_${TFV}_linux_amd64.zip terraform -d ~/bin
 rm terraform_${TFV}_linux_amd64.zip terraform_${TFV}_SHA256SUMS
 export PATH="$HOME/bin:$PATH"
+grep -q 'HOME/bin' ~/.bashrc || echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc   # persists for later sessions
 terraform version
 ```
 
@@ -193,7 +194,7 @@ Now the audit trail (module 18). Who made each change, and with what tool?
 sleep 30
 gcloud logging read "logName=\"projects/$PROJECT_ID/logs/cloudaudit.googleapis.com%2Factivity\" AND protoPayload.serviceName=\"storage.googleapis.com\" AND protoPayload.resourceName:\"$BUCKET\"" \
   --freshness=1h --limit=10 \
-  --format="table(timestamp,protoPayload.methodName,protoPayload.authenticationInfo.principalEmail,protoPayload.requestMetadata.callerSuppliedUserAgent.slice(0:60))"
+  --format="table(timestamp,protoPayload.methodName,protoPayload.authenticationInfo.principalEmail,protoPayload.requestMetadata.callerSuppliedUserAgent)"
 ```
 
 **What you should see:** `storage.buckets.create` and an `update` with a user agent mentioning **Terraform**, and an `update` with a user agent mentioning **gcloud** — same principal, different tools. In a real org the pipeline would be a service account, so a human principal changing a Terraform-managed resource is itself a detection idea (module 22 uses exactly this user-agent field).
@@ -233,6 +234,7 @@ dryRunSpec:
   - enforce: true
 EOF
 gcloud org-policies set-policy pap-dryrun.yaml --update-mask=dryRunSpec
+# ⚠️ Dry-run support depends on the constraint type; if this legacy constraint rejects dryRunSpec, skip to the enforce step.
 
 cat > pap.yaml <<EOF
 name: projects/$PROJECT_ID/policies/storage.publicAccessPrevention
@@ -253,7 +255,7 @@ gcloud storage buckets add-iam-policy-binding gs://$BUCKET-clickops \
   --member=allUsers --role=roles/storage.objectViewer
 ```
 
-**What you should see:** the `allUsers` grant **fails** — the org policy enforces public access prevention on every bucket in the project, whatever the bucket's own setting says. That's the difference between a configuration (one bucket) and a guardrail (all of them, including the ones nobody reviewed). The empty bucket was never public; nothing was exposed.
+**What you should see:** the `allUsers` grant **fails** — the org policy enforces public access prevention on every bucket in the project, whatever the bucket's own setting says. **Read the error:** it names the constraint that denied you. If it names `iam.allowedPolicyMemberDomains` (domain-restricted sharing, part of the security baseline for newer organizations), a different guardrail stopped the grant before public access prevention was even evaluated — two layers saying no. That's the difference between a configuration (one bucket) and a guardrail (all of them, including the ones nobody reviewed). The empty bucket was never public; nothing was exposed.
 
 Store `pap.yaml` in git next to your Terraform in a real setup — or manage it in Terraform with the `google_org_policy_policy` resource ⚠️ (resource name not re-verified this run). That's policy as code.
 
@@ -330,6 +332,10 @@ terraform {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "~> 4.0" # ⚠️ check the registry for the current major version
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
     }
   }
 }
