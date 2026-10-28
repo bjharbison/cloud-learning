@@ -144,5 +144,10 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Guardrail dry run | Org policy `dryRunSpec`; Policy Simulator | — (test in a sandbox OU) ⚠️ | Assignment enforcement mode `DoNotEnforce` | Module 20 |
 | Pre-deployment template/plan checks | `gcloud beta terraform vet` (Preview) | CloudFormation Guard; Control Tower proactive controls | Bicep linter; `what-if` | Third-party: Checkov, Trivy, Conftest. Module 20 |
 | Cloud Shell Terraform | Not included since June 20, 2026 (install to `$HOME`) | Not included (CDK and SAM CLIs are) | Preinstalled, auth preconfigured | Module 20 |
+| Posture management (CSPM) | Security Command Center Standard (free, needs an org) / Premium | AWS Security Hub CSPM (renamed original; needs AWS Config) | Defender for Cloud Foundational CSPM (free) / Defender CSPM | SCC Enterprise deprecated May 2026. Module 21 |
+| Cloud threat detection | SCC Premium Event / Container / VM Threat Detection | Amazon GuardDuty (+ Extended Threat Detection) | Defender for Cloud workload plans (Servers, Storage, Containers…) | GuardDuty and Security Hub aren't on the AWS Free plan. Module 21 |
+| Unified risk / attack paths | SCC Premium attack path simulations (org level) | AWS Security Hub (new, Dec 2025, OCSF) | Defender CSPM attack paths; Exposure Management | Module 21 |
+| Default security benchmark | Google Cloud security baseline; Compliance Manager frameworks | AWS Foundational Security Best Practices | Microsoft cloud security benchmark (MCSB) | Module 21 |
+| Findings to tickets | SCC notifications → Pub/Sub → your integration | Native Jira Cloud / ServiceNow; EventBridge | Workflow automation (Logic Apps); ServiceNow; governance rules | Module 21 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–19 rows verified 2026-10-27; Module 20–23 rows verified 2026-10-28.*

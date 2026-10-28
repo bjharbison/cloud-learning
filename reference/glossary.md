@@ -88,6 +88,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **CIDR (Classless Inter-Domain Routing)** — Notation for an IP range as address plus prefix length (`10.10.0.0/16`). Cloud network planning is mostly CIDR planning: non-overlapping ranges for everything that might ever connect. (Module 10)
 
+**CIEM (cloud infrastructure entitlement management)** — Discovering and reducing excess cloud permissions and risky identity paths across accounts and clouds. (Module 21)
+
+**CIS Benchmarks** — Consensus secure-configuration checklists from the Center for Internet Security; Level 1 is baseline, Level 2 is defense in depth. Free PDFs for non-commercial use. (Module 21)
+
 **CISA Zero Trust Maturity Model (ZTMM)** — CISA's framework (v2.0, April 2023): five pillars (Identity, Devices, Networks, Applications and Workloads, Data), three cross-cutting capabilities, and four stages from Traditional to Optimal. (Module 17)
 
 **Cloud Armor (Google Cloud)** — Google's WAF and DDoS-protection service: security policies with preconfigured OWASP CRS-based rules, custom rules, rate limiting, and (Enterprise tier) Adaptive Protection. (Module 12)
@@ -109,6 +113,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **CloudTrail (AWS)** — AWS's API audit service: Event history (90 days of management events, free) plus trails that deliver management, data, network activity, and Insights events to S3. (Module 18)
 
 **CMEK (customer-managed encryption key)** — Encryption where the provider's service wraps your data keys with a key you create and control in the provider's KMS; you can rotate, disable, or destroy it, and its use is logged. (Module 16)
+
+**CNAPP (cloud-native application protection platform)** — An umbrella platform combining CSPM, CWPP, CIEM, DSPM, and code/IaC scanning, correlated into attack paths. Defender for Cloud describes itself as one. (Module 21)
 
 **CNI (Container Network Interface)** — The plugin that gives Kubernetes pods their network. Whether NetworkPolicy is actually enforced depends on it: GKE Dataplane V2 (default on Autopilot) and AKS Automatic's Cilium enforce by default; EKS's VPC CNI, GKE Standard, and Standard AKS need it enabled or chosen. (Module 06)
 
@@ -134,7 +140,11 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **CSEK / SSE-C (customer-supplied keys)** — You send the raw encryption key with each request; the provider uses it and keeps only a hash. Lose the key, lose the data. (Module 16)
 
+**CSPM (cloud security posture management)** — Continuous checking of cloud configuration against best practices and compliance frameworks (public buckets, open ports, missing MFA). Examples: SCC, Security Hub CSPM, Defender for Cloud, Prowler. (Module 21)
+
 **Custom role** — A customer-defined bundle of permissions. Google Cloud: org or project level only; you maintain it as services change. (Module 14)
+
+**CWPP (cloud workload protection platform)** — Protection for running workloads — VMs, containers, serverless — against malware, vulnerabilities, and runtime threats. (Module 21)
 
 **Dangling DNS / subdomain takeover** — A DNS record still pointing at a deleted cloud resource; an attacker who re-creates that resource name controls your subdomain. (Module 12)
 
@@ -147,6 +157,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Declarative policy (AWS)** — An AWS Organizations policy that sets a service configuration baseline org-wide (e.g., EC2 IMDSv2 defaults, block public AMIs/snapshots) and, unlike SCPs, also applies to the management account. (Module 20)
 
 **Default network (Google Cloud)** — The auto-mode VPC named `default` created in new projects unless org policy (`compute.skipDefaultNetworkCreation`) prevents it, with pre-populated rules including SSH and RDP from `0.0.0.0/0`. Don't use it. AWS analog: the default VPC with public subnets. (Module 10)
+
+**Defender for Cloud (Microsoft)** — Microsoft's CNAPP: free Foundational CSPM (secure score, MCSB, AWS/GCP connectors) plus paid Defender CSPM and workload protection plans. (Module 21)
 
 **DEK / KEK** — Data encryption key (encrypts the data, stored only in wrapped form) and key encryption key (held in KMS, wraps DEKs). The two halves of envelope encryption. (Module 16)
 
@@ -165,6 +177,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **DoNotEnforce (Azure Policy)** — An assignment's enforcement mode that evaluates and reports compliance without denying requests — Azure's dry run. (Module 20)
 
 **Drift** — When deployed infrastructure no longer matches its code, usually from manual console changes; found by `terraform plan`, CloudFormation drift detection, or posture scans. (Modules 20, 21)
+
+**DSPM (data security posture management)** — Discovering where sensitive data lives, who can reach it, and how it's protected. (Module 21)
 
 **Edge location** — A small provider site near users, used for caching (CDN), DNS, and traffic entry rather than general compute. AWS also offers Local Zones (metro compute) and Wavelength Zones (inside 5G networks). (Module 02)
 
@@ -215,6 +229,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Global Secure Access (Microsoft)** — Microsoft's Security Service Edge: Entra Private Access (per-app VPN replacement) and Entra Internet Access (identity-aware web gateway). (Module 17)
 
 **Golden image** — A hardened, patched custom VM image used as the standard base for a fleet. Software supply chain: whatever is baked in ships to every VM (ATT&CK T1525 targets this). (Module 05)
+
+**GuardDuty (AWS)** — AWS's threat detection service, analyzing CloudTrail management events, VPC Flow Logs, and DNS logs (plus optional protection plans); Extended Threat Detection correlates attack sequences. (Modules 21, 22)
 
 **HA VPN (Google Cloud)** — A Cloud VPN gateway with two interfaces and BGP routing; 99.99% SLA when tunnels use both interfaces. Replaces Classic VPN for new dynamic-routing designs. (Module 13)
 
@@ -388,6 +404,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Phishing-resistant MFA** — A second factor cryptographically bound to the real website (passkeys, FIDO2 security keys), so a fake login page can't capture and replay it. SMS codes and push approvals are not phishing-resistant. (Module 00)
 
+**POA&M (plan of action and milestones)** — A federal record of known weaknesses with remediation plans and dates; posture findings and accepted exceptions feed it. (Modules 21, 26)
+
 **Pod** — The smallest unit Kubernetes schedules: one or more containers sharing a network namespace and volumes. (Module 06)
 
 **Pod Security Admission** — Kubernetes' built-in admission controller (stable since v1.25) that enforces the Pod Security Standards — `privileged`, `baseline`, `restricted` — per namespace via labels, in `enforce`, `audit`, or `warn` mode. (Module 06)
@@ -470,11 +488,19 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Secrets manager** — A service that stores credentials (passwords, API keys, certificates) with versioning, per-secret access control, and audit logs: Secret Manager, AWS Secrets Manager, Azure Key Vault. (Module 16)
 
+**Secure score (Defender for Cloud)** — A percentage summarizing how many of Defender for Cloud's security recommendations are implemented. (Module 21)
+
 **Security admin rule (Azure Virtual Network Manager)** — A centrally managed rule applied to VNets and evaluated before NSGs, with Allow, Always allow, or Deny actions. (Module 11)
+
+**Security Command Center (SCC, Google Cloud)** — Google's posture and threat platform. Standard (free) and Premium tiers; Enterprise deprecated May 2026. Requires an organization. (Module 21)
 
 **Security data lake** — Centralized, long-retention storage of security telemetry queried with SQL or analytics tools, cheaper than a SIEM's hot tier. BigQuery with aggregated log sinks, Amazon Security Lake, Microsoft Sentinel data lake. (Module 09)
 
 **Security group (AWS)** — A stateful, allow-only set of rules attached to an instance's network interface; can reference other security groups as sources. AWS's primary network control. (Module 11)
+
+**Security Health Analytics (Google Cloud)** — SCC's built-in misconfiguration scanner producing findings such as `PUBLIC_BUCKET_ACL` and `OPEN_SSH_PORT`; coverage depends on tier and activation date. (Module 21)
+
+**Security Hub / Security Hub CSPM (AWS)** — Security Hub CSPM (the original Security Hub, renamed) runs standards-based posture checks using AWS Config; the new Security Hub (Dec 2025) correlates findings from GuardDuty, Inspector, Macie, and CSPM into exposure findings. (Module 21)
 
 **Serverless** — A model where the provider runs, scales, and patches the infrastructure for code or containers you supply, typically scaling to zero and billing per use. Security shifts to invocation permissions and the workload's identity. (Module 07)
 
@@ -545,6 +571,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **TIC 3.0 (Trusted Internet Connections)** — CISA's federal network-security program; version 3.0 replaced forced routing through TIC access points with security capabilities applied at policy enforcement points, with use cases including Cloud, Branch Office, and Remote User. (Module 13)
 
 **Titanium (Google Cloud)** — Google's hardware security architecture: Titan root-of-trust chips, Caliptra, Titanium Offload Processors, and related components that verify boot integrity and offload I/O and encryption. (Module 01)
+
+**Toxic combination / attack path** — Several individually moderate issues that together give an attacker a route to a critical asset; used to prioritize posture findings. (Module 21)
 
 **Trace / span** — A trace follows one request across services; each span is one timed step within it. (Module 19)
 
