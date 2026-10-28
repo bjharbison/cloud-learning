@@ -82,7 +82,7 @@ Modules are built in numbered order, in batches of four or five by scheduled run
 
 | # | Module | Folder | Build |
 |---|---|---|---|
-| 22 | Cloud detection engineering and SIEM: Google SecOps, Microsoft Sentinel, AWS options; MITRE ATT&CK cloud matrices | `modules/22-detection-siem` | ⬜ |
+| 22 | Cloud detection engineering and SIEM: Google SecOps, Microsoft Sentinel, AWS options; MITRE ATT&CK cloud matrices | `modules/22-detection-siem` | 🟦 |
 | 23 | Cloud incident response and forensics: evidence, containment, credential compromise playbooks | `modules/23-incident-response` | ⬜ |
 | 24 | Cloud threat landscape for CTI: nation-state and criminal TTPs against cloud and identity; vendor threat intel sources | `modules/24-cloud-threat-landscape` | ⬜ |
 | 25 | Attack-path lab (purple team): emulate cloud TTPs in my own account and detect them | `modules/25-attack-path-lab` | ⬜ |

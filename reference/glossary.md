@@ -22,6 +22,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Allow policy (Google Cloud)** — The IAM policy attached to a resource that binds roles to principals, optionally with conditions; inherited down the hierarchy and additive. (Module 14)
 
+**Amazon Security Lake** — An AWS-managed security data lake in your S3, normalized to OCSF and queried with Athena or a third-party SIEM; not a SIEM by itself. (Modules 09, 22)
+
+**Analytics rule (Sentinel)** — A Sentinel detection: scheduled KQL, near-real-time (NRT), anomaly, or threat-intelligence matching. (Module 22)
+
 **Antideficiency Act** — U.S. law (31 U.S.C. § 1341 and related sections) barring federal employees from obligating or spending more than an appropriation provides, or before funds are appropriated. Why elastic, bill-after-use cloud spend worries government comptrollers. (Module 04)
 
 **Anycast** — One IP address announced from many locations, so each user reaches the nearest one. Google's global external load balancers use a single anycast IP worldwide. (Module 12)
@@ -35,6 +39,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **ASN (autonomous system number)** — The number that identifies a network in BGP. Hybrid designs use private ASNs (64512–65534 or 4200000000–4294967294 on Google Cloud Router). (Module 13)
 
 **Assured Workloads (Google Cloud)** — A service that applies compliance control packages (data residency, personnel access, service restrictions) to folders, used for FedRAMP, DoD IL, CJIS, ITAR and similar needs on Google's commercial infrastructure. (Module 02; deep dive in 27)
+
+**ATT&CK Detection Strategy** — Since ATT&CK v18, a per-technique object (e.g., DET0289) holding platform-specific analytics, required log sources, and tunable elements. (Module 22)
 
 **Attribute condition (workload identity federation)** — A CEL expression on a Google workload/workforce identity provider that must be true for an external token to be accepted, e.g., restricting GitHub tokens to one owner ID, repo, and branch. (Module 15)
 
@@ -166,6 +172,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Deployment (Kubernetes)** — An object declaring how many identical pods to run and how to roll out changes; a controller keeps reality matching it. Docker analog: `restart: always` plus "run N copies." (Module 06)
 
+**Detection as code** — Managing detection rules in version control with metadata (ATT&CK ID, data source, tests, owner), reviewed by pull request and deployed by CI/CD to the SIEM. (Module 22)
+
+**Detection engineering** — The discipline of turning threat knowledge into tested, maintained alert logic: requirement, research, develop, test, deploy, tune, retire. (Module 22)
+
 **Diagnostic setting (Azure)** — Configuration that sends a resource's (or subscription's) logs and metrics to a Log Analytics workspace, storage account, or Event Hubs; resource logs aren't collected without one. (Module 18)
 
 **Direct Connect (AWS)** — AWS's private circuit service: dedicated 1/10/100/400 Gbps ports or partner-hosted connections, with private, public, or transit virtual interfaces. Not encrypted by default. (Module 13)
@@ -229,6 +239,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Global Secure Access (Microsoft)** — Microsoft's Security Service Edge: Entra Private Access (per-app VPN replacement) and Entra Internet Access (identity-aware web gateway). (Module 17)
 
 **Golden image** — A hardened, patched custom VM image used as the standard base for a fleet. Software supply chain: whatever is baked in ships to every VM (ATT&CK T1525 targets this). (Module 05)
+
+**Google Security Operations (Google SecOps)** — Google's security operations platform (formerly Chronicle): ingests logs into UDM, runs YARA-L rules and curated detections, sold in ingestion-based packages. (Modules 09, 22)
 
 **GuardDuty (AWS)** — AWS's threat detection service, analyzing CloudTrail management events, VPC Flow Logs, and DNS logs (plus optional protection plans); Extended Threat Detection correlates attack sequences. (Modules 21, 22)
 
@@ -329,6 +341,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **MFA fatigue (push bombing)** — Flooding a user with MFA prompts until one is approved. ATT&CK T1621. (Module 15)
 
 **Microsoft Entra ID** — Microsoft's cloud identity service (formerly Azure AD): the tenant directory behind Azure, Microsoft 365, and SaaS SSO, with Free, P1, P2, and Governance tiers. (Module 15)
+
+**Microsoft Sentinel** — Microsoft's cloud SIEM/SOAR on Log Analytics, queried with KQL; supported only in the Defender portal after March 31, 2027. (Modules 09, 22)
 
 **Minimum storage duration** — The shortest time you're billed for in a colder storage class; deleting or moving an object earlier incurs an early-deletion charge for the remainder (e.g., Google Nearline 30 days, Coldline 90, Archive 365). (Module 08)
 
@@ -536,6 +550,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Showback / chargeback** — Showback reports each team's share of cloud cost to them; chargeback actually bills their budget for it. Both depend on consistent labels/tags. (Module 04)
 
+**SIEM (security information and event management)** — A platform that collects, normalizes, stores, and runs detections over security logs, and supports investigation. Examples: Google SecOps, Microsoft Sentinel, Splunk. (Module 22)
+
+**Sigma** — An open, vendor-neutral YAML detection format with converters (pySigma backends) to SPL, KQL, and other query languages. (Module 22)
+
 **Site-to-site VPN** — IPsec tunnels between two networks' gateways across the internet, encrypted by design. (Module 13)
 
 **SKU (billing)** — The individual priced item a provider meters, such as a vCPU-hour of a machine family in a region. One resource usually generates several SKUs. (Module 04)
@@ -578,6 +596,10 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Transit Gateway (AWS)** — AWS's regional network hub for connecting many VPCs and on-prem networks, avoiding a full mesh of non-transitive peerings. (Module 10)
 
+**True positive / false positive / false negative** — An alert on real malicious activity / an alert on benign activity / malicious activity that produced no alert. (Module 22)
+
+**UDM (Unified Data Model)** — Google SecOps's common schema; logs are parsed into fields like `metadata.product_event_type` and `principal.user.email_addresses` so one rule works across sources. (Module 22)
+
 **Uniform bucket-level access (UBLA, Google Cloud)** — Disables object ACLs so access to a bucket is controlled only by IAM. Required for IAM Conditions on buckets; can be turned off only within 90 days of enabling. Enforced by default org policy on organizations created since 2024. (Module 08)
 
 **Uptime check (Google Cloud)** — A black-box HTTP/HTTPS/TCP probe from three or more Google regions on a 1–15 minute schedule; private uptime checks reach internal endpoints. (Module 19)
@@ -603,5 +625,7 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Workload identity** — Giving a workload (pod, function, VM) short-lived cloud credentials based on its own identity instead of a stored key. In Kubernetes: GKE Workload Identity Federation, EKS Pod Identity/IRSA, Microsoft Entra Workload ID. Outside the cloud: workload identity federation. (Modules 06, 15)
 
 **Workload Identity Federation (Google Cloud)** — Exchanging an external workload's token (OIDC, SAML, AWS, Azure, X.509) at Google STS for short-lived Google credentials, removing service-account keys. (Module 15)
+
+**YARA-L 2.0** — Google SecOps's detection language, with `meta`, `events`, `match` (group-by and time window), `outcome`, and `condition` sections; rules run continuously over incoming data. (Module 22)
 
 **Zero trust** — A security model that grants access per request based on identity, device, and context, assuming the network is hostile; defined for U.S. government use in NIST SP 800-207. (Module 17)
