@@ -2,6 +2,8 @@
 
 Plain-language definition first, then how practitioners use the term. Alphabetical. Modules append as they're built.
 
+**3PAO (third-party assessment organization)** — An accredited independent assessor that tests a cloud service's controls for FedRAMP. (Module 26)
+
 **Access level (Access Context Manager)** — A named condition (source IP ranges, device attributes, geography) that VPC Service Controls perimeters can use to admit requests from outside. (Module 11)
 
 **Access Transparency (Google Cloud)** — Logs of actions Google personnel take on customer content, with justification; Access Approval lets customers approve or deny such access in advance. (Module 18)
@@ -45,6 +47,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **ATT&CK Detection Strategy** — Since ATT&CK v18, a per-technique object (e.g., DET0289) holding platform-specific analytics, required log sources, and tunable elements. (Module 22)
 
 **Attribute condition (workload identity federation)** — A CEL expression on a Google workload/workforce identity provider that must be true for an external token to be accepted, e.g., restricting GitHub tokens to one owner ID, repo, and branch. (Module 15)
+
+**Authority to Operate / Authorization to Operate (ATO)** — A formal decision by an Authorizing Official (AO) to accept the residual risk of running a system; based on the SSP, assessment report, and POA&M. (Module 26)
 
 **Authorized view (BigQuery)** — A view granted read access to a source dataset so its users can query a curated slice (selected columns or rows) without any access to the underlying data. (Module 09)
 
@@ -110,6 +114,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **CISA Zero Trust Maturity Model (ZTMM)** — CISA's framework (v2.0, April 2023): five pillars (Identity, Devices, Networks, Applications and Workloads, Data), three cross-cutting capabilities, and four stages from Traditional to Optimal. (Module 17)
 
+**Cloud Access Point (CAP)** — The DoD-approved network gateway that IL4 and IL5 cloud traffic must pass through to and from DoD networks. (Module 26)
+
 **Cloud Armor (Google Cloud)** — Google's WAF and DDoS-protection service: security policies with preconfigured OWASP CRS-based rules, custom rules, rate limiting, and (Enterprise tier) Adaptive Protection. (Module 12)
 
 **Cloud Identity** — Google's identity service for organizations, without Workspace email. Its free edition needs a domain you own and verify; it gives you a Google Cloud organization node. (Module 03)
@@ -129,6 +135,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **CloudTrail (AWS)** — AWS's API audit service: Event history (90 days of management events, free) plus trails that deliver management, data, network activity, and Insights events to S3. (Module 18)
 
 **CMEK (customer-managed encryption key)** — Encryption where the provider's service wraps your data keys with a key you create and control in the provider's KMS; you can rotate, disable, or destroy it, and its use is logged. (Module 16)
+
+**CMMC (Cybersecurity Maturity Model Certification)** — DoD program verifying that defense contractors protect FCI (Level 1, 15 requirements) and CUI (Level 2, 110 requirements of NIST SP 800-171 Rev. 2; Level 3 adds 800-172). (Module 26)
 
 **CNAPP (cloud-native application protection platform)** — An umbrella platform combining CSPM, CWPP, CIEM, DSPM, and code/IaC scanning, correlated into attack paths. Defender for Cloud describes itself as one. (Module 21)
 
@@ -152,13 +160,19 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Continuous Access Evaluation (CAE)** — Microsoft Entra feature that pushes critical events (account disabled, password reset, sessions revoked, high risk) to supporting apps for near-real-time enforcement, typically within about 15 minutes. (Module 23)
 
+**Continuous ATO (cATO)** — Keeping an authorization through continuous monitoring, active cyber defense, and an approved DevSecOps pipeline instead of periodic reauthorization (DoD memo, 2022). (Module 26)
+
 **Control plane / data plane** — The control plane is where you *manage* resources (create a VM, change a policy) — almost always API calls. The data plane is where the resource *does its work* (traffic through a VM, reads from a bucket). Logging and permissions often differ between the two.
+
+**Controlled Unclassified Information (CUI)** — Unclassified government information that law or policy requires to be safeguarded; DoD IL4 and CMMC Level 2 are built around it. (Module 26)
 
 **Cost allocation tag (AWS)** — A resource tag that AWS Billing uses to group costs. User-defined tags must be activated in the Billing console before they appear in cost reports. (Module 04)
 
 **Crypto-shredding** — Making data permanently unreadable by destroying the key that encrypts it, rather than deleting every copy of the data. (Module 16)
 
 **CSEK / SSE-C (customer-supplied keys)** — You send the raw encryption key with each request; the provider uses it and keeps only a hash. Lose the key, lose the data. (Module 16)
+
+**CSP SRG (Cloud Service Provider Security Requirements Guide)** — DISA's guide defining DoD Impact Levels and cloud security requirements; v1r1 (June 2024) succeeded the Cloud Computing SRG. (Module 26)
 
 **CSPM (cloud security posture management)** — Continuous checking of cloud configuration against best practices and compliance frameworks (public buckets, open ports, missing MFA). Examples: SCC, Security Hub CSPM, Defender for Cloud, Prowler. (Module 21)
 
@@ -234,9 +248,15 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Federation** — One identity provider authenticates users and other systems trust its signed statements instead of keeping their own credentials. (Module 15)
 
+**FedRAMP 20x** — FedRAMP's automation-first authorization process (announced March 2025) built on Key Security Indicators and machine-readable evidence. (Module 26)
+
+**FedRAMP classes (A–D)** — FedRAMP's 2026 designations: A = new pilot baseline, B = LI-SaaS/Low, C = Moderate, D = High, under the label "FedRAMP Certified." (Module 26)
+
 **FinOps** — The practice of making engineering, finance, and leadership jointly accountable for cloud spend. The FinOps Foundation describes three repeating phases: Inform, Optimize, Operate. (Module 04)
 
 **FIPS 140-3** — The current U.S. standard for validating cryptographic modules (Levels 1–4). FIPS 140-2 certificates moved to NIST's Historical List in September 2026. (Module 16)
+
+**FIPS 199** — The federal standard for rating a system's impact as Low, Moderate, or High for confidentiality, integrity, and availability. (Module 26)
 
 **Flex Consumption plan (Azure Functions)** — Microsoft's recommended serverless hosting plan for new Azure Functions apps: event-driven scaling (including to zero), pay per execution, and VNet integration. Replaces the legacy Consumption plan. (Module 07)
 
@@ -296,6 +316,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **IMDSv2 (AWS)** — Version 2 of the EC2 Instance Metadata Service, which requires a session token before returning data (including role credentials). Blocks simple SSRF-based credential theft; default on Amazon Linux 2023. (Module 05)
 
+**Impact Level (DoD IL2/4/5/6)** — DoD cloud authorization tiers by data type: IL2 public/non-CUI, IL4 CUI, IL5 higher-sensitivity CUI and unclassified NSS, IL6 classified up to SECRET. (Module 26)
+
 **Impersonation (service account)** — Minting short-lived tokens for a Google Cloud service account (requires Service Account Token Creator) instead of using a long-lived key. (Module 14)
 
 **Infostealer** — Commodity malware that harvests saved passwords, cookies, and tokens from a victim's device for sale; the credential source in the 2024 Snowflake-customer campaign. (Module 24)
@@ -321,6 +343,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Key Access Justifications (KAJ, Google Cloud)** — Attaches a reason code to every request to use a key so the customer's policy can approve or deny it; available with Assured Workloads. (Module 16)
 
 **Key rotation** — Creating a new primary key version for future encryption. Doesn't re-encrypt existing data; older versions must stay enabled to read it. (Module 16)
+
+**Key Security Indicator (KSI)** — A FedRAMP 20x capability-level requirement, abstracted over NIST 800-53 controls, ideally validated automatically. (Module 26)
 
 **KQL (Kusto Query Language)** — The query language for Azure Monitor Log Analytics, Microsoft Sentinel, and Defender; pipe-based, familiar to Splunk SPL users. (Module 18)
 
@@ -436,6 +460,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **OS Login (Google Cloud)** — Ties Linux accounts on Compute Engine VMs to Google identities and IAM roles (`roles/compute.osLogin`, `roles/compute.osAdminLogin`) instead of static SSH keys in metadata, so access is revoked centrally. Enabled with metadata `enable-oslogin=TRUE`. (Module 05)
 
+**OSCAL** — NIST's Open Security Controls Assessment Language: machine-readable JSON/XML/YAML formats for control catalogs, baselines, SSPs, assessments, and POA&Ms. (Module 26)
+
 **Partitioning (BigQuery)** — Dividing a table into segments, usually by date, so queries filtering on that column scan only matching partitions. The main lever on query cost for log tables. (Module 09)
 
 **Passthrough vs proxy load balancer** — A proxy terminates client connections and opens new ones to backends; a passthrough forwards packets unchanged, preserving the client IP. (Module 12)
@@ -494,6 +520,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Programmatic budget notification (Google Cloud)** — Budget status that Cloud Billing publishes to a Pub/Sub topic several times a day, so code can react to spend. The building block for any automated cost response on Google Cloud. (Module 04)
 
+**Provisional Authorization (PA)** — DISA's authorization of a cloud offering at a DoD Impact Level, which mission owners build on for their own ATOs. (Module 26)
+
 **Public access prevention (Google Cloud)** — A bucket setting (or the `storage.publicAccessPrevention` org policy) that makes grants to `allUsers`/`allAuthenticatedUsers` fail and overrides any that already exist. AWS analog: S3 Block Public Access; Azure: `AllowBlobPublicAccess = false`. (Module 08)
 
 **Purple team** — Attackers (red) and defenders (blue) working together, technique by technique, to improve detection and response. (Module 25)
@@ -513,6 +541,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Resource group (Azure)** — A container inside a subscription for resources that share a lifecycle. Each resource belongs to exactly one; deleting the group deletes its contents. (Module 03)
 
 **Resource scope (zonal / regional / multi-regional / global)** — Where a resource lives and therefore what failure takes it down. On Google Cloud the API path shows it: `/zones/`, `/regions/`, or `/global/`. (Module 02)
+
+**Risk Management Framework (RMF)** — NIST SP 800-37's seven-step process: Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor. (Module 26)
 
 **Role (IAM)** — A named collection of permissions granted to principals at a scope. (Module 14)
 
@@ -625,6 +655,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Subnet** — A range of a virtual network's address space. Regional on Google and Azure (Azure subnets span zones); tied to one Availability Zone on AWS. Providers reserve addresses in each (Google 4, AWS and Azure 5). (Module 10)
 
 **Sustained use discount (Google Cloud)** — An automatic discount on eligible Compute Engine machine series that grows as a resource runs more of the month (after 25%), up to 30% net for a full month. No equivalent on AWS or Azure. (Module 04)
+
+**System Security Plan (SSP)** — The document describing a system, its authorization boundary, and how each required control is implemented and by whom. (Module 26)
 
 **Terraform** — HashiCorp's (now IBM's) declarative, multi-cloud IaC tool; providers talk to each cloud's API, and a state file records what was built. BSL-licensed since 2023; OpenTofu is the community fork. (Module 20)
 

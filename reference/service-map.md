@@ -166,5 +166,8 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Actor naming | UNC#### clusters; two-word cryptonyms (2026) | — | Weather families + Storm-#### | Module 24 |
 | Disposable attack-emulation sandbox | Dedicated project (delete → 30-day pending deletion) | Separate account (needs AWS Organizations) | Separate subscription / resource group | Module 25 |
 | Customer security-testing policy | No notice needed; follow AUP | Listed services without prior approval | No pre-approval since 2017; Rules of Engagement | Module 25 |
+| Provider compliance documents | Compliance documents download (Audit Manager / Compliance Reports Manager) | AWS Artifact | Service Trust Portal | Module 26 |
+| Config checks mapped to NIST 800-53 | Compliance Manager frameworks (SCC) | Security Hub CSPM NIST SP 800-53 Rev. 5 standard; Config conformance packs | Azure Policy regulatory compliance initiatives (FedRAMP High, NIST 800-53 Rev. 5, 800-171 Rev. 2) | Module 26 |
+| FedRAMP High / IL5 location | Commercial U.S. regions + Assured Workloads package | AWS GovCloud (US) | High: commercial and Azure Government; IL5: Azure Government | Modules 26, 27 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–19 rows verified 2026-10-27; Module 20–23 rows verified 2026-10-28; Module 24–27 rows verified 2026-10-29.*
