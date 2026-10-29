@@ -160,5 +160,9 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Forensic disk copy | `gcloud compute snapshots create` | `aws ec2 create-snapshot` | `az snapshot create` | Snapshot before stopping/deleting. Module 23 |
 | Evidence isolation pattern | Separate forensics project ⚠️ (pattern) | SRA forensics account | SOC subscription + immutable blob (legal hold) + Key Vault hashes | Module 23 |
 | Provider IR service | Mandiant Incident Response | AWS Security Incident Response (metered, free tier) | Microsoft Incident Response | Module 23 |
+| Threat-intel product | Google Threat Intelligence (Mandiant + VirusTotal + Google telemetry); GTIG reporting | Intel embedded in GuardDuty and automatic protections (MadPot, Mithra, Sonaris); no standalone feed ⚠️ | Defender Threat Intelligence capabilities inside Defender XDR and Sentinel | AWS embeds; Google and Microsoft sell. Module 24 |
+| Bring-your-own threat intel | SecOps IOC ingestion / Applied Threat Intelligence ⚠️ details | GuardDuty threat / trusted entity lists | Sentinel TAXII 2.x connector; threat intelligence upload API (STIX) | Module 24 |
+| Multi-stage attack correlation | SecOps composite detections | GuardDuty Extended Threat Detection (attack sequences, no extra charge) | Defender XDR incidents | Module 24 |
+| Actor naming | UNC#### clusters; two-word cryptonyms (2026) | — | Weather families + Storm-#### | Module 24 |
 
-*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–19 rows verified 2026-10-27; Module 20–23 rows verified 2026-10-28.*
+*Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–19 rows verified 2026-10-27; Module 20–23 rows verified 2026-10-28; Module 24–27 rows verified 2026-10-29.*
