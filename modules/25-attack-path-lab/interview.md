@@ -50,5 +50,5 @@ Draw a sandbox project with three lanes — **Red** (tool and five techniques), 
 ## What you can honestly claim
 
 - **After reading + quiz:** "I've studied cloud purple teaming and adversary emulation — rules of engagement, Stratus Red Team's lifecycle, and how to score detection coverage against ATT&CK."
-- **After completing the lab:** "In a personal lab I ran a purple-team exercise in a dedicated Google Cloud project: I emulated five cloud techniques with Stratus Red Team, found each in the audit logs, tested log-based detections mapped to ATT&CK, scored coverage, and identified gaps." Add the AWS sandbox part only if you did it.
+- **After completing the lab:** "In a personal lab I ran a purple-team exercise in a dedicated Google Cloud project: I emulated five cloud techniques with Stratus Red Team, found each in the audit logs, tested log-based detections mapped to ATT&CK, scored coverage, and identified gaps."
 - **Still requires (cert / production experience / clearance):** red-team, purple-team, or detection-engineering work in a production or customer environment, under a real authorization. A lab exercise is not an operational assessment. Certifications such as a GIAC cloud or purple-team credential ⚠️ (check current offerings) or the Google Professional Cloud Security Engineer would add a claimable credential.

@@ -45,7 +45,7 @@ IAM-001 watches `SetIamPolicy` on the **project** (`cloudresourcemanager.googlea
 8. The impersonation technique produced several "permission denied" calls followed by one success. Why is that sequence a better detection than any single event?
 <details><summary>Answer</summary>
 
-Individual `GenerateAccessToken` calls are normal for pipelines. A **burst of denials against many service accounts, then a success, from one principal** is characteristic of an attacker probing for a usable identity — a behavioral pattern that's harder to evade and lower in false positives.
+Individual `GenerateAccessToken` calls are normal for pipelines. A **burst of denials against many service accounts, then a success, from one source** (caller IP and user agent — Google often redacts the caller identity on denied calls) is characteristic of an attacker probing for a usable identity — a behavioral pattern that's harder to evade and lower in false positives.
 </details>
 
 9. Compare the disposable sandbox unit on each cloud and one catch for each.

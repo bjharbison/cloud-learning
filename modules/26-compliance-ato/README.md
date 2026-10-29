@@ -45,7 +45,7 @@ An AO decides based on a **package**:
 - **Security Assessment Plan / Report (SAP/SAR):** how an independent assessor tested it, and what they found.
 - **Plan of Action and Milestones (POA&M):** open weaknesses and fix dates.
 
-DoD's version (DoDI 8510.01, 2022) adds that the AO must be a government official and can't delegate the decision. An **IATT** (interim authorization to test) lets a system run for testing before the full ATO.
+DoD's version (DoDI 8510.01, 2022) adds that the AO must be a government official, and stresses reciprocity ⚠️ (non-delegation wording not re-verified). An **IATT** (interim authorization to test) lets a system run for testing before the full ATO.
 
 ### Inheritance: why the cloud makes ATOs easier
 
@@ -100,7 +100,7 @@ DoD uses its own layer on top of FedRAMP, defined by DISA's **Cloud Service Prov
 | Level | Data | Baseline | Key requirements |
 |---|---|---|---|
 | **IL2** | Public or non-CUI | FedRAMP Moderate | Commercial cloud is fine |
-| **IL4** | **CUI** (Controlled Unclassified Information) | FedRAMP Moderate + DoD **FedRAMP+** controls | Traffic through a DoD **Cloud Access Point (CAP)** |
+| **IL4** | **CUI** (Controlled Unclassified Information) | FedRAMP Moderate + DoD **FedRAMP+** controls | Traffic through a DoD **Cloud Access Point (CAP)**; U.S. persons screening for staff with access (SRG §5.6.2, per Microsoft's IL5 page) |
 | **IL5** | Higher-sensitivity CUI and unclassified **National Security Systems** | FedRAMP High + FedRAMP+ | Separation from non-federal tenants; CAP; U.S. citizens/nationals/persons screening |
 | **IL6** | Classified up to **SECRET** | Classified overlays | Cleared personnel and facilities; classified network connectivity such as SIPRNet ⚠️ (general SRG wording not verified) |
 

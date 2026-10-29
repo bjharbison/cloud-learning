@@ -26,7 +26,7 @@
 **A1. Check roles.** You need Assured Workloads Administrator (`roles/assuredworkloads.admin`) on the organization, plus permission to create folders and projects ⚠️ (role list from Google's IAM docs; check *Create a folder for a control package* for the current list).
 
 ```bash
-ORG=$(gcloud organizations list --format="value(name)" | head -1); echo $ORG
+ORG=$(gcloud organizations list --format="value(name)" | head -1); ORG=${ORG#organizations/}; echo $ORG   # numeric ID only
 BILLING=XXXXXX-XXXXXX-XXXXXX          # gcloud billing accounts list
 gcloud organizations get-iam-policy $ORG --flatten="bindings[].members" \
   --filter="bindings.members:$(gcloud config get-value account)" --format="value(bindings.role)"
@@ -83,7 +83,7 @@ gcloud storage buckets create gs://$P-us --location=us-central1 --project=$P    
 ### Path 2 (no organization): read the packages and price a boundary
 
 ```bash
-gcloud assured workloads create --help | sed -n '/--compliance-regime/,/--display-name/p'
+gcloud assured workloads create --help | grep -A22 '^     --compliance-regime'
 ```
 
 **What you should see:** the full list of compliance regimes the CLI accepts — both legacy values (`fedramp-high`, `il4`, `il5`) and current "data boundary" names (`data-boundary-for-il5`, `data-boundary-for-fedramp-high`). Match each U.S. one to a row on Google's [control packages page](https://docs.cloud.google.com/assured-workloads/docs/control-packages) and its [pricing tier](https://cloud.google.com/assured-workloads/pricing).
@@ -165,7 +165,7 @@ Use only the official scope pages (Google's FedRAMP/DoD scope page, AWS services
 
 ## Cleanup
 
-**Google Cloud — Path 1 (do this the same day)**
+**Google Cloud — Path 1 (start this the same day)**
 
 ```bash
 gcloud storage rm --recursive gs://$P-us
@@ -176,11 +176,11 @@ gcloud projects delete $P --quiet
 Then delete the Assured Workloads environment: console → **Assured Workloads** → select `lab27-aw` → **Delete** ⚠️ (Google requires the folder to be empty of active resources first; a just-deleted project in pending deletion may block it — if so, retry after it's purged, or check the *Delete an Assured Workloads folder* doc). CLI alternative:
 
 ```bash
-gcloud assured workloads list --organization=${ORG#organizations/} --location=us   # ⚠️ location value may differ; use the console if this fails
-gcloud assured workloads delete <workload-id> --organization=${ORG#organizations/} --location=us
+gcloud assured workloads list --organization=$ORG --location=us   # ⚠️ location value may differ; use the console if this fails
+gcloud assured workloads delete <workload-id> --organization=$ORG --location=us
 ```
 
-Confirm the folder is gone (`gcloud resource-manager folders list --organization=${ORG#organizations/}`), and remove the role you granted yourself in A1 if you added it:
+**If deletion is blocked** because the project is still pending deletion (up to 30 days), that's expected. An empty free-tier folder costs nothing. Put a dated reminder in your calendar or `PROGRESS.md` notes to come back and delete the workload once the project is purged. Then confirm the folder is gone (`gcloud resource-manager folders list --organization=$ORG`), and remove the role you granted yourself in A1 if you added it:
 
 ```bash
 gcloud organizations remove-iam-policy-binding $ORG \
@@ -189,7 +189,7 @@ gcloud organizations remove-iam-policy-binding $ORG \
 
 **Path 2, AWS, Azure:** nothing was created. Make sure `az cloud list` still shows `AzureCloud` as active.
 
-**Final check — nothing billable remains:** no `lab27-aw` workload or folder; project `$P` in `DELETE_REQUESTED` with billing unlinked; no buckets; no Premium package was ever selected (check the billing report for a "GCP Assured Workloads" line item — there should be none).
+**Final check — nothing billable remains:** no `lab27-aw` workload or folder (or, if deletion is still blocked, an **empty** free-tier workload with a dated reminder to finish); project `$P` in `DELETE_REQUESTED` with billing unlinked; no buckets; no Premium package was ever selected (check the billing report for a "GCP Assured Workloads" line item — there should be none).
 
 ## Write-up prompt
 

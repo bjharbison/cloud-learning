@@ -45,12 +45,13 @@ In cloud, emulation is usually safe *if* you control the blast radius: a **dedic
 
 Write these down before running anything. The ROE for this module:
 
-1. **Scope:** one new, dedicated Google Cloud project (and optionally a separate AWS sandbox account). Nothing else.
+1. **Scope:** one new, dedicated Google Cloud project. AWS and Azure techniques are read and mapped, not run. Nothing else.
 2. **Identities:** only your own lab admin identity and service accounts created inside the lab project.
 3. **No external principals.** Skip any technique that grants access to an outside account, shares disks, images, or snapshots, or invites users. Some tools default to a maintainer-owned "attacker" account — never use those techniques here.
-4. **No organization-level actions,** and nothing that targets other projects, other people's resources, or provider infrastructure.
-5. **Cost cap:** IAM, logging, and small storage techniques only — no compute, GPUs, or notebooks.
-6. **Cleanup:** tool cleanup, then delete the whole project, then verify.
+4. **Configuration sets the blast radius, not credentials.** The tool runs with your own credentials, which can reach every project you own; a single environment variable points it at the sandbox. Check it before every detonation.
+5. **No organization-level actions,** and nothing that targets other projects, other people's resources, or provider infrastructure.
+6. **Cost cap:** IAM, logging, and small storage techniques only — no compute, GPUs, or notebooks.
+7. **Cleanup:** tool cleanup, then delete the whole project, then verify.
 
 **Provider policies:** Google says customers don't need to notify it before testing their own Google Cloud resources, but must follow the Acceptable Use Policy. AWS allows testing of listed services in your own account without prior approval, under its penetration testing policy. Microsoft dropped pre-approval in 2017 but requires its Rules of Engagement. Emulating control-plane API calls in your own project is well inside all three.
 
@@ -59,7 +60,7 @@ Write these down before running anything. The ROE for this module:
 **Stratus Red Team** is an open-source, Apache-licensed tool from Datadog — "Atomic Red Team for the cloud." As of late October 2026 the current release is **v2.37.2**, and it's actively maintained.
 
 - Covers **AWS, Google Cloud, Azure, Entra ID, Kubernetes,** and **EKS**. Each technique has an ID like `gcp.persistence.create-service-account-key`, grouped by ATT&CK tactic.
-- **Lifecycle:** `warmup` creates prerequisites (via Terraform it downloads itself) → `detonate` performs the attack → `revert` undoes the attack → `cleanup` removes everything. `status` shows COLD / WARM / DETONATED.
+- **Lifecycle:** `warmup` creates prerequisites (via Terraform it downloads itself) → `detonate` performs the attack → `revert` undoes the attack (where the technique supports it) → `cleanup` removes everything. `status` shows COLD / WARM / DETONATED.
 - **Auth:** on Google Cloud it uses Application Default Credentials and the `GOOGLE_PROJECT` environment variable. State lives in `~/.stratus-red-team/`.
 - Its docs tell you to run it **only in a sandbox account** — the same principle as this module's ROE.
 
@@ -117,7 +118,7 @@ For each technique, record one of four outcomes — a simple scale many purple t
 | Disposable blast radius | New **project** (delete = 30-day pending deletion) | Separate **account** (needs AWS Organizations, which ends the free plan — module 00) | Separate **subscription** or resource group | Google projects are the cheapest sandbox |
 | Stratus coverage | 25 techniques | Largest set (incl. EC2, IAM, S3, CloudTrail) | Azure and Entra ID techniques | |
 | Provider testing policy | No notice needed for own resources; follow AUP | Listed services allowed without approval; policy page | No pre-approval since 2017; Rules of Engagement | All prohibit attacking other customers or provider infrastructure |
-| Built-in detections to test | SCC Event Threat Detection (Premium/Enterprise), log-based alerts | GuardDuty (e.g., `Stealth:IAMUser/CloudTrailLoggingDisabled`) | Defender for Cloud alerts; Sentinel analytics | AWS's GuardDuty trial makes managed-detection testing easiest |
+| Built-in detections to test | SCC Event Threat Detection (Premium), log-based alerts | GuardDuty (e.g., `Stealth:IAMUser/CloudTrailLoggingDisabled`) | Defender for Cloud alerts; Sentinel analytics | AWS's GuardDuty trial makes managed-detection testing easiest |
 | Logs off by default that hide techniques | Data Access (impersonation, secret reads, storage reads) | Data events (S3 reads, Lambda invokes) | Resource logs; Entra logs beyond 7/30 days | Same lesson everywhere |
 
 ## Administer and monitor it
