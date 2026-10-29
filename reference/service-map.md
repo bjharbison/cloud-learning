@@ -164,5 +164,7 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Bring-your-own threat intel | SecOps IOC ingestion / Applied Threat Intelligence ⚠️ details | GuardDuty threat / trusted entity lists | Sentinel TAXII 2.x connector; threat intelligence upload API (STIX) | Module 24 |
 | Multi-stage attack correlation | SecOps composite detections | GuardDuty Extended Threat Detection (attack sequences, no extra charge) | Defender XDR incidents | Module 24 |
 | Actor naming | UNC#### clusters; two-word cryptonyms (2026) | — | Weather families + Storm-#### | Module 24 |
+| Disposable attack-emulation sandbox | Dedicated project (delete → 30-day pending deletion) | Separate account (needs AWS Organizations) | Separate subscription / resource group | Module 25 |
+| Customer security-testing policy | No notice needed; follow AUP | Listed services without prior approval | No pre-approval since 2017; Rules of Engagement | Module 25 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–19 rows verified 2026-10-27; Module 20–23 rows verified 2026-10-28; Module 24–27 rows verified 2026-10-29.*

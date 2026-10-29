@@ -14,6 +14,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Admission controller (Kubernetes)** — Code in the API server that inspects create/update requests after authentication and can reject or modify them before they're stored. Pod Security Admission, OPA Gatekeeper, Kyverno, and Binary Authorization work here. (Module 06)
 
+**Adversary emulation** — Reproducing a specific threat actor's known techniques with real actions, to test defenses against the threats you actually face. (Module 25)
+
 **Aggregated sink (Google Cloud)** — A Log Router sink at the organization or folder that collects logs from all child projects; intercepting sinks also stop them flowing to child sinks. (Modules 09, 18)
 
 **AiTM (adversary-in-the-middle) phishing** — A proxy phishing site relays the real sign-in, including MFA, and steals the resulting session cookie; defeated by phishing-resistant MFA. ATT&CK T1557 / T1539. (Module 15)
@@ -81,6 +83,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **BigQuery sandbox** — A way to use BigQuery with no billing account: 10 GiB lifetime storage, 1 TiB of queries per month, 60-day table expiration, no streaming or DML. (Module 09)
 
 **Block, file, and object storage** — Block: a raw virtual disk attached to a VM (Persistent Disk/Hyperdisk, EBS, Managed Disks). File: a shared NFS/SMB filesystem (Filestore, EFS, Azure Files). Object: whole files with metadata in buckets, reached over an HTTPS API (Cloud Storage, S3, Blob Storage). (Module 08)
+
+**Breach and attack simulation (BAS)** — Commercial platforms that run attack techniques or simulated events continuously to test security controls. (Module 25)
 
 **Break-glass account** — An emergency admin identity kept locked away, used only when normal admin access fails, and alerted on whenever it signs in. (Module 00)
 
@@ -187,6 +191,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Detection as code** — Managing detection rules in version control with metadata (ATT&CK ID, data source, tests, owner), reviewed by pull request and deployed by CI/CD to the SIEM. (Module 22)
 
 **Detection engineering** — The discipline of turning threat knowledge into tested, maintained alert logic: requirement, research, develop, test, deploy, tune, retire. (Module 22)
+
+**Detection validation** — Running a behavior on purpose to prove a detection rule fires, how fast, and with what context. (Module 25)
 
 **Diagnostic setting (Azure)** — Configuration that sends a resource's (or subscription's) logs and metrics to a Log Analytics workspace, storage account, or Event Hubs; resource logs aren't collected without one. (Module 18)
 
@@ -490,6 +496,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Public access prevention (Google Cloud)** — A bucket setting (or the `storage.publicAccessPrevention` org policy) that makes grants to `allUsers`/`allAuthenticatedUsers` fail and overrides any that already exist. AWS analog: S3 Block Public Access; Azure: `AllowBlobPublicAccess = false`. (Module 08)
 
+**Purple team** — Attackers (red) and defenders (blue) working together, technique by technique, to improve detection and response. (Module 25)
+
 **Quota** — A provider-enforced cap on how much of a resource a project/account/subscription can use (e.g., vCPUs per region). Distinct from a budget, which only measures spend. Also limits an attacker's blast radius. Google calls fixed caps "system limits." (Module 04)
 
 **Rate limiting (WAF)** — Capping requests per client key (IP, header, fingerprint) per interval; excess requests are throttled, denied (e.g., HTTP 429), or banned. (Module 12)
@@ -517,6 +525,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **RPO (Recovery Point Objective)** — The maximum acceptable amount of data loss, measured in time ("we can lose at most 15 minutes of work"). (Module 02)
 
 **RTO (Recovery Time Objective)** — The maximum acceptable time a system can be offline after an incident. (Module 02)
+
+**Rules of engagement (ROE)** — The written scope, allowed actions, forbidden actions, and stop conditions for a security test, signed by the system owner. (Module 25)
 
 **S3 Block Public Access** — Four account- and bucket-level settings that block public ACLs and public bucket policies. On by default for new buckets since April 2023, together with ACLs disabled. (Module 08)
 
@@ -609,6 +619,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **STIX / TAXII** — STIX (Structured Threat Information Expression) is a JSON format for threat intelligence objects such as indicators, actors, and relationships; TAXII is the protocol for sharing them between servers and clients. (Module 24)
 
 **Storage class / access tier** — The price/access profile of stored objects: hot (Google Standard, S3 Standard, Azure Hot) through infrequent and cold to archive. Colder tiers cost less to store and more to read. (Module 08)
+
+**Stratus Red Team** — Datadog's open-source tool for emulating cloud attack techniques (AWS, Google Cloud, Azure, Entra ID, Kubernetes) with a warmup → detonate → revert → cleanup lifecycle. (Module 25)
 
 **Subnet** — A range of a virtual network's address space. Regional on Google and Azure (Azure subnets span zones); tied to one Availability Zone on AWS. Providers reserve addresses in each (Google 4, AWS and Azure 5). (Module 10)
 
