@@ -92,7 +92,7 @@ Modules are built in numbered order, in batches of four or five by scheduled run
 | # | Module | Folder | Build |
 |---|---|---|---|
 | 26 | Compliance: FedRAMP, DoD Impact Levels (IL2–IL6), CMMC, NIST 800-53, ATO | `modules/26-compliance-ato` | 🟦 |
-| 27 | Government clouds: Assured Workloads, AWS GovCloud and classified regions, Azure Government and classified clouds | `modules/27-government-clouds` | ⬜ |
+| 27 | Government clouds: Assured Workloads, AWS GovCloud and classified regions, Azure Government and classified clouds | `modules/27-government-clouds` | 🟦 |
 | 28 | Air-gapped and disconnected cloud: Google Distributed Cloud air-gapped and peers; operating with no internet egress | `modules/28-air-gapped-cloud` | ⬜ |
 | 29 | AI in the cloud and AI security: Vertex AI, Bedrock, Azure AI; RAG; OWASP LLM Top 10, MITRE ATLAS; AI in regulated boundaries | `modules/29-ai-and-ai-security` | ⬜ |
 

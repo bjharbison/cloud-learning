@@ -169,5 +169,10 @@ Rough equivalents. "Equivalent" rarely means identical — the **Notes** column 
 | Provider compliance documents | Compliance documents download (Audit Manager / Compliance Reports Manager) | AWS Artifact | Service Trust Portal | Module 26 |
 | Config checks mapped to NIST 800-53 | Compliance Manager frameworks (SCC) | Security Hub CSPM NIST SP 800-53 Rev. 5 standard; Config conformance packs | Azure Policy regulatory compliance initiatives (FedRAMP High, NIST 800-53 Rev. 5, 800-171 Rev. 2) | Module 26 |
 | FedRAMP High / IL5 location | Commercial U.S. regions + Assured Workloads package | AWS GovCloud (US) | High: commercial and Azure Government; IL5: Azure Government | Modules 26, 27 |
+| Unclassified gov environment details | Assured Workloads folder + control package (free: US Data Boundary, FedRAMP Moderate; premium 20%: FedRAMP High, IL2/4/5, ITAR, CJIS, IRS 1075) | GovCloud (US): us-gov-west-1/us-gov-east-1, `arn:aws-us-gov`, own Organization | Azure Government: US Gov Virginia/Arizona/Texas + US DoD Central/East; `.us` endpoints, separate Entra tenant | Module 27 |
+| SECRET / IL6 cloud | Google Distributed Cloud air-gapped (IL6, May 2025) | AWS Secret Region; Secret-West (Oct 2025) | Azure Government Secret (IL6, 2020) | Module 27; GDC detail in 28 |
+| TOP SECRET cloud | GDC air-gapped (TS/Secret authorization, Apr 2024) | AWS Top Secret-East (2014), Top Secret-West (2021) | Azure Government Top Secret (GA Aug 2021) | ICD 503 accreditation. Module 27 |
+| Microsoft 365 gov tiers (context) | Google Workspace (FedRAMP High, IL2/IL4; IL5 in review) | — | M365 GCC / GCC High / DoD | Module 27 |
+| DoD contract vehicle | JWCC awardee | JWCC awardee | JWCC awardee | Oracle is the fourth. Module 27 |
 
 *Seed rows reflect long-standing service names (pending first weekly review). Rows tagged Module 00–03 verified 2026-10-23; Module 04–07 rows verified 2026-10-24; Module 08–11 rows verified 2026-10-25; Module 12–15 rows verified 2026-10-26; Module 16–19 rows verified 2026-10-27; Module 20–23 rows verified 2026-10-28; Module 24–27 rows verified 2026-10-29.*

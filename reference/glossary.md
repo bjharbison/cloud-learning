@@ -44,6 +44,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **Assured Workloads (Google Cloud)** — A service that applies compliance control packages (data residency, personnel access, service restrictions) to folders, used for FedRAMP, DoD IL, CJIS, ITAR and similar needs on Google's commercial infrastructure. (Module 02; deep dive in 27)
 
+**Assured Workloads control package (Google Cloud)** — A named set of controls (data location, allowed services, support personnel, key management) applied to an Assured Workloads folder; free tier (e.g., US Data Boundary, FedRAMP Moderate) or premium (e.g., FedRAMP High, IL4, IL5 at 20% of in-folder spend). (Module 27)
+
 **ATT&CK Detection Strategy** — Since ATT&CK v18, a per-technique object (e.g., DET0289) holding platform-specific analytics, required log sources, and tunable elements. (Module 22)
 
 **Attribute condition (workload identity federation)** — A CEL expression on a Google workload/workforce identity provider that must be true for an external token to be accepted, e.g., restricting GitHub tokens to one owner ID, repo, and branch. (Module 15)
@@ -310,9 +312,13 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 
 **IAP TCP forwarding (Google Cloud)** — Identity-Aware Proxy feature that tunnels SSH/RDP to VMs without public IPs after checking the caller's Google identity and IAM role. The VM's firewall only needs to allow IAP's range (35.235.240.0/20). (Modules 01, 05)
 
+**ICD 503** — The Intelligence Community directive governing risk management and accreditation of IC information systems, including Top Secret cloud regions. (Module 27)
+
 **Identity provider (IdP)** — The system that authenticates users and issues assertions or tokens (Entra ID, Okta, Ping, Cloud Identity). The service provider or relying party consumes them. (Module 15)
 
 **Identity-Aware Proxy (IAP, Google Cloud)** — A Google-run proxy that authenticates users and checks IAM (and optional access levels) on every request before forwarding to an app or VM, with signed identity headers and logged decisions. (Modules 05, 17)
+
+**IDIQ (indefinite-delivery, indefinite-quantity)** — A federal contract type with a ceiling and ordering period, under which agencies place individual task orders; JWCC is built this way. (Module 27)
 
 **IMDSv2 (AWS)** — Version 2 of the EC2 Instance Metadata Service, which requires a session token before returning data (including role credentials). Blocks simple SSRF-based credential theft; default on Amazon Linux 2023. (Module 05)
 
@@ -337,6 +343,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **Invoker IAM check (Cloud Run)** — Cloud Run's default requirement that callers present a Google-signed ID token for an identity holding `run.routes.invoke` (e.g., `roles/run.invoker`). Disabling it, or granting `allUsers`, makes a service public. (Module 07)
 
 **Just-in-time (JIT) access** — Time-bound elevation granted on request (often with justification and approval) and removed automatically, replacing standing privilege. Google PAM, Azure PIM, AWS TEAM/partners. (Module 15)
+
+**JWCC (Joint Warfighting Cloud Capability)** — DoD's multi-vendor cloud contract (Dec 2022; Google, Oracle, AWS, Microsoft; shared $9B ceiling) covering unclassified through TOP SECRET out to the tactical edge. (Module 27)
 
 **JWT (JSON Web Token)** — A signed, Base64-encoded token of JSON claims (issuer, subject, audience, expiry); the format of OIDC ID tokens. (Module 15)
 
@@ -461,6 +469,8 @@ Plain-language definition first, then how practitioners use the term. Alphabetic
 **OS Login (Google Cloud)** — Ties Linux accounts on Compute Engine VMs to Google identities and IAM roles (`roles/compute.osLogin`, `roles/compute.osAdminLogin`) instead of static SSH keys in metadata, so access is revoked centrally. Enabled with metadata `enable-oslogin=TRUE`. (Module 05)
 
 **OSCAL** — NIST's Open Security Controls Assessment Language: machine-readable JSON/XML/YAML formats for control catalogs, baselines, SSPs, assessments, and POA&Ms. (Module 26)
+
+**Partition (AWS)** — A separate group of AWS Regions with its own identities and ARN prefix — e.g., aws (commercial), aws-us-gov (GovCloud); credentials don't cross partitions. (Module 27)
 
 **Partitioning (BigQuery)** — Dividing a table into segments, usually by date, so queries filtering on that column scan only matching partitions. The main lever on query cost for log tables. (Module 09)
 
