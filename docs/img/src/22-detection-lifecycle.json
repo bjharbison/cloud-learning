@@ -1,0 +1,52 @@
+{
+  "layout": "steps",
+  "eyebrow": "cloud-learning · Module 22",
+  "title": "The detection engineering lifecycle",
+  "accent": "lifecycle",
+  "subtitle": "A synthesis of common practice (there's no single official diagram). Each stage maps to the intelligence cycle you already run, shown on the right.",
+  "steps": [
+    {
+      "key": "Requirement",
+      "desc": "\"Detect a human creating a service-account key\", from threat reporting, an incident or an ATT&CK gap.",
+      "note": "intel requirement"
+    },
+    {
+      "key": "Research",
+      "desc": "Which technique (T1098.001)? Which log and fields? Is that log on and centralized?",
+      "note": "collection planning"
+    },
+    {
+      "key": "Develop",
+      "desc": "Write the query or rule; add who, from where, what.",
+      "note": "processing + analysis"
+    },
+    {
+      "key": "Test",
+      "desc": "Emulate for a **true positive**; replay history to estimate **false positives**.",
+      "note": "validation"
+    },
+    {
+      "key": "Deploy",
+      "desc": "Live with severity, owner and a **runbook** for the analyst's next step.",
+      "note": "dissemination"
+    },
+    {
+      "key": "Tune and maintain",
+      "desc": "Track alert volume and outcomes; add exclusions with documented reasons.",
+      "note": "feedback"
+    },
+    {
+      "key": "Retire",
+      "desc": "Remove rules for log sources or threats that no longer exist.",
+      "note": "requirement closeout"
+    }
+  ],
+  "callout": {
+    "label": "Detections are code.",
+    "text": "Rules live in git with metadata (ATT&CK ID, data source, test case, owner), go through pull-request review, and deploy via CI/CD and the SIEM's API: the module 20 pattern applied to detections."
+  },
+  "footer": [
+    "modules/22-detection-siem",
+    "requirement → retirement"
+  ]
+}
