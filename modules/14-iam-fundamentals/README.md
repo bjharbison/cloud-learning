@@ -107,6 +107,8 @@ A policy is JSON: `Effect` (Allow/Deny), `Action`, `Resource`, optional `Conditi
 
 Within one account: identity + resource policies are a **union**; identity + boundary (or SCP/RCP) is an **intersection**. **Cross-account**, *both* sides must allow: the caller's identity policy and the resource's policy.
 
+![AWS policy evaluation in six steps: implicit deny, explicit deny, RCP/SCP filters, resource policy, identity policy with boundary and session policy, then default deny](../../docs/img/14-aws-policy-evaluation.png)
+
 **Roles and temporary credentials:** an IAM **role** has no password or long-term key. Its **trust policy** (a resource-based policy) says who may call `sts:AssumeRole`; STS returns short-lived credentials. AWS's best practice: federated humans and roles for workloads; IAM users with long-term **access keys** only when unavoidable.
 
 ### Azure: RBAC scopes versus Entra directory roles
