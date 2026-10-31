@@ -1,0 +1,24 @@
+{
+  "layout": "matrix",
+  "eyebrow": "cloud-learning · Module 01",
+  "title": "The sliding line of responsibility",
+  "accent": "sliding line",
+  "subtitle": "Move right and the provider takes more layers. Two rows never move: your **data** and **who can access it**.",
+  "columns": ["On-prem", "IaaS", "PaaS", "SaaS"],
+  "tones": {"YOU": "#FF8A3D"},
+  "label_width": "300px",
+  "rows": [
+    {"key": "Data", "tag": "always yours", "colour": "#F5C542", "cells": ["YOU", "YOU", "YOU", "YOU"]},
+    {"key": "Identity / access", "tag": "always yours", "colour": "#F5C542", "cells": ["YOU", "YOU", "YOU", "YOU"]},
+    {"key": "Application", "colour": "#3DA9FC", "cells": ["YOU", "YOU", "YOU", "provider"]},
+    {"key": "Runtime / middleware", "colour": "#3DA9FC", "cells": ["YOU", "YOU", "provider", "provider"]},
+    {"key": "Guest OS", "colour": "#3DA9FC", "cells": ["YOU", "YOU", "provider", "provider"]},
+    {"key": "Virtualization", "colour": "#3DA9FC", "cells": ["YOU", "provider", "provider", "provider"]},
+    {"key": "Hardware / DC", "colour": "#3DA9FC", "cells": ["YOU", "provider", "provider", "provider"]}
+  ],
+  "callout": {
+    "label": "The provider builds it; you configure it.",
+    "text": "Identity, access control, firewall rules, VPN configuration and SSH/RDP access are **always** the customer's responsibility. IaaS, PaaS or SaaS. Every cloud."
+  },
+  "footer": ["modules/01-cloud-fundamentals", "of the cloud vs in the cloud"]
+}
