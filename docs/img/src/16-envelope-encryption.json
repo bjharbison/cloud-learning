@@ -1,0 +1,37 @@
+{
+  "layout": "steps",
+  "eyebrow": "cloud-learning · Module 16",
+  "title": "Envelope encryption, plainly",
+  "accent": "Envelope",
+  "subtitle": "Sending petabytes to a key vault won't work. So a small key encrypts the data, and a key you control encrypts that key. Think of the two-envelope courier procedure.",
+  "steps": [
+    {
+      "key": "DEK encrypts the data",
+      "desc": "A fresh random **data encryption key** encrypts the data, right next to the data.",
+      "note": "inner envelope"
+    },
+    {
+      "key": "KEK wraps the DEK",
+      "desc": "A **key encryption key** in the key service encrypts the DEK. The KEK never leaves the key service.",
+      "note": "outer envelope"
+    },
+    {
+      "key": "Store ciphertext + wrapped DEK",
+      "desc": "The wrapped DEK sits alongside the ciphertext. The plaintext DEK is thrown away.",
+      "note": "nothing in clear"
+    },
+    {
+      "key": "To read: unwrap via the key service",
+      "desc": "Send the small wrapped DEK to the key service, get the DEK back **if IAM allows**, decrypt locally.",
+      "note": "IAM-gated"
+    }
+  ],
+  "callout": {
+    "label": "Whoever controls the KEK controls every DEK under it.",
+    "text": "That's why CMEK gives a kill switch: disable the key and reads fail; destroy it and the data is unrecoverable. But default encryption isn't access control: if IAM lets you read the bucket, the platform decrypts for you."
+  },
+  "footer": [
+    "modules/16-encryption-kms",
+    "the key is the control point"
+  ]
+}
