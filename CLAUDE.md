@@ -7,7 +7,7 @@ This repo is a multi-cloud learning curriculum for Brian Harbison. Modules are w
 - ~20 years in national security: all-source intelligence, targeting, counterintelligence, cyber threat intelligence, OT/ICS security. M.S. Cyber Operations. Security+.
 - Hands-on homelab background: Proxmox, OPNsense, Docker, VLAN segmentation, MQTT/InfluxDB/Grafana, local LLMs (Ollama), Python, Splunk.
 - **Gap:** limited production cloud-platform experience. Treat him as a strong technical generalist who is new to cloud — skip "what is an IP address," don't skip "what is a VPC."
-- Target roles: Google Public Sector Customer Engineer; cloud security; cloud CTI; solutions architect. **Not** full sysadmin.
+- Target roles: cloud security; cloud threat intelligence; solutions architecture for public-sector and national-security customers. **Not** full sysadmin.
 - Reads on a phone a lot. Short paragraphs, short sections, scannable tables.
 
 ## Teaching style
