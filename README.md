@@ -49,7 +49,7 @@ modules/NN-slug/
 
 ## Ground rules
 
-- **Nothing classified, CUI, proprietary, or employer-specific goes in this repo.** Treat it as public even though it is private.
+- **Nothing classified, CUI, proprietary, or employer-specific goes in this repo.** This repo is public.
 - Product names, compliance authorizations, and free-tier limits change. Each module lists its sources and a "verified as of" date; check the official docs before quoting a fact in an interview.
 - Labs run in my own personal accounts only. Offensive-security labs target only resources I own.
 
