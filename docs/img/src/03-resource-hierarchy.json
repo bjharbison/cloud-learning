@@ -1,0 +1,23 @@
+{
+  "layout": "matrix",
+  "eyebrow": "cloud-learning · Module 03",
+  "title": "One tree, two jobs, three clouds",
+  "accent": "two jobs",
+  "subtitle": "The tree is an **isolation boundary** and an **inheritance tree**: a policy attached high up flows down to everything below. Grey text shows what attaches at each level.",
+  "columns": ["Google Cloud", "AWS", "Azure"],
+  "tones": {"boundary": "#3DA9FC"},
+  "label_width": "220px",
+  "rows": [
+    {"key": "Identity", "cells": [{"text": "Cloud Identity / Workspace", "sub": "or Google Accounts"}, {"text": "IAM per account", "sub": "+ Identity Center"}, {"text": "Entra ID tenant"}]},
+    {"key": "Root", "cells": [{"text": "Organization", "sub": "IAM · Org Policy"}, {"text": "Org root", "sub": "SCP · RCP"}, {"text": "Tenant root group", "sub": "RBAC · Azure Policy"}]},
+    {"key": "Group", "cells": [{"text": "Folders", "sub": "up to 10 levels"}, {"text": "OUs", "sub": "up to 5 levels"}, {"text": "Management groups", "sub": "up to 6 levels"}]},
+    {"key": "Boundary", "desc": "billing, quotas, default access", "cells": [{"text": "Project", "tone": "boundary"}, {"text": "Account", "tone": "boundary"}, {"text": "Subscription", "tone": "boundary"}]},
+    {"key": "Sub-group", "cells": [{"text": "(labels)"}, {"text": "(tags)"}, {"text": "Resource group", "sub": "delete it, delete everything in it"}]},
+    {"key": "Resource", "cells": [{"text": "Resource", "sub": "some accept own IAM"}, {"text": "Resource", "sub": "resource policy"}, {"text": "Resource", "sub": "RBAC · Policy"}]}
+  ],
+  "callout": {
+    "label": "IAM decides who; guardrails decide what.",
+    "text": "Org Policy, SCPs and Azure Policy cap what may exist, and can block even an Owner, but SCPs never grant anything and don't restrict the AWS management account. Allow policies add up down the tree, so grant as low as possible."
+  },
+  "footer": ["modules/03-resource-hierarchy", "need-to-know, as a tree"]
+}

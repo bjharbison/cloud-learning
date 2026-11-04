@@ -52,6 +52,8 @@ Encrypting petabytes with one key held in a vault would mean sending all your da
 
 Google's default encryption does this per data chunk, with KEKs held in an internal keystore protected by a chain of root keys. **The KEK never leaves the key service.** That's what makes the next part work: whoever controls the KEK controls every DEK under it.
 
+![Envelope encryption in four steps: a DEK encrypts the data, a KEK in the key service wraps the DEK, ciphertext is stored with the wrapped DEK, and reads unwrap the DEK through the key service if IAM allows](../../docs/img/16-envelope-encryption.png)
+
 **Bridge:** it's the two-envelope courier procedure. The document goes in an inner envelope (DEK); the inner envelope's combination is sealed in an outer one (KEK) that only the key custodian can open. Revoke the custodian's cooperation, and every inner envelope stays shut.
 
 ### The key-control ladder

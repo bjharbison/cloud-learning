@@ -57,6 +57,8 @@ Hardware/DC    YOU       provider   provider   provider
 
 As you move right, the provider takes more layers. **Two rows never move:** your data and who can access it.
 
+![Responsibility matrix for on-prem, IaaS, PaaS and SaaS: the provider takes more layers moving right, while data and identity/access stay the customer's in every column](../../docs/img/01-sliding-line.png)
+
 ---
 
 ## Part 2 — What's new: what's actually underneath

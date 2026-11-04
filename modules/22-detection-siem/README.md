@@ -36,6 +36,8 @@ There's no single official diagram; this synthesis follows common practice and m
 | 6. **Tune and maintain** | Track alert volume and outcomes; add exclusions with documented reasons | Feedback |
 | 7. **Retire** | Remove rules for log sources or threats that no longer exist | Requirement closeout |
 
+![The seven-stage detection engineering lifecycle, from requirement to retirement, each stage mapped to its intelligence-cycle analog](../../docs/img/22-detection-lifecycle.png)
+
 **Detection as code:** rules live in git with metadata (ATT&CK ID, data source, test case, owner), go through pull-request review, and deploy via CI/CD and the SIEM's API — the module 20 pattern applied to detections. Google's SecOps community publishes this workflow (rules in git, deployed through the SecOps API); Sentinel can deploy content from source-control repositories ⚠️ (feature details not re-verified this run).
 
 **Quality vocabulary:**

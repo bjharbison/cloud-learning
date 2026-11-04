@@ -131,6 +131,8 @@ Resource  →   Resource     [IAM*]    Resource [resource pol.]  Resource       
 IAM = access policy · OP = Organization Policy · * some resources accept their own IAM
 ```
 
+![Google Cloud, AWS and Azure resource hierarchies side by side, from identity and root down to the project/account/subscription boundary and individual resources, with the policies that attach at each level](../../docs/img/03-resource-hierarchy.png)
+
 ## Google Cloud vs AWS vs Azure
 
 | Capability | Google Cloud | AWS | Azure | Notable difference |

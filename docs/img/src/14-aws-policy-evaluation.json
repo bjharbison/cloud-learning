@@ -1,0 +1,20 @@
+{
+  "layout": "steps",
+  "eyebrow": "cloud-learning · Module 14",
+  "title": "How AWS decides: allow or deny",
+  "accent": "allow or deny",
+  "subtitle": "Simplified from AWS's evaluation flowchart. Some policies **grant**; others only **limit**. Confusing the two is the whole game.",
+  "steps": [
+    {"key": "Implicit deny", "desc": "Every request starts denied (except the root user).", "note": "start: DENY"},
+    {"key": "Any explicit Deny?", "desc": "A `Deny` in **any** applicable policy ends it. Nothing overrides it.", "note": "yes → DENY"},
+    {"key": "RCPs and SCPs allow it?", "desc": "Organization filters: they set the maximum, they never grant.", "note": "no → DENY"},
+    {"key": "Resource policy allows it?", "desc": "A bucket policy, key policy or trust policy can grant (nuances by principal type).", "note": "yes → ALLOW"},
+    {"key": "Identity policy + boundary + session?", "desc": "The identity policy must allow it, **and** the permissions boundary and session policy, if present.", "note": "all yes → ALLOW"},
+    {"key": "Nothing granted it", "desc": "Fall through to the implicit deny.", "note": "DENY", "dim": true}
+  ],
+  "callout": {
+    "label": "Union vs intersection.",
+    "text": "Within one account, identity + resource policies are a **union**; identity + boundary or SCP/RCP is an **intersection**. Cross-account, **both** sides must allow: the caller's identity policy and the resource's policy."
+  },
+  "footer": ["modules/14-iam-fundamentals", "grant vs limit"]
+}
